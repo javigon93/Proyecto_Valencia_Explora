@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.InicioController">
+    <stylesheets>
+        <URL value="@CSSprincipal.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="5.0" layoutY="5.0" prefHeight="609.0" prefWidth="837.0" styleClass="mainFxmlClass">
+         <stylesheets>
+            <URL value="@CSSprincipal.css" />
+         </stylesheets>
+         <children>
+            <Pane id="loc" layoutX="37.0" layoutY="367.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@CSSprincipal.css">
+               <children>
+                  <ImageView fitHeight="109.0" fitWidth="174.0" layoutX="13.0" layoutY="14.0">
+                     <image>
+                        <Image url="@../../img/lav.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="33.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lav Café" wrappingWidth="134.94256591796875">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="23.0" fitWidth="18.0" layoutX="24.0" layoutY="163.0">
+                     <image>
+                        <Image url="@../../../../../Desktop/dolar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" layoutX="57.0" layoutY="161.0">
+                     <image>
+                        <Image url="@../../../../../Desktop/rezo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <GridPane id="tablero" prefHeight="76.0" prefWidth="646.0" stylesheets="@CSSprincipal.css">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="82.0" prefWidth="152.0" text="Button" />
+                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="173.0" text="Button" />
+                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="173.0" text="Button" />
+                  <Button id="pulsado" mnemonicParsing="false" prefHeight="74.0" prefWidth="162.0" stylesheets="@CSSprincipal.css" text="Restauración" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Berlin Sans FB" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="173.0" text="Alojamientos" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Berlin Sans FB" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="76.0" prefWidth="175.0" text="Tours" GridPane.columnIndex="3">
+                     <font>
+                        <Font name="Berlin Sans FB" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="173.0" text="Localizaciones">
+                     <font>
+                        <Font name="Berlin Sans FB" size="22.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+            <Pane layoutX="646.0" prefHeight="76.0" prefWidth="191.0">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="37.0" layoutX="14.0" layoutY="18.0">
+                     <image>
+                        <Image url="@../../img/cloud.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="68.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10ºC Lunes">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane id="user" layoutY="525.0" prefHeight="84.0" prefWidth="274.0">
+               <children>
+                  <Text layoutX="111.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alfonso Ribeiro">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane id="loc" layoutX="37.0" layoutY="147.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@CSSprincipal.css">
+               <children>
+                  <ImageView fitHeight="109.0" fitWidth="174.0" layoutX="13.0" layoutY="14.0">
+                     <image>
+                        <Image url="@../../img/tonica.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="33.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Restaurante El Sequer de tònica" wrappingWidth="134.94256591796875">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="274.0" layoutY="525.0" prefHeight="84.0" prefWidth="99.0">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="37.0" layoutX="14.0" layoutY="22.0">
+                     <image>
+                        <Image url="@../../img/carrito.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="67.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane id="loc" layoutX="507.0" layoutY="147.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@CSSprincipal.css">
+               <children>
+                  <ImageView fitHeight="109.0" fitWidth="174.0" layoutX="13.0" layoutY="14.0">
+                     <image>
+                        <Image url="@../../img/catalina.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="33.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Horchatería Santa Catalina" textAlignment="CENTER" wrappingWidth="134.94256591796875">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane id="loc" layoutX="273.0" layoutY="147.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@CSSprincipal.css">
+               <children>
+                  <Text layoutX="33.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Restaurante Ricard Camarena" textAlignment="CENTER" wrappingWidth="134.94256591796875">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="109.0" fitWidth="174.0" layoutX="13.0" layoutY="14.0">
+                     <image>
+                        <Image url="@../../img/camarena.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane id="loc" layoutX="255.0" layoutY="93.0" prefHeight="440.0" prefWidth="436.0" stylesheets="@CSSprincipal.css">
+               <children>
+                  <Text layoutX="15.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Situado en pleno corazón de La Albufera, al final del pueblo del Palmar, el restaurante El Sequer de la Tónica se especializa en la cocina tradicional Valenciana. Se trata de un restaurante tradicional famoso por sus arroces espectaculares." textAlignment="JUSTIFY" wrappingWidth="405.3425598144531">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario: De 13:30h a 17:00h" wrappingWidth="235.74252319335938">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección: Carrer dels Redolins, 85, 46012 El Palmar, Valencia" wrappingWidth="425.3425598144531">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menú: 17€ " wrappingWidth="425.3425598144531">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="34.0" layoutY="336.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="200.0" text="RESERVAR" />
+                  <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sequer de tònica" wrappingWidth="425.3425598144531">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="15.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipos de cocina: Mediterránea, Europea, Española" wrappingWidth="390.9425354003906">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

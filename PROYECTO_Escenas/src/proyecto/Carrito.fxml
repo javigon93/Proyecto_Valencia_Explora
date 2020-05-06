@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane id="productocarrito" layoutX="33.0" layoutY="71.0" prefHeight="99.0" prefWidth="308.0" stylesheets="@CSSprincipal.css">
+         <children>
+            <ImageView fitHeight="82.0" fitWidth="118.0" layoutX="14.0" layoutY="9.0">
+               <image>
+                  <Image url="@../../img/cac.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane id="productocarrito" layoutX="33.0" layoutY="194.0" prefHeight="99.0" prefWidth="308.0" stylesheets="@CSSprincipal.css">
+         <children>
+            <ImageView fitHeight="82.0" fitWidth="118.0" layoutX="14.0" layoutY="9.0">
+               <image>
+                  <Image url="@../../img/camarena.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane id="productocarrito" layoutX="34.0" layoutY="314.0" prefHeight="99.0" prefWidth="308.0" stylesheets="@CSSprincipal.css" />
+      <Text layoutX="142.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu Pack">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Text>
+      <Pane id="total" layoutX="-5.0" layoutY="460.0" prefHeight="126.0" prefWidth="381.0" stylesheets="@CSSprincipal.css">
+         <children>
+            <Text layoutX="24.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL" wrappingWidth="69.4097900390625">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Button layoutX="85.0" layoutY="63.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="212.0" text="PAGO">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Button>
+            <Text layoutX="297.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x.00 €">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
