@@ -1,0 +1,114 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8 may. 2020, 19:01:42
+    Author     : 34679
+*/
+
+
+#lateral{
+    
+  -fx-background-color: #e4e4fd;
+  -fx-border-width: 0px 0px 0px 5px;  
+  -fx-border-color: #003366;
+  
+}
+
+.button{
+    
+    -fx-background-radius: 0px;
+    -fx-background-color:#003366;
+    -fx-text-fill:white;
+    -fx-text-size:10px;
+    
+    
+}
+
+#tablero{
+    
+    -fx-bacground-color:#003366;
+    
+    
+    
+}
+
+#user{
+   
+    -fx-background-color:#e4e4fd;
+    -fx-border-width: 5px 5px 0px 0px;  
+  -fx-border-color: #003366;
+    
+}
+
+#eventos{
+    
+    
+     -fx-background-color:#e4e4fd;
+    -fx-border-width: 5px 5px 0px 0px;  
+  -fx-border-color: #003366;
+    
+    
+    
+}
+
+#ayuda{
+    
+     -fx-background-color:#e4e4fd;
+     -fx-border-width: 5px 0px 0px 5px;  
+     -fx-border-color: #003366;
+    
+} #pulsado{
+    
+    -fx-background-color:#e4e4fd;
+    -fx-text-fill: black;
+    
+    
+} #loc{
+    
+    -fx-background-color:#e4e4fd;
+    -fx-text-fill: black;
+    -fx-background-radius: 25px;
+    
+    
+} #imagenDesarrollo{
+    
+    -fx-border-color: #003366;
+    -fx-border-width: 5px;
+}
+#login{
+    
+        -fx-background-color: #e4e4fd;
+        -fx-opacity: 0.90;
+    
+    
+    
+    
+}
+
+#productocarrito{
+    
+    -fx-background-color: #e4e4fd;
+    -fx-background-radius: 10px;
+    
+} #total{
+    
+    -fx-background-color: #e4e4fd;
+    -fx-border-color:#003366;
+    
+    
+} #latperfil{
+    
+-fx-background-color:#e4e4fd;
+    -fx-border-width: 0px 5px 0px 0px;  
+  -fx-border-color: #003366;    
+    
+}
+#tablaDatos{
+    
+    
+    -fx-background-color:#e4e4fd;
+    
+}
