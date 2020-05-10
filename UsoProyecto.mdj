@@ -4282,7 +4282,7 @@
 											"top": 915.5,
 											"width": 167,
 											"height": 13,
-											"text": "Gestionar suptipo activdad"
+											"text": "Gestionar subtipo activdad"
 										},
 										{
 											"_type": "LabelView",
@@ -13272,7 +13272,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFx77MylyFHsfU="
 					},
-					"name": "Gestionar suptipo activdad",
+					"name": "Gestionar subtipo activdad",
 					"ownedElements": [
 						{
 							"_type": "UMLInclude",
