@@ -12,28 +12,29 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="721.0" prefWidth="1065.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
+<AnchorPane id="AnchorPane" prefHeight="861.0" prefWidth="1283.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
    <children>
-      <Text layoutX="31.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
+      <Text id="textoInicial" layoutX="63.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
          <font>
-            <Font size="27.0" />
+            <Font name="Berlin Sans FB" size="27.0" />
          </font>
       </Text>
-      <TableView fx:id="tableActividades" layoutX="47.0" layoutY="102.0" onMouseClicked="#alpulsarActividad" prefHeight="579.0" prefWidth="479.0">
+      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="102.0" onMouseClicked="#alpulsarActividad" prefHeight="692.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <columns>
-            <TableColumn fx:id="columnaTipo" prefWidth="122.40006256103516" text="Subtipo" />
-            <TableColumn fx:id="columnaNombre" prefWidth="354.3999328613281" text="Nombre Actividad" />
+            <TableColumn fx:id="columnaTipo" prefWidth="122.40006256103516" text="Tipo" />
+            <TableColumn fx:id="columnaSubtipo" prefWidth="105.59994506835938" text="Subtipo" />
+            <TableColumn fx:id="columnaNombre" prefWidth="290.39990234375" text="Nombre Actividad" />
          </columns>
       </TableView>
-      <Pane fx:id="paneDescripcion" layoutX="566.0" layoutY="102.0" prefHeight="579.0" prefWidth="451.0">
+      <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="692.0" prefWidth="539.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <children>
-            <Button fx:id="botonANADIR" layoutX="52.0" layoutY="519.0" mnemonicParsing="false" text="Añadir a tu Experiencia" />
-            <Text layoutX="52.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
-            <Text layoutX="257.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
-            <Spinner layoutX="136.0" layoutY="443.0" prefHeight="10.0" prefWidth="60.0" />
-            <ComboBox layoutX="320.0" layoutY="443.0" prefHeight="25.0" prefWidth="97.0" />
-            <TextArea fx:id="areaDescripcion" editable="false" layoutX="36.0" layoutY="233.0" prefHeight="182.0" prefWidth="382.0" />
-            <ImageView fx:id="imagenActividad" fitHeight="182.0" fitWidth="315.0" layoutX="66.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="botonANADIR" layoutX="80.0" layoutY="653.0" mnemonicParsing="false" text="Añadir a tu Experiencia" />
+            <Text layoutX="79.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
+            <Text layoutX="310.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
+            <Spinner layoutX="149.0" layoutY="561.0" prefHeight="10.0" prefWidth="60.0" stylesheets="@../CSS/CSS_Proyecto.css" />
+            <TextArea fx:id="areaDescripcion" editable="false" layoutX="79.0" layoutY="283.0" prefHeight="260.0" prefWidth="382.0" stylesheets="@../CSS/CSS_Proyecto.css" />
+            <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="356.0" layoutX="92.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
+            <ComboBox layoutX="364.0" layoutY="561.0" prefHeight="25.0" prefWidth="97.0" stylesheets="@../CSS/CSS_Proyecto.css" />
          </children>
       </Pane>
    </children>

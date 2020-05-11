@@ -18,6 +18,17 @@ public class Actividades {
     private String descripcion;
     private String URL;
     private String tipo;
+    private String subtipo;
+
+    public String getSubtipo() {
+        return subtipo;
+    }
+
+    public void setSubtipo(String subtipo) {
+        this.subtipo = subtipo;
+    }
+    
+    
     public int getIdActividad() {
         return idActividad;
     }

@@ -52,6 +52,8 @@ public class EscenaActividadesController implements Initializable {
     private TextArea areaDescripcion;
     @FXML
     private ImageView imagenActividad;
+    @FXML
+    private TableColumn<Actividades, Integer> columnaSubtipo;
     
 
     /**
@@ -75,7 +77,7 @@ public class EscenaActividadesController implements Initializable {
             
             columnaNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
             columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-        
+            columnaSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
         
         }
         catch(SQLException e){
