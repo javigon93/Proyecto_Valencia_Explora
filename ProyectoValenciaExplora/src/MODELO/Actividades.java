@@ -6,13 +6,12 @@
 package MODELO;
 
 /**
- *
  * @author 34679
  */
-public class Actividades {
-    
-    
-     private int idActividad;    
+public class Actividades
+{
+
+    private int idActividad;
     private int codigoSubtipo;
     private String nombre;
     private String descripcion;
@@ -20,63 +19,74 @@ public class Actividades {
     private String tipo;
     private String subtipo;
 
-    public String getSubtipo() {
+    public String getSubtipo()
+    {
         return subtipo;
     }
 
-    public void setSubtipo(String subtipo) {
+    public void setSubtipo( String subtipo )
+    {
         this.subtipo = subtipo;
     }
-    
-    
-    public int getIdActividad() {
+
+    public int getIdActividad()
+    {
         return idActividad;
     }
 
-    public String getTipo() {
+    public String getTipo()
+    {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo( String tipo )
+    {
         this.tipo = tipo;
     }
 
-    public void setIdActividad(int idActividad) {
+    public void setIdActividad( int idActividad )
+    {
         this.idActividad = idActividad;
     }
 
-    public int getCodigoSubtipo() {
+    public int getCodigoSubtipo()
+    {
         return codigoSubtipo;
     }
 
-    public void setCodigoSubtipo(int codigoSubtipo) {
+    public void setCodigoSubtipo( int codigoSubtipo )
+    {
         this.codigoSubtipo = codigoSubtipo;
     }
 
-    public String getNombre() {
+    public String getNombre()
+    {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre( String nombre )
+    {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
+    public String getDescripcion()
+    {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion( String descripcion )
+    {
         this.descripcion = descripcion;
     }
 
-    public String getURL() {
+    public String getURL()
+    {
         return URL;
     }
 
-    public void setURL(String URL) {
+    public void setURL( String URL )
+    {
         this.URL = URL;
     }
-    
-    
-    
+
 }
