@@ -4,29 +4,43 @@
  * and open the template in the editor.
  */
 package VISTA;
+
 import DatosBDA.Actividades_DAO;
 import MODELO.Actividades;
+import MODELO.DetallePacks;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -34,8 +48,12 @@ import javafx.scene.layout.Pane;
  * @author 34679
  */
 public class EscenaActividadesController implements Initializable {
+    
     Connection conexion;
     Actividades_DAO bd_act;
+    Actividades actividad_seleccionada;
+    DetallePacks detalleActividad;
+    Alert alerta;
     private ObservableList<Actividades> ListaActividades;
     @FXML
     private TableView<Actividades> tableActividades;
@@ -54,45 +72,47 @@ public class EscenaActividadesController implements Initializable {
     private ImageView imagenActividad;
     @FXML
     private TableColumn<Actividades, Integer> columnaSubtipo;
-    
+    @FXML
+    private Spinner<Integer> spinnerPersonas;
+    @FXML
+    private TextField textPrecio;
+    @FXML
+    private Button botonRevisarConfirmar;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        bd_act=new Actividades_DAO();
-        try{
-        
-        
-        paneDescripcion.setDisable(true);
-        conectar();
-        Set<Actividades> actividades= bd_act.buscarActividades(conexion);
-        
-        ListaActividades=FXCollections.observableArrayList(actividades);
-        
+
+        bd_act = new Actividades_DAO();
+        actividad_seleccionada=new Actividades();
+        detalleActividad= new DetallePacks();
+        IntegerSpinnerValueFactory personas =  new IntegerSpinnerValueFactory(1,20, 1,1);
+        try {
+
+            paneDescripcion.setDisable(true);
+            conectar();
+            Set<Actividades> actividades = bd_act.buscarActividades(conexion);
+
+            ListaActividades = FXCollections.observableArrayList(actividades);
+
             tableActividades.setItems(ListaActividades);
             tableActividades.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            
+
             columnaNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
             columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
             columnaSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
-        
-        }
-        catch(SQLException e){
-            
-            
+            spinnerPersonas.setValueFactory(personas);
+        } catch (SQLException e) {
+
             System.out.println(e.getMessage());
-            
-            
-            
+
         }
-    
+
     }
-     
-    
-     public void conectar() throws SQLException {
+
+    public void conectar() throws SQLException {
 
         String bd = "esquema_proyecto_2.0";
         String usuario = "root";
@@ -100,21 +120,77 @@ public class EscenaActividadesController implements Initializable {
         String url = "jdbc:mysql://localhost:3306/" + bd + "?serverTimezone=UTC";
 
         conexion = DriverManager.getConnection(url, usuario, password);
-         System.out.println("Conectado");
-}
+        System.out.println("Conectado");
+    }
 
     @FXML
     private void alpulsarActividad(MouseEvent event) {
         Actividades actividadSeleccionada;
-        
-       actividadSeleccionada= tableActividades.getSelectionModel().getSelectedItem();
-       Image img=new Image("/IMG/micalet.png");
+
+        actividadSeleccionada = tableActividades.getSelectionModel().getSelectedItem();
+        Image img = new Image("/IMG/micalet.png");
         imagenActividad.setImage(img);
         paneDescripcion.setDisable(false);
         areaDescripcion.setWrapText(true);
         areaDescripcion.setText(actividadSeleccionada.getDescripcion());
+       
+    }
+
+    @FXML
+    private void alPulsarAnadir(ActionEvent event) {
         
+        alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText("Confirma tu Actividad");
+        alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + " a tu Pack?");
+        
+
+        Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+
+        if (respuestaUsuario.get() == ButtonType.OK) {
+            ListaActividades.add(actividad_seleccionada);
+        } 
+        
+        
+       
+    }
+
+    @FXML
+    private void alPulsarPersonas(MouseEvent event) {
+       int personas_actividad=spinnerPersonas.getValue();
+      detalleActividad.setPersonas(personas_actividad);
         
     }
-     
+
+    @FXML
+    private void alIntroducirPrecio(ActionEvent event) {
+        double precioActividad= Double.parseDouble(textPrecio.getText());
+        detalleActividad.setPrecio(precioActividad);
+    }
+
+    @FXML
+    private void alPulsarRevisar(ActionEvent event) {
+        abreotraescena(event);
+    }
+    private void abreotraescena(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            //CARGAMOS OTRO FXML
+            loader.setLocation(getClass().getResource("EscenaRevisarConfirmar.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+
+            Stage escenarioVentana = (Stage) botonRevisarConfirmar.getScene().getWindow();
+            escenarioVentana.setTitle("Actividades");
+            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+            escenarioVentana.setScene(new Scene(root)); 
+           
+            
+        } catch (IOException ex) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+    
+}
 }

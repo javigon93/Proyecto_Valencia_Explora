@@ -12,13 +12,14 @@ package MODELO;
 public class Actividades {
     
     
-     private int idActividad;    
+    private int idActividad;    
     private int codigoSubtipo;
     private String nombre;
     private String descripcion;
     private String URL;
     private String tipo;
     private String subtipo;
+    
 
     public String getSubtipo() {
         return subtipo;
