@@ -5,6 +5,7 @@
  */
 package MODELO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -13,21 +14,20 @@ import java.time.LocalTime;
  * @author 34679
  */
 public class DetallePacks {
-     private int idPack;
-     private int numeroLinea;
-     private int idActividad;
-     private double precio;
-     private int personas;
-     private LocalDateTime fechaInicio;
-     private LocalDateTime fechaFin;
-     private LocalTime duracion;
+
+    private int idPack = 1;
+    private int numeroLinea = 0;
+    private int idActividad;
+    private double precio;
+    private int personas;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalTime duracion;
 
     public DetallePacks() {
-        
-        
-        
-        
-        
+
+        numeroLinea = numeroLinea + 1;
+        duracion=null;
     }
 
     public int getIdPack() {
@@ -70,19 +70,19 @@ public class DetallePacks {
         this.personas = personas;
     }
 
-    public LocalDateTime getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDateTime fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public LocalDateTime getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(LocalDateTime fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -93,6 +93,16 @@ public class DetallePacks {
     public void setDuracion(LocalTime duracion) {
         this.duracion = duracion;
     }
-   
-    
+
+    public void resetearLinea() {
+
+        numeroLinea = 0;
+
+    }
+
+    public void nuevoPack() {
+
+        ++idPack;
+
+    }
 }

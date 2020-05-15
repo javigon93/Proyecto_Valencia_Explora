@@ -6,6 +6,7 @@
 package MODELO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,13 +20,22 @@ public class Packs {
     private String descripcion;
     private LocalDate fecha_pack;
     private boolean favorito;
-
+    private ArrayList<Actividades> actividades_pack;
     public Packs() {
-        
+       
        idPack= idPack+1;
+        idUsuario=1;
        fecha_pack= LocalDate.now();
        favorito=false;
         
+    }
+
+    public ArrayList<Actividades> getActividades_pack() {
+        return actividades_pack;
+    }
+
+    public void setActividades_pack(ArrayList<Actividades> actividades_pack) {
+        this.actividades_pack = actividades_pack;
     }
 
     public int getIdPack() {
@@ -74,6 +84,13 @@ public class Packs {
 
     public void setFavorito(boolean favorito) {
         this.favorito = favorito;
+    }
+    
+    public void introducirActividad(Actividades actividad){
+    
+    actividades_pack.add(actividad);
+    
+    
     }
     
     

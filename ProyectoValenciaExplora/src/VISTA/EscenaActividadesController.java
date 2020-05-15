@@ -8,11 +8,15 @@ package VISTA;
 import DatosBDA.Actividades_DAO;
 import MODELO.Actividades;
 import MODELO.DetallePacks;
+import MODELO.Packs;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -22,11 +26,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
@@ -40,6 +46,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -48,12 +55,14 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class EscenaActividadesController implements Initializable {
-    
-    Connection conexion;
-    Actividades_DAO bd_act;
-    Actividades actividad_seleccionada;
-    DetallePacks detalleActividad;
-    Alert alerta;
+
+    private Connection conexion;
+    private Actividades_DAO bd_act;
+    private Actividades actividad_seleccionada;
+    private DetallePacks detalleActividad;
+    private Alert alerta;
+   
+    private ArrayList<DetallePacks> listaDetalleActividadesSeleccionadas=new ArrayList<>();
     private ObservableList<Actividades> ListaActividades;
     @FXML
     private TableView<Actividades> tableActividades;
@@ -78,17 +87,26 @@ public class EscenaActividadesController implements Initializable {
     private TextField textPrecio;
     @FXML
     private Button botonRevisarConfirmar;
+    @FXML
+    private DatePicker pickerInicio;
+    @FXML
+    private DatePicker pickerFin;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         bd_act = new Actividades_DAO();
-        actividad_seleccionada=new Actividades();
-        detalleActividad= new DetallePacks();
-        IntegerSpinnerValueFactory personas =  new IntegerSpinnerValueFactory(1,20, 1,1);
+        actividad_seleccionada = new Actividades();
+        detalleActividad = new DetallePacks();
+        IntegerSpinnerValueFactory personas = new IntegerSpinnerValueFactory(1, 20, 1, 1);
+        pickerInicio.setValue(LocalDate.now());
+        pickerInicio.setEditable(false);
+        pickerFin.setValue(LocalDate.now());
+        pickerFin.setEditable(false);
+
         try {
 
             paneDescripcion.setDisable(true);
@@ -125,46 +143,59 @@ public class EscenaActividadesController implements Initializable {
 
     @FXML
     private void alpulsarActividad(MouseEvent event) {
-        Actividades actividadSeleccionada;
 
-        actividadSeleccionada = tableActividades.getSelectionModel().getSelectedItem();
+        actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
+        System.out.println(actividad_seleccionada.getIdActividad() + " " + actividad_seleccionada.getNombre() + " " + actividad_seleccionada.getTipo() + " " + actividad_seleccionada.getURL());
         Image img = new Image("/IMG/micalet.png");
         imagenActividad.setImage(img);
         paneDescripcion.setDisable(false);
         areaDescripcion.setWrapText(true);
-        areaDescripcion.setText(actividadSeleccionada.getDescripcion());
-       
+        areaDescripcion.setText(actividad_seleccionada.getDescripcion());
+        detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad());
     }
 
     @FXML
     private void alPulsarAnadir(ActionEvent event) {
-        
-        alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Confirmación");
-        alerta.setHeaderText("Confirma tu Actividad");
-        alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + " a tu Pack?");
-        
 
-        Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+        if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null) {
 
-        if (respuestaUsuario.get() == ButtonType.OK) {
-            ListaActividades.add(actividad_seleccionada);
-        } 
-        
-        
-       
+            alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText("Confirma tu Actividad");
+            alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + " a tu Pack?");
+
+            Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+
+            if (respuestaUsuario.get() == ButtonType.OK) {
+                System.out.println("" +detalleActividad.getDuracion()+ detalleActividad.getFechaFin()+ detalleActividad.getFechaInicio()+" " + detalleActividad.getIdActividad()+"");
+                listaDetalleActividadesSeleccionadas.add(detalleActividad);
+            
+
+            }
+
+        } else {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("ERROR");
+            alerta.setHeaderText("Error!");
+            alerta.setContentText("Introduce todos los datos antes de continuar");
+
+            alerta.showAndWait();
+
+        }
+
     }
 
     @FXML
     private void alPulsarPersonas(MouseEvent event) {
-       int personas_actividad=spinnerPersonas.getValue();
-      detalleActividad.setPersonas(personas_actividad);
-        
+        int personas_actividad = spinnerPersonas.getValue();
+        detalleActividad.setPersonas(personas_actividad);
+
     }
 
     @FXML
     private void alIntroducirPrecio(ActionEvent event) {
-        double precioActividad= Double.parseDouble(textPrecio.getText());
+        double precioActividad = Double.parseDouble(textPrecio.getText());
         detalleActividad.setPrecio(precioActividad);
     }
 
@@ -172,25 +203,38 @@ public class EscenaActividadesController implements Initializable {
     private void alPulsarRevisar(ActionEvent event) {
         abreotraescena(event);
     }
+
     private void abreotraescena(ActionEvent event) {
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
+        try{
+         FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
-            loader.setLocation(getClass().getResource("EscenaRevisarConfirmar.fxml"));
+            loader.setLocation(getClass().getResource("escenaRevisarConfirmar.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
 
             Stage escenarioVentana = (Stage) botonRevisarConfirmar.getScene().getWindow();
-            escenarioVentana.setTitle("Actividades");
+            escenarioVentana.setTitle("Revisar Y Confirmar");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root)); 
            
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
-    
-}
+
+    }
+
+    @FXML
+    private void alSeleccionarFechaInicio(ActionEvent event) {
+        detalleActividad.setFechaInicio(pickerInicio.getValue());
+
+    }
+
+    @FXML
+    private void alSeleccionarFechaFin(ActionEvent event) {
+
+        detalleActividad.setFechaFin(pickerFin.getValue());
+    }
 }

@@ -33,13 +33,14 @@ public class Actividades_DAO {
 
         if (conexion != null) {
 
-            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo' FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo";
+            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo', a.idActividad FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo";
             ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = ps.executeQuery();
 
             while (rs.next()) {
 
                 Actividades actividad = new Actividades();
+                actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
                 actividad.setDescripcion(rs.getString("a.descripcion"));
                 actividad.setSubtipo(rs.getString("subtipo"));
