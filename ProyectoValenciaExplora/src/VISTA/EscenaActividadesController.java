@@ -209,9 +209,13 @@ public class EscenaActividadesController implements Initializable {
         try{
          FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
-            loader.setLocation(getClass().getResource("escenaRevisarConfirmar.fxml"));
+            loader.setLocation(getClass().getResource("/VISTA/escenaRevisarConfirmar.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
+             EscenaRevisarConfirmarController revisarControlador = loader.getController();
 
+            //PASAMOS UN DATO AL CONTROLADOR
+            revisarControlador.setActividadesEscogidas(listaDetalleActividadesSeleccionadas);
+            revisarControlador.metodoEjecutaAlInicio();
             Stage escenarioVentana = (Stage) botonRevisarConfirmar.getScene().getWindow();
             escenarioVentana.setTitle("Revisar Y Confirmar");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA

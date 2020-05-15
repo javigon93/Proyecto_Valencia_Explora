@@ -27,7 +27,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="fieldNombrePack" layoutX="286.0" layoutY="27.0" onAction="#alIntroducirNombre" />
-      <Text layoutX="108.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inrtoduce un Nombre a tu Pack" />
+      <TextField fx:id="fieldNombrePack" layoutX="260.0" layoutY="26.0" onAction="#alIntroducirNombre" />
+      <Text layoutX="62.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inrtoduce un Nombre a tu Pack" />
    </children>
 </AnchorPane>

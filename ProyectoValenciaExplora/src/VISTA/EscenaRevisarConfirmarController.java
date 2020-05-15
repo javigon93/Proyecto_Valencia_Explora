@@ -44,13 +44,14 @@ public class EscenaRevisarConfirmarController implements Initializable {
     @FXML
     private TextField fieldNombrePack;
     private ArrayList<DetallePacks> actividadesEscogidas;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
-       imprimirResumen();
+ 
         
         
     }    
@@ -68,7 +69,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
             //CARGAMOS OTRO FXML
             loader.setLocation(getClass().getResource("escenaActividades.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
-
+            
             //RECUPERAMOS EL STAGE EN EL QUE ESTAMOS
             Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
             escenarioVentana.setTitle("Actividades");
@@ -93,14 +94,35 @@ public class EscenaRevisarConfirmarController implements Initializable {
     private void alPulsarConfirmar(ActionEvent event) {
     }
     
-    private void imprimirResumen(){
     
+
+    @FXML
+    private void alIntroducirNombre(ActionEvent event) {
+        pack.setNombre_pack(fieldNombrePack.getText());
+        
+        
+    }
+    
+    private void metodoEjecutarInicio(){
+        pack = new Packs();
+        if (actividadesEscogidas.isEmpty()) {
+            areaResumen.setText("Aún no has escogido NADA");
+        }
+        
+        else{
+        
         String texto="";
         
         
         for (int i = 0; i < actividadesEscogidas.size(); i++) {
             
-            areaResumen.setText(actividadesEscogidas.get(i).getPersonas() + "\n");
+            areaResumen.setText(actividadesEscogidas.toString());
+        
+        
+        
+        }
+        
+        
             
         }
         
@@ -111,8 +133,26 @@ public class EscenaRevisarConfirmarController implements Initializable {
     
     
     }
-
-    @FXML
-    private void alIntroducirNombre(ActionEvent event) {
+    public void metodoEjecutaAlInicio() {
+        if (actividadesEscogidas.isEmpty()) {
+            areaResumen.setText("Aún no has escogido NADA");
+        }
+        
+        else{
+        
+        String texto="";
+        
+        
+        for (int i = 0; i < actividadesEscogidas.size(); i++) {
+            texto+=actividadesEscogidas.get(i).toString();
+           
+        
+        
+        }
+        
+           areaResumen.setText(texto);
+            
+        }
     }
+
 }

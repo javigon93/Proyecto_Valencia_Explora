@@ -105,4 +105,17 @@ public class DetallePacks {
         ++idPack;
 
     }
+    
+    @Override
+    
+    public String toString(){
+    
+        String respuesta;
+        respuesta= "Precio de la Actividad: " + precio + "\\ Personas: " + personas + "\\Fecha de la Actividad: " + fechaInicio + "Duración: " + duracion;
+        
+        
+        
+    
+    return respuesta;
+    }
 }
