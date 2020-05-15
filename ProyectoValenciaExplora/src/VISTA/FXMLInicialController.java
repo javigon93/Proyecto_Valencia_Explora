@@ -53,6 +53,7 @@ public class FXMLInicialController implements Initializable
             escenarioVentana.setTitle( "Actividades" );
             // CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene( new Scene( root ) );
+            
 
         }
         catch( Exception ex )

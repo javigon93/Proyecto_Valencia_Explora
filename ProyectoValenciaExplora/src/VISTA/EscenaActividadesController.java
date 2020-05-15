@@ -19,12 +19,20 @@ import DatosBDA.Actividades_DAO;
 import DatosBDA.Detallepacks_DAO;
 import MODELO.Actividades;
 import MODELO.DetallePacks;
+import MODELO.Packs;
+import java.io.IOException;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
@@ -38,12 +46,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * @author 34679
  */
 public class EscenaActividadesController implements Initializable {
-
+    public static Packs pack = new Packs();
     private ObservableList<Actividades> ListaActividades;
     @FXML
     private TableView<Actividades> tableActividades;
@@ -79,10 +89,15 @@ public class EscenaActividadesController implements Initializable {
     private DatePicker FechaFinal;
     @FXML
     private TextField DiasTotales;
-
     private Connection conexion;
     private Actividades_DAO bd_act;
     private Actividades actividadSeleccionada;
+    @FXML
+    private TextField PrecioActividad;
+    @FXML
+    private Button botonVerPack;
+    @FXML
+    private Text numActEnPack;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -108,23 +123,8 @@ public class EscenaActividadesController implements Initializable {
 
     @FXML
     private void AñadirActividad(ActionEvent event) {
-        Detallepacks_DAO dp_DAO = new Detallepacks_DAO(conexion);
-        DetallePacks dp = new DetallePacks();
-        dp.setIdPack(Integer.valueOf(idPack.getText()));
-        Random random = new Random();
-        dp.setNumLinea(random.nextInt(100));
-        dp.setActividad(actividadSeleccionada);
-        dp.setPrecioActividad(Double.valueOf(precioActividad.getText()));
-        //dp.setPrecioActividad(Double.valueOf(500));
-        dp.setNumeroPlazas(numeroPlazas.getValue());
-        dp.setFechaInicio(FechaInicio.getValue());
-        dp.setFechaFinal(FechaFinal.getValue());
-        dp.setDuracion(LocalTime.now());
-        try {
-            dp_DAO.insertarDetallePack(dp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       
+       alertConfirmacionAnyadirActividad();
     }
 
     public void setConexion(Connection aConexion) {
@@ -154,4 +154,81 @@ public class EscenaActividadesController implements Initializable {
         }
         DiasTotales.setText(String.valueOf(dias));
     }
+    public void anyadirAct() {
+        Actividades act = tableActividades.getSelectionModel().getSelectedItem();
+        act.setDp(crearDetallePacks());
+        pack.setActividades(act);
+
+    }
+    public void alertConfirmacionAnyadirActividad() {
+        /*
+        AQUI BASICAMENTE ES EL ALERT ANTES DE ACEPTAR UNA ACTIVIDAD
+        SI LE DAS A ACEPTAR
+        ANYADE LA ACTIVIDAD EL SET DE ACTIVIDADES, Y TE SUMA EL NUMERITO QUE TE PONE ARRIBA DE LA APLICACION CON EL Nº DE ACTIVIDADES EN TU PACK
+        */
+        boolean respConfirmacion = false;
+        int numAct = 0;
+        Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
+        dialogoAlerta.setTitle("Explora Valencia");
+        dialogoAlerta.setHeaderText("Usted esta a punto de añadir una actividad a su pack");
+        dialogoAlerta.setContentText("¿Está seguro de que quiere proceder con la acción?");
+
+        Optional<ButtonType> respuestaUsuario = dialogoAlerta.showAndWait();
+
+        if (respuestaUsuario.isPresent()) {
+            if (respuestaUsuario.get() == ButtonType.OK) {
+                
+                respConfirmacion = true;
+                anyadirAct();
+                numAct = Integer.parseInt(numActEnPack.getText()) + 1;
+                numActEnPack.setText(String.valueOf(numAct));
+        
+            } else if (respuestaUsuario.get() == ButtonType.CANCEL) {
+                respConfirmacion = false;
+            } else {
+                respConfirmacion = false;
+            }
+        }
+    }
+
+    @FXML
+    private void verVentanaPack(ActionEvent event) {
+        abreotraescena(event);
+    }
+
+    private void abreotraescena(ActionEvent event) {
+
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("FXMLescenaPack.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+            FXMLescenaPackController controller = loader.< FXMLescenaPackController > getController();
+            controller.setConexion( conexion ); 
+            Stage escenarioVentana = (Stage) botonVerPack.getScene().getWindow();
+            escenarioVentana.setTitle("Actividades");
+            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+            escenarioVentana.setScene(new Scene(root));
+        }
+        catch( Exception ex )
+        {
+            Alert alerta = new Alert( Alert.AlertType.ERROR );
+            alerta.setContentText( "ERROR " + ex.getMessage() );
+            alerta.showAndWait();
+        }
+
+    }
+    
+    private DetallePacks crearDetallePacks(){
+       Detallepacks_DAO dp_DAO = new Detallepacks_DAO(conexion);
+       DetallePacks dp = new DetallePacks();
+       dp.setIdPack(Integer.valueOf(idPack.getText()));
+       dp.setActividad(actividadSeleccionada);
+       dp.setPrecioActividad(Double.valueOf(precioActividad.getText()));
+       dp.setNumeroPlazas(numeroPlazas.getValue());
+       dp.setFechaInicio(FechaInicio.getValue());
+       dp.setFechaFinal(FechaFinal.getValue());
+       dp.setDuracion(LocalTime.now());
+    return dp;}
+    
 }

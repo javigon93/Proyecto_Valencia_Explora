@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="861.0" prefWidth="1283.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.FXMLescenaPackController">
+   <children>
+      <Text id="textoInicial" layoutX="63.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Las actividades de tu pack">
+         <font>
+            <Font name="Berlin Sans FB" size="27.0" />
+         </font>
+      </Text>
+      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="102.0" prefHeight="692.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
+         <columns>
+            <TableColumn fx:id="columnaTipo" prefWidth="122.40006256103516" text="Tipo" />
+            <TableColumn fx:id="columnaSubtipo" prefWidth="105.59994506835938" text="Subtipo" />
+            <TableColumn fx:id="columnaNombre" prefWidth="290.39990234375" text="Nombre Actividad" />
+         </columns>
+      </TableView>
+      <Button fx:id="botonANADIR" layoutX="813.0" layoutY="418.0" mnemonicParsing="false" onAction="#confirmarPack" text="Confirmar Pack" />
+      <Text id="textoInicial" layoutX="614.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total: ">
+         <font>
+            <Font name="Berlin Sans FB" size="27.0" />
+         </font>
+      </Text>
+      <Text id="textoInicial" layoutX="843.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00€">
+         <font>
+            <Font name="Berlin Sans FB" size="27.0" />
+         </font>
+      </Text>
+      <Button fx:id="botonVolver" layoutX="1052.0" layoutY="39.0" mnemonicParsing="false" onAction="#volverAct" text="Volver a añadir actividades" />
+   </children>
+</AnchorPane>

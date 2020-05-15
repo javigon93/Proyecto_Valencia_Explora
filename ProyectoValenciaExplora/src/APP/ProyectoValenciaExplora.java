@@ -1,5 +1,6 @@
 package APP;
 
+import DatosBDA.Packs_DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -46,7 +47,7 @@ public class ProyectoValenciaExplora extends Application{
 	}
 
 	private void conectarBasedeDatos() {
-		String bd = "esquema_proyecto2";
+		String bd = "esquema_proyecto";
 		String usuario = "root";
 		String password = "root";
 		String url = "jdbc:mysql://localhost:3306/" + bd + "?serverTimezone=UTC";

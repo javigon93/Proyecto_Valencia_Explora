@@ -48,5 +48,16 @@
             <TextField fx:id="precioActividad" layoutX="346.0" layoutY="446.0" prefHeight="25.0" prefWidth="58.0" />
          </children>
       </Pane>
+      <Button fx:id="botonVerPack" layoutX="955.0" layoutY="34.0" mnemonicParsing="false" onAction="#verVentanaPack" text="Ver pack" />
+      <Text layoutX="533.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nº actividades en el pack:">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
+      <Text fx:id="numActEnPack" layoutX="859.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

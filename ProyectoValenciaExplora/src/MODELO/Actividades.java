@@ -18,7 +18,16 @@ public class Actividades
     private String URL;
     private String tipo;
     private String subtipo;
+    /* el detallepacks en actividades dice raquel que hay que cambiarlo aun asi, estando aqui funciona todo perfecto*/
+    private DetallePacks dp = new DetallePacks();
 
+    public DetallePacks getDp() {
+        return dp;
+    }
+
+    public void setDp(DetallePacks dp) {
+        this.dp = dp;
+    }
     public String getSubtipo()
     {
         return subtipo;
