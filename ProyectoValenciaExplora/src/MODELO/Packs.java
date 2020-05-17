@@ -19,24 +19,18 @@ public class Packs {
     private String nombre_pack;
     private String descripcion;
     private LocalDate fecha_pack;
-    private boolean favorito;
-    private ArrayList<Actividades> actividades_pack;
+    private int favorito;
+   
     public Packs() {
        
-       idPack= idPack+1;
-        idUsuario=1;
+       idPack= 0;
+       idUsuario=1;
        fecha_pack= LocalDate.now();
-       favorito=false;
+       favorito=0;
         
     }
 
-    public ArrayList<Actividades> getActividades_pack() {
-        return actividades_pack;
-    }
-
-    public void setActividades_pack(ArrayList<Actividades> actividades_pack) {
-        this.actividades_pack = actividades_pack;
-    }
+    
 
     public int getIdPack() {
         return idPack;
@@ -78,20 +72,16 @@ public class Packs {
         this.fecha_pack = fecha_pack;
     }
 
-    public boolean isFavorito() {
+    public int getFavorito() {
         return favorito;
     }
 
-    public void setFavorito(boolean favorito) {
+    public void setFavorito(int favorito) {
         this.favorito = favorito;
     }
+
+   
     
-    public void introducirActividad(Actividades actividad){
-    
-    actividades_pack.add(actividad);
-    
-    
-    }
     
     
 }

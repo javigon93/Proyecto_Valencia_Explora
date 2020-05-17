@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="861.0" prefWidth="1283.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
+<AnchorPane id="AnchorPane" prefHeight="861.0" prefWidth="1611.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
    <children>
       <Text id="textoInicial" layoutX="63.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
          <font>
@@ -28,7 +28,7 @@
             <TableColumn fx:id="columnaNombre" prefWidth="290.39990234375" text="Nombre Actividad" />
          </columns>
       </TableView>
-      <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="692.0" prefWidth="539.0" stylesheets="@../CSS/CSS_Proyecto.css">
+      <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="692.0" prefWidth="505.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <children>
             <Text layoutX="79.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
             <Text layoutX="310.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
@@ -37,11 +37,25 @@
             <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="356.0" layoutX="92.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
             <TextField fx:id="textPrecio" layoutX="358.0" layoutY="561.0" onAction="#alIntroducirPrecio" prefHeight="25.0" prefWidth="103.0" />
             <DatePicker fx:id="pickerInicio" layoutX="79.0" layoutY="609.0" onAction="#alSeleccionarFechaInicio" />
-            <DatePicker fx:id="pickerFin" layoutX="322.0" layoutY="609.0" onAction="#alSeleccionarFechaFin" />
-            <ComboBox layoutX="209.0" layoutY="653.0" prefWidth="150.0" />
+            <DatePicker fx:id="pickerFin" layoutX="79.0" layoutY="653.0" onAction="#alSeleccionarFechaFin" />
+            <ComboBox fx:id="comboDuracion" layoutX="404.0" layoutY="653.0" onAction="#alSeleccionarDuracion" prefHeight="25.0" prefWidth="89.0" />
+            <TextField fx:id="fieldDuracion" layoutX="438.0" layoutY="609.0" prefHeight="25.0" prefWidth="47.0" />
+            <Text layoutX="310.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
+            <Text layoutX="34.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
+            <Text layoutX="37.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
+            <Text layoutX="332.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duración" />
          </children>
       </Pane>
-      <Button fx:id="botonANADIR" layoutX="720.0" layoutY="799.0" mnemonicParsing="false" onAction="#alPulsarAnadir" text="Añadir a tu Experiencia" />
-      <Button fx:id="botonRevisarConfirmar" layoutX="953.0" layoutY="797.0" mnemonicParsing="false" onAction="#alPulsarRevisar" text="Revisa y Confirma tu Pack" />
+      <Button fx:id="botonANADIR" layoutX="657.0" layoutY="810.0" mnemonicParsing="false" onAction="#alPulsarAnadir" text="Añadir a tu Experiencia" />
+      <Button fx:id="botonRevisarConfirmar" layoutX="957.0" layoutY="810.0" mnemonicParsing="false" onAction="#alPulsarRevisar" text="Revisa y Confirma tu Pack" />
+      <Button fx:id="botonBorrar" layoutX="1117.0" layoutY="252.0" mnemonicParsing="false" onAction="#alPulsarBorrar" text="Borra Tu Pack" />
+      <Text layoutX="1434.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
+      <TextArea fx:id="areaInfoActividad" layoutX="1117.0" layoutY="305.0" prefHeight="338.0" prefWidth="264.0" />
+      <TextArea fx:id="areaPrecio" layoutX="1434.0" layoutY="305.0" prefHeight="338.0" prefWidth="103.0" />
+      <Text id="textoInicial" fx:id="textPrecioTotal" layoutX="1361.0" layoutY="708.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total: " wrappingWidth="164.07922610267997">
+         <font>
+            <Font name="Berlin Sans FB" size="27.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

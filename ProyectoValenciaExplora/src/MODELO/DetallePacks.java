@@ -6,16 +6,18 @@
 package MODELO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 
 /**
  *
  * @author 34679
  */
 public class DetallePacks {
-
-    private int idPack = 1;
+    
+    
+    private int idPack;
     private int numeroLinea = 0;
     private int idActividad;
     private double precio;
@@ -23,11 +25,12 @@ public class DetallePacks {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private LocalTime duracion;
+    
 
     public DetallePacks() {
 
-        numeroLinea = numeroLinea + 1;
-        duracion=null;
+        
+        
     }
 
     public int getIdPack() {
@@ -118,4 +121,32 @@ public class DetallePacks {
     
     return respuesta;
     }
+    
+    public long calcularDiasActividad(){
+    
+    long diasActividad= ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+    
+    return diasActividad;
+    }
+    
+    public double calcularPrecioIndividual(){
+   
+    
+        
+    
+    double precioFinal;
+    
+    precioFinal= (double)(precio * personas) * calcularDiasActividad();
+    
+    
+    
+    
+    
+    
+    return precioFinal;
+    
+    }
+    
+   
+    
 }

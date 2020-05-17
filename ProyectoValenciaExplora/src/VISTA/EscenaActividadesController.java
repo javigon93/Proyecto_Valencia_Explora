@@ -6,17 +6,24 @@
 package VISTA;
 
 import DatosBDA.Actividades_DAO;
+import DatosBDA.DetallePacks_DAO;
+import DatosBDA.Packs_DAO;
 import MODELO.Actividades;
 import MODELO.DetallePacks;
 import MODELO.Packs;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -32,8 +39,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
@@ -46,6 +55,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -57,13 +67,18 @@ import javafx.stage.Stage;
 public class EscenaActividadesController implements Initializable {
 
     private Connection conexion;
-    private Actividades_DAO bd_act;
-    private Actividades actividad_seleccionada;
-    private DetallePacks detalleActividad;
+    private Actividades_DAO bd_act= new Actividades_DAO();
+    private Packs_DAO bd_packs=new Packs_DAO();
+    private Actividades actividad_seleccionada= new Actividades();
+    private DetallePacks detalleActividad= new DetallePacks();
     private Alert alerta;
-   
-    private ArrayList<DetallePacks> listaDetalleActividadesSeleccionadas=new ArrayList<>();
-    private ObservableList<Actividades> ListaActividades;
+    private final IntegerSpinnerValueFactory personas = new IntegerSpinnerValueFactory(0, 20, 0, 1);
+    private ArrayList<DetallePacks> listaDetalleActividadesSeleccionadas = new ArrayList<>();
+    private ObservableList<String> listaHoras= FXCollections.observableArrayList("00:30", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "12:00", "24:00" );
+    private ObservableList<Actividades> listaActividades;
+    private String texto = "";
+    private DecimalFormat df = new DecimalFormat("#.00");
+    private double total=0;
     @FXML
     private TableView<Actividades> tableActividades;
     @FXML
@@ -91,44 +106,59 @@ public class EscenaActividadesController implements Initializable {
     private DatePicker pickerInicio;
     @FXML
     private DatePicker pickerFin;
+    @FXML
+    private Button botonBorrar;
+
+    @FXML
+    private TextArea areaInfoActividad;
+    @FXML
+    private TextArea areaPrecio;
+    @FXML
+    private Text textPrecioTotal;
+    @FXML
+    private ComboBox<String> comboDuracion;
+    @FXML
+    private TextField fieldDuracion;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        bd_act = new Actividades_DAO();
-        actividad_seleccionada = new Actividades();
-        detalleActividad = new DetallePacks();
-        IntegerSpinnerValueFactory personas = new IntegerSpinnerValueFactory(1, 20, 1, 1);
-        pickerInicio.setValue(LocalDate.now());
-        pickerInicio.setEditable(false);
-        pickerFin.setValue(LocalDate.now());
-        pickerFin.setEditable(false);
+          bd_act= new Actividades_DAO();
+      bd_packs=new Packs_DAO();
+      actividad_seleccionada= new Actividades();
+      detalleActividad= new DetallePacks();
 
         try {
-
-            paneDescripcion.setDisable(true);
+            
+            panePorDefecto();
             conectar();
+            
             Set<Actividades> actividades = bd_act.buscarActividades(conexion);
-
-            ListaActividades = FXCollections.observableArrayList(actividades);
-
-            tableActividades.setItems(ListaActividades);
+            comboDuracion.setItems(listaHoras);
+            listaActividades = FXCollections.observableArrayList(actividades);
+            tableActividades.setItems(listaActividades);
             tableActividades.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
             columnaNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
             columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
             columnaSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
             spinnerPersonas.setValueFactory(personas);
+           
         } catch (SQLException e) {
 
             System.out.println(e.getMessage());
 
+        } catch(IOException ex){
+        
+            System.out.println(ex.getMessage());
+        
+        
         }
 
     }
+
 
     public void conectar() throws SQLException {
 
@@ -146,18 +176,18 @@ public class EscenaActividadesController implements Initializable {
 
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
         System.out.println(actividad_seleccionada.getIdActividad() + " " + actividad_seleccionada.getNombre() + " " + actividad_seleccionada.getTipo() + " " + actividad_seleccionada.getURL());
-        Image img = new Image("/IMG/micalet.png");
-        imagenActividad.setImage(img);
+        
+        imagenActividad.setImage(actividad_seleccionada.getImagen());
         paneDescripcion.setDisable(false);
         areaDescripcion.setWrapText(true);
-        areaDescripcion.setText(actividad_seleccionada.getDescripcion());
+        areaDescripcion.setText(actividad_seleccionada.getDescripcion()+ "\n\nMás Información en: " + actividad_seleccionada.getURL());
         detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad());
     }
 
     @FXML
     private void alPulsarAnadir(ActionEvent event) {
 
-        if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null) {
+        if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null && detalleActividad.getPrecio() !=0 && detalleActividad.getDuracion() != null) {
 
             alerta = new Alert(Alert.AlertType.CONFIRMATION);
             alerta.setTitle("Confirmación");
@@ -167,9 +197,11 @@ public class EscenaActividadesController implements Initializable {
             Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
             if (respuestaUsuario.get() == ButtonType.OK) {
-                System.out.println("" +detalleActividad.getDuracion()+ detalleActividad.getFechaFin()+ detalleActividad.getFechaInicio()+" " + detalleActividad.getIdActividad()+"");
+               
+                imprimirDetalleyPrecio();
                 listaDetalleActividadesSeleccionadas.add(detalleActividad);
-            
+                detalleActividad = new DetallePacks();
+                panePorDefecto();
 
             }
 
@@ -195,8 +227,19 @@ public class EscenaActividadesController implements Initializable {
 
     @FXML
     private void alIntroducirPrecio(ActionEvent event) {
-        double precioActividad = Double.parseDouble(textPrecio.getText());
-        detalleActividad.setPrecio(precioActividad);
+
+        try {
+            double precioActividad = Double.parseDouble(textPrecio.getText());
+            detalleActividad.setPrecio(precioActividad);
+        } catch (NumberFormatException e) {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("ERROR");
+            alerta.setHeaderText("Ha ocurrido un error");
+            alerta.setContentText("Introduce un Número");
+            alerta.showAndWait();
+
+        }
     }
 
     @FXML
@@ -206,22 +249,24 @@ public class EscenaActividadesController implements Initializable {
 
     private void abreotraescena(ActionEvent event) {
 
-        try{
-         FXMLLoader loader = new FXMLLoader();
+        try {
+            FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
             loader.setLocation(getClass().getResource("/VISTA/escenaRevisarConfirmar.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
-             EscenaRevisarConfirmarController revisarControlador = loader.getController();
+            EscenaRevisarConfirmarController revisarControlador = loader.getController();
 
             //PASAMOS UN DATO AL CONTROLADOR
             revisarControlador.setActividadesEscogidas(listaDetalleActividadesSeleccionadas);
+            revisarControlador.setConexion(conexion);
+            revisarControlador.setPrecioTotal(total);
+            revisarControlador.setTextoResumen(texto);
             revisarControlador.metodoEjecutaAlInicio();
             Stage escenarioVentana = (Stage) botonRevisarConfirmar.getScene().getWindow();
             escenarioVentana.setTitle("Revisar Y Confirmar");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
+            escenarioVentana.setScene(new Scene(root));
+
         } catch (Exception ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
@@ -239,6 +284,126 @@ public class EscenaActividadesController implements Initializable {
     @FXML
     private void alSeleccionarFechaFin(ActionEvent event) {
 
-        detalleActividad.setFechaFin(pickerFin.getValue());
+        if (detalleActividad.getFechaInicio().isBefore(pickerFin.getValue())) {
+
+            detalleActividad.setFechaFin(pickerFin.getValue());
+            fieldDuracion.setText(""+detalleActividad.calcularDiasActividad());
+        } else{
+        
+        alerta= new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("ERROR");
+        alerta.setHeaderText("Introduce una fecha Correcta");
+        alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
+            
+        alerta.showAndWait();
+        
+        
+        
+        }
     }
+
+    private void panePorDefecto() {
+        textPrecio.clear();
+        paneDescripcion.setDisable(true);
+        spinnerPersonas.setValueFactory(personas);
+        pickerFin.setValue(LocalDate.now());
+        pickerInicio.setValue(LocalDate.now());
+
+        pickerInicio.setEditable(false);
+
+        pickerFin.setEditable(false);
+        fieldDuracion.clear();
+    }
+
+    @FXML
+    private void alPulsarBorrar(ActionEvent event) {
+
+        if (listaDetalleActividadesSeleccionadas.isEmpty() == false) {
+
+            alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText("Confirma la Eliminación");
+            alerta.setContentText("¿Deseas eliminar tu pack?");
+
+            Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+
+            if (respuestaUsuario.get() == ButtonType.OK) {
+                areaDescripcion.clear();
+                areaPrecio.clear();
+                areaInfoActividad.clear();
+                listaDetalleActividadesSeleccionadas.clear();
+                panePorDefecto();
+                texto="";
+                total=0;
+                textPrecioTotal.setText("Total: ");
+
+            }
+
+        }
+
+    } private void imprimirDetalleyPrecio(){
+        
+         texto += "Actividad: " + actividad_seleccionada.getNombre() + " Número de Personas: " + detalleActividad.getPersonas() + "\nFecha Inicio: "
+                        + detalleActividad.getFechaInicio() + "Fecha Final: " + detalleActividad.getFechaFin() + "\n\n";
+
+                areaInfoActividad.setText(texto);
+                areaPrecio.appendText(df.format(detalleActividad.calcularPrecioIndividual()) + "€\n\n\n");
+                total+=detalleActividad.calcularPrecioIndividual();
+                textPrecioTotal.setText("Total: "+df.format(total)+"€");
+                
+    
+    }
+    
+    
+    public void metodoEjecutaAlInicio() {
+
+        for (int i = 0; i < listaDetalleActividadesSeleccionadas.size(); i++) {
+            
+            areaPrecio.appendText(df.format(listaDetalleActividadesSeleccionadas.get(i).calcularPrecioIndividual()) + "€\n\n\n");
+            
+            
+            
+        }
+        
+        areaInfoActividad.setText(texto);
+        textPrecioTotal.setText("Total: "+df.format(total)+"€");
+    }
+
+    
+    
+    public ArrayList<DetallePacks> getListaDetalleActividadesSeleccionadas() {
+        return listaDetalleActividadesSeleccionadas;
+    }
+
+    public void setListaDetalleActividadesSeleccionadas(ArrayList<DetallePacks> listaDetalleActividadesSeleccionadas) {
+        this.listaDetalleActividadesSeleccionadas = listaDetalleActividadesSeleccionadas;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    @FXML
+    private void alSeleccionarDuracion(ActionEvent event) {
+        
+        DateTimeFormatter formatoHoras= DateTimeFormatter.ISO_TIME;
+        
+        
+        detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()+":00"));
+        
+    }
+    
+    
 }

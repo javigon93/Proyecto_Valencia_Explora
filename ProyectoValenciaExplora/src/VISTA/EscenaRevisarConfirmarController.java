@@ -5,11 +5,17 @@
  */
 package VISTA;
 
+import DatosBDA.DetallePacks_DAO;
+import DatosBDA.Packs_DAO;
 import MODELO.Actividades;
 import MODELO.DetallePacks;
 import MODELO.Packs;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +30,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -32,7 +39,16 @@ import javafx.scene.control.TextField;
  * @author 34679
  */
 public class EscenaRevisarConfirmarController implements Initializable {
+
     Packs pack;
+    Connection conexion;
+    DetallePacks_DAO detallepacksBD;
+    Packs_DAO packBD;
+    private double precioTotal;
+    private String textoResumen;
+    private DecimalFormat df = new DecimalFormat("#.00");
+    
+    Alert alerta;
     @FXML
     private Button botonAtras;
     @FXML
@@ -44,46 +60,94 @@ public class EscenaRevisarConfirmarController implements Initializable {
     @FXML
     private TextField fieldNombrePack;
     private ArrayList<DetallePacks> actividadesEscogidas;
-    
+    @FXML
+    private TextField fieldDescripción;
+    @FXML
+    private Button botonDescripcion;
+    @FXML
+    private CheckBox checkFavorito;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
- 
-        
-        
-    }    
+        pack = new Packs();
+        detallepacksBD = new DetallePacks_DAO();
+        packBD = new Packs_DAO();
+        labelPrecioTotal.setText("Total: ");
+
+    }
+
+    public String getTextoResumen() {
+        return textoResumen;
+    }
+
+    public void setTextoResumen(String textoResumen) {
+        this.textoResumen = textoResumen;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
 
     public void setActividadesEscogidas(ArrayList<DetallePacks> actividadesEscogidas) {
         this.actividadesEscogidas = actividadesEscogidas;
     }
-    
-    
-    
+
+    public void setConexion(Connection conexion) {
+        this.conexion = conexion;
+    }
+
     private void abreotraescena(ActionEvent event) {
 
-        try {
+//        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            //CARGAMOS OTRO FXML
+//            loader.setLocation(getClass().getResource("escenaActividades.fxml"));
+//            Parent root = loader.load(); // el metodo initialize() se ejecuta
+//
+//            //RECUPERAMOS EL STAGE EN EL QUE ESTAMOS
+//            Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
+//            escenarioVentana.setTitle("Actividades");
+//            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+//            escenarioVentana.setScene(new Scene(root));
+//
+//        } catch (IOException ex) {
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
+//        }
+
+
+     try {
             FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
-            loader.setLocation(getClass().getResource("escenaActividades.fxml"));
+            loader.setLocation(getClass().getResource("/VISTA/escenaActividades.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
-            
-            //RECUPERAMOS EL STAGE EN EL QUE ESTAMOS
+            EscenaActividadesController controladorActividades = loader.getController();
+
+            //PASAMOS UN DATO AL CONTROLADOR
+            controladorActividades.setListaDetalleActividadesSeleccionadas(actividadesEscogidas);
+            controladorActividades.setTexto(textoResumen);
+            controladorActividades.setTotal(precioTotal);
+            controladorActividades.metodoEjecutaAlInicio();
             Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
-            escenarioVentana.setTitle("Actividades");
+            escenarioVentana.setTitle("Revisar Y Confirmar");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
-        } catch (IOException ex) {
+            escenarioVentana.setScene(new Scene(root));
+
+        } catch (Exception ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
-    
-}
+
+    }
 
     @FXML
     private void alPulsarAtras(ActionEvent event) {
@@ -92,66 +156,120 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
     @FXML
     private void alPulsarConfirmar(ActionEvent event) {
+
+        if (pack.getNombre_pack() != null) {
+
+            try {
+                packBD.insertarPack(conexion, pack);
+                detallepacksBD.insertarDetallePack(conexion, actividadesEscogidas);
+                alerta = new Alert(Alert.AlertType.INFORMATION);
+
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText("Se ha actualizado tu Pack");
+                alerta.setContentText("Gracias por Utilizar el servicio!!");
+                alerta.showAndWait();
+            } catch (SQLException ex) {
+
+                alerta = new Alert(Alert.AlertType.ERROR);
+
+                alerta.setTitle("ERROR EN BD");
+                alerta.setHeaderText("Ha ocurrido un problema en la BD");
+                alerta.setContentText(ex.getMessage() + "CODIGO: " + ex.getErrorCode());
+                alerta.showAndWait();
+
+            } catch (Exception e) {
+
+                alerta = new Alert(Alert.AlertType.ERROR);
+
+                alerta.setTitle("ERROR EN BD");
+                alerta.setHeaderText("Ha ocurrido un problema");
+                alerta.setContentText(e.getMessage());
+                alerta.showAndWait();
+
+            }
+
+        } else {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
+
+            alerta.setTitle("Inserta un Nombre");
+            alerta.setHeaderText("Inserta un Nombre");
+            alerta.setContentText("Inserta un Nombre");
+            alerta.showAndWait();
+        }
     }
-    
-    
 
     @FXML
     private void alIntroducirNombre(ActionEvent event) {
         pack.setNombre_pack(fieldNombrePack.getText());
-        
-        
+
     }
-    
-    private void metodoEjecutarInicio(){
+
+    private void metodoEjecutarInicio() {
         pack = new Packs();
+
         if (actividadesEscogidas.isEmpty()) {
             areaResumen.setText("Aún no has escogido NADA");
+        } else {
+
+           areaResumen.setText(textoResumen);
+          
+
         }
-        
-        else{
-        
-        String texto="";
-        
-        
-        for (int i = 0; i < actividadesEscogidas.size(); i++) {
-            
-            areaResumen.setText(actividadesEscogidas.toString());
-        
-        
-        
-        }
-        
-        
-            
-        }
-        
-        
-    
-    
-    
-    
-    
+
     }
+
     public void metodoEjecutaAlInicio() {
+
         if (actividadesEscogidas.isEmpty()) {
             areaResumen.setText("Aún no has escogido NADA");
+        } else {
+
+            areaResumen.setText(textoResumen);
+             labelPrecioTotal.setText("Total: " +df.format(precioTotal)+ "€");
         }
-        
-        else{
-        
-        String texto="";
-        
-        
-        for (int i = 0; i < actividadesEscogidas.size(); i++) {
-            texto+=actividadesEscogidas.get(i).toString();
-           
-        
-        
+    }
+
+    @FXML
+    private void alInsertarDescripción(ActionEvent event) {
+    }
+
+    @FXML
+    private void alPulsarDescripcion(ActionEvent event) {
+
+        pack.setDescripcion(fieldDescripción.getText());
+
+        alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Descripción Incluída");
+        alerta.setHeaderText("Se ha completado la actualización de la descripción");
+        alerta.setContentText("Actualizado tu pack: Tu descripción es '" + pack.getDescripcion() + "'");
+        alerta.showAndWait();
+    }
+
+    @FXML
+    private void alpulsarFavorito(ActionEvent event) {
+
+        if (checkFavorito.isSelected()) {
+
+            pack.setFavorito(1);
+
+            alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Favorito");
+            alerta.setHeaderText("Tu pack Es ahora tu Favorito!!");
+            alerta.setContentText("Actualizado tu pack");
+            alerta.showAndWait();
+
         }
-        
-           areaResumen.setText(texto);
-            
+
+        if (checkFavorito.isSelected() == false) {
+
+            pack.setFavorito(0);
+            alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Favorito");
+            alerta.setHeaderText("Tu pack ya no es ahora tu Favorito");
+            alerta.setContentText("No es tu favorito");
+            alerta.showAndWait();
+
         }
     }
 

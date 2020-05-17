@@ -5,6 +5,8 @@
  */
 package MODELO;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author 34679
@@ -19,6 +21,15 @@ public class Actividades {
     private String URL;
     private String tipo;
     private String subtipo;
+    private Image imagen;
+
+    public Image getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Image imagen) {
+        this.imagen = imagen;
+    }
     
 
     public String getSubtipo() {
