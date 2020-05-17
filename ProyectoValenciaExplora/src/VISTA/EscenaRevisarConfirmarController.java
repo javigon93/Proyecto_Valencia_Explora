@@ -7,10 +7,9 @@ package VISTA;
 
 import DatosBDA.DetallePacks_DAO;
 import DatosBDA.Packs_DAO;
-import MODELO.Actividades;
 import MODELO.DetallePacks;
 import MODELO.Packs;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -46,7 +45,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
     Packs_DAO packBD;
     private double precioTotal;
     private String textoResumen;
-    private DecimalFormat df = new DecimalFormat("#.00");
+    private final DecimalFormat df = new DecimalFormat("#.00");
     
     Alert alerta;
     @FXML
@@ -79,49 +78,9 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
     }
 
-    public String getTextoResumen() {
-        return textoResumen;
-    }
+   
 
-    public void setTextoResumen(String textoResumen) {
-        this.textoResumen = textoResumen;
-    }
-
-    public double getPrecioTotal() {
-        return precioTotal;
-    }
-
-    public void setPrecioTotal(double precioTotal) {
-        this.precioTotal = precioTotal;
-    }
-
-    public void setActividadesEscogidas(ArrayList<DetallePacks> actividadesEscogidas) {
-        this.actividadesEscogidas = actividadesEscogidas;
-    }
-
-    public void setConexion(Connection conexion) {
-        this.conexion = conexion;
-    }
-
-    private void abreotraescena(ActionEvent event) {
-
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            //CARGAMOS OTRO FXML
-//            loader.setLocation(getClass().getResource("escenaActividades.fxml"));
-//            Parent root = loader.load(); // el metodo initialize() se ejecuta
-//
-//            //RECUPERAMOS EL STAGE EN EL QUE ESTAMOS
-//            Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
-//            escenarioVentana.setTitle("Actividades");
-//            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-//            escenarioVentana.setScene(new Scene(root));
-//
-//        } catch (IOException ex) {
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
-//        }
+    private void abreotraescena(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
 
 
      try {
@@ -137,12 +96,12 @@ public class EscenaRevisarConfirmarController implements Initializable {
             controladorActividades.setTotal(precioTotal);
             controladorActividades.metodoEjecutaAlInicio();
             Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
-            escenarioVentana.setTitle("Revisar Y Confirmar");
+            escenarioVentana.setTitle("Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root));
 
-        } catch (Exception ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
+        } catch (IOException ex) {
+             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
@@ -150,12 +109,14 @@ public class EscenaRevisarConfirmarController implements Initializable {
     }
 
     @FXML
-    private void alPulsarAtras(ActionEvent event) {
+    private void alPulsarAtras(ActionEvent event) { //AL PULSAR EL BOTON ATRAS SE EJECUTA EL MÉTODO DE PASO A OTRA ESCENA
         abreotraescena(event);
     }
 
     @FXML
     private void alPulsarConfirmar(ActionEvent event) {
+        
+        //si el pack tiene nombre salta un information si se ha insertado bien el pack, si no, salta un arror avisando de que no hay nombre, o bien si hay un error de SQL ( o cualquier otro)se avisa también.
 
         if (pack.getNombre_pack() != null) {
 
@@ -200,26 +161,14 @@ public class EscenaRevisarConfirmarController implements Initializable {
     }
 
     @FXML
-    private void alIntroducirNombre(ActionEvent event) {
+    private void alIntroducirNombre(ActionEvent event) { //al introducir nombre del pack, se hace un set del nombre en el objeto pack.
         pack.setNombre_pack(fieldNombrePack.getText());
 
     }
 
-    private void metodoEjecutarInicio() {
-        pack = new Packs();
 
-        if (actividadesEscogidas.isEmpty()) {
-            areaResumen.setText("Aún no has escogido NADA");
-        } else {
-
-           areaResumen.setText(textoResumen);
-          
-
-        }
-
-    }
-
-    public void metodoEjecutaAlInicio() {
+    public void metodoEjecutaAlInicio() { //Cuando se cargue previamente esta escena, si no se ha seleccionado ninguna actividad anteriormente, se pone que no se ha escogido nada
+                                            // si existen, se carga la info pasada de la otra escena en un textarea y un label.
 
         if (actividadesEscogidas.isEmpty()) {
             areaResumen.setText("Aún no has escogido NADA");
@@ -230,16 +179,13 @@ public class EscenaRevisarConfirmarController implements Initializable {
         }
     }
 
+    
     @FXML
-    private void alInsertarDescripción(ActionEvent event) {
-    }
-
-    @FXML
-    private void alPulsarDescripcion(ActionEvent event) {
+    private void alPulsarDescripcion(ActionEvent event) { //se añade la descripción y se avisa de que se ha agregado.
 
         pack.setDescripcion(fieldDescripción.getText());
 
-        alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Descripción Incluída");
         alerta.setHeaderText("Se ha completado la actualización de la descripción");
         alerta.setContentText("Actualizado tu pack: Tu descripción es '" + pack.getDescripcion() + "'");
@@ -247,7 +193,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
     }
 
     @FXML
-    private void alpulsarFavorito(ActionEvent event) {
+    private void alpulsarFavorito(ActionEvent event) { //SI LE DAMOS Y ESTÁ Seleccionado, se hace un set con valor 1 (true) , si se le da y no se selecciona... (false)
 
         if (checkFavorito.isSelected()) {
 
@@ -271,6 +217,28 @@ public class EscenaRevisarConfirmarController implements Initializable {
             alerta.showAndWait();
 
         }
+    }//GETTERS Y SETTERS de lo que se pasa de la otra escena.
+     public String getTextoResumen() {
+        return textoResumen;
     }
 
+    public void setTextoResumen(String textoResumen) {
+        this.textoResumen = textoResumen;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public void setActividadesEscogidas(ArrayList<DetallePacks> actividadesEscogidas) {
+        this.actividadesEscogidas = actividadesEscogidas;
+    }
+
+    public void setConexion(Connection conexion) {
+        this.conexion = conexion;
+    }
 }

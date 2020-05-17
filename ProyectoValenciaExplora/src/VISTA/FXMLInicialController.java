@@ -37,7 +37,7 @@ public class FXMLInicialController implements Initializable {
     }    
 
     @FXML
-    private void alPulsarIniciar(ActionEvent event) {
+    private void alPulsarIniciar(ActionEvent event) { //al pulsar el botoón cambiamos a la primera escena importante
         abreotraescena(event);
         
     }

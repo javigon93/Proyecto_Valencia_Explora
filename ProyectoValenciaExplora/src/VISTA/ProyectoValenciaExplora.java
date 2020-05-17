@@ -22,7 +22,7 @@ public class ProyectoValenciaExplora extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLInicial.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setTitle("INICIO");
         stage.setScene(scene);
         stage.show();
     }

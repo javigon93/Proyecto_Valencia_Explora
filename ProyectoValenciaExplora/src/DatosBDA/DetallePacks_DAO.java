@@ -6,7 +6,7 @@
 package DatosBDA;
 
 import java.sql.Connection;
-import DatosBDA.Packs_DAO;
+
 import MODELO.DetallePacks;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -28,7 +28,7 @@ public class DetallePacks_DAO {
     }
    
     public void insertarDetallePack(Connection  conexion, ArrayList<DetallePacks> lista_detalle) throws Exception{
-             
+             //inserción DETALLEPACKS
         Packs_DAO bd_pack= new Packs_DAO();
         
             int ID=bd_pack.buscariDReciente(conexion);
@@ -39,7 +39,7 @@ public class DetallePacks_DAO {
         
         for (int i = 0; i < lista_detalle.size(); i++) {
           
-          linea++;
+          linea++; //para cambiar de línea cada vez que se introduce una actividad de la coleecion, evitamos duplicaciones
           lista_detalle.get(i).setNumeroLinea(linea);
           lista_detalle.get(i).setIdPack(ID);
           Date fechaInicio= java.sql.Date.valueOf(lista_detalle.get(i).getFechaInicio());

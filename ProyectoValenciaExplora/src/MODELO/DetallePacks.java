@@ -9,14 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-
 /**
  *
  * @author 34679
  */
 public class DetallePacks {
-    
-    
+
     private int idPack;
     private int numeroLinea = 0;
     private int idActividad;
@@ -25,12 +23,10 @@ public class DetallePacks {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private LocalTime duracion;
-    
 
     public DetallePacks() {
 
-        
-        
+        //nada por defecto
     }
 
     public int getIdPack() {
@@ -108,45 +104,33 @@ public class DetallePacks {
         ++idPack;
 
     }
-    
+
     @Override
-    
-    public String toString(){
-    
+
+    public String toString() {
+        //toString que se implementará posteriormente
         String respuesta;
-        respuesta= "Precio de la Actividad: " + precio + "\\ Personas: " + personas + "\\Fecha de la Actividad: " + fechaInicio + "Duración: " + duracion;
-        
-        
-        
-    
-    return respuesta;
+        respuesta = "Precio de la Actividad: " + precio + "\\ Personas: " + personas + "\\Fecha de la Actividad: " + fechaInicio + "Duración: " + duracion;
+
+        return respuesta;
     }
-    
-    public long calcularDiasActividad(){
-    
-    long diasActividad= ChronoUnit.DAYS.between(fechaInicio, fechaFin);
-    
-    return diasActividad;
+
+    public long calcularDiasActividad() { //nos dice como cuantos dias hay entre ambas fechas, útil para mostrar el valor en la apliacación y calcular
+
+        long diasActividad = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+
+        return diasActividad;
     }
-    
-    public double calcularPrecioIndividual(){
-   
-    
-        
-    
-    double precioFinal;
-    
-    precioFinal= (double)(precio * personas) * calcularDiasActividad();
-    
-    
-    
-    
-    
-    
-    return precioFinal;
-    
+
+    public double calcularPrecioIndividual() {
+
+        //precio final de cada ACTIVIDAD DE MANERA INDIVIDUAL, ya que se introduce el valor por individuo y dia, estos dos ultimos datos tambien hay que tenerlos en cuenta
+        double precioFinal;
+
+        precioFinal = (double) (precio * personas) * calcularDiasActividad();
+
+        return precioFinal;
+
     }
-    
-   
-    
+
 }

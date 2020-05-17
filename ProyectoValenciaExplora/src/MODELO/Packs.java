@@ -22,11 +22,11 @@ public class Packs {
     private int favorito;
    
     public Packs() {
-       
+       //CADA PACK TENDRÁ EL ID EN 0, ya que en la BD el valor el AUTOINCREMENTAL, el valor se sumará automáticamente, EL IDUSUARIO es 1 porque no tenemos aun control de  usuarios.
        idPack= 0;
        idUsuario=1;
-       fecha_pack= LocalDate.now();
-       favorito=0;
+       fecha_pack= LocalDate.now(); //obviamente la fecha pack es la actual porque se crea el mismo dia.
+       favorito=0; //por defecto no es favorito.
         
     }
 

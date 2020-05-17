@@ -23,13 +23,13 @@ public class Packs_DAO {
     public Packs_DAO() {
 
     }
-
+//METODO DE INSERCIOÓN DE PACK
     public void insertarPack(Connection conexion, Packs pack) throws Exception {
 
         int x = 0;
         String consulta;
 
-        Date fecha_Pack_sql = java.sql.Date.valueOf(pack.getFecha_pack());
+        Date fecha_Pack_sql = java.sql.Date.valueOf(pack.getFecha_pack()); //NO DEJA INTRODUCIR LOCALDATE, se pasa a DATE hasta solucionar
 
         consulta = "INSERT INTO packs VALUES (?,?,?,?,?,?)";
 
@@ -50,8 +50,9 @@ public class Packs_DAO {
 
     }
 
-    public int buscariDReciente(Connection conexion) throws SQLException {
-
+    public int buscariDReciente(Connection conexion) throws SQLException { 
+        
+        //METODO IMPORTANTE!, OFRECE ACTUALIZADA LA ID DE PACK MÁS ACTUAL, PARA EVITAR FALLOS DE PK EN BD
         int idPack = 0;
         PreparedStatement ps;
         ResultSet rs;

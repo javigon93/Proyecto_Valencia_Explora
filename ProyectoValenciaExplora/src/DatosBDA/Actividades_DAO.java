@@ -32,7 +32,7 @@ public class Actividades_DAO {
     
 
     public Set<Actividades> buscarActividades(Connection conexion) throws SQLException, IOException{
-
+//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
         Set<Actividades> listaActividades = new HashSet<>();
         PreparedStatement ps;
         ResultSet rs;
@@ -40,20 +40,22 @@ public class Actividades_DAO {
 
         if (conexion != null) {
 
-            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo";
+            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen "
+                    + "FROM tipo t "
+                    + "INNER JOIN subtipo s INNER JOIN actividades a "
+                    + "ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo";
             ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = ps.executeQuery();
 
             while (rs.next()) {
 
                 Blob blob = rs.getBlob("a.Imagen");
- //String nombre = rs.getObject("nombre").toString();
                 byte[] data = blob.getBytes(1, (int)blob.length());
-                BufferedImage B_img = null;
-                B_img = ImageIO.read(new ByteArrayInputStream(data));
+                BufferedImage B_img = ImageIO.read(new ByteArrayInputStream(data));
+              
                 Image image= SwingFXUtils.toFXImage(B_img, null);
                 
-                
+                //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
                 Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
@@ -62,7 +64,7 @@ public class Actividades_DAO {
                 actividad.setNombre(rs.getString("a.nombre"));
                 actividad.setURL(rs.getString("a.url"));
                 actividad.setImagen(image);
-                listaActividades.add(actividad);
+                listaActividades.add(actividad); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
 
             }
             

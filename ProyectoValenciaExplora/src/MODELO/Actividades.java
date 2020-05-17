@@ -16,7 +16,8 @@ public class Actividades {
     
     private int idActividad;    
     private int codigoSubtipo;
-    private String nombre;
+    private String nombre; //utilizamos algunos strings ADICIONALES proveniente del inner join de la BD 
+                            //para simplificar código y mostrar más facielmente en formato string los id que se muestran en esta clase desde la propia BD
     private String descripcion;
     private String URL;
     private String tipo;
