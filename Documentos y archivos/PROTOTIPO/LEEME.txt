@@ -1,0 +1,8 @@
+Prototipo creado por Alejandro Tinoco, Juan Almeida y Fco Javier González
+
+Si no ejecuta (o da error de repente):
+
+Carga nuestro script de MYSQL con los datos actualizados
+Fíjate en la los datos de conexión con la BD
+
+Hemos introducido las imagenes en la BD, por lo que quizá experimentes algo de lentitud al principio. 

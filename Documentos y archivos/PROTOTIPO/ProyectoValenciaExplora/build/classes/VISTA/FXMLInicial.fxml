@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="844.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.FXMLInicialController">
+   <children>
+      <Pane id="lateral" layoutX="422.0" prefHeight="654.0" prefWidth="422.0" stylesheets="@../CSS/CSS_Proyecto.css">
+         <children>
+            <Text layoutX="83.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Qué deseas Hacer?">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+            <Button fx:id="botonEmpezar" layoutX="140.0" layoutY="284.0" mnemonicParsing="false" onAction="#alPulsarIniciar" prefHeight="43.0" prefWidth="143.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Explorar Valencia">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Text layoutX="291.0" layoutY="636.0" strokeType="OUTSIDE" strokeWidth="0.0" text="©Valencia Explora" />
+         </children>
+      </Pane>
+      <Text id="textoInicial" layoutX="95.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a Valencia Explora" wrappingWidth="213.57030487060547">
+         <font>
+            <Font name="Berlin Sans FB" size="32.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
