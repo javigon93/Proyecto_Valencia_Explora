@@ -185,11 +185,11 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
         pack.setDescripcion(fieldDescripción.getText());
 
-        alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Descripción Incluída");
-        alerta.setHeaderText("Se ha completado la actualización de la descripción");
-        alerta.setContentText("Actualizado tu pack: Tu descripción es '" + pack.getDescripcion() + "'");
-        alerta.showAndWait();
+//        alerta = new Alert(Alert.AlertType.INFORMATION);
+//        alerta.setTitle("Descripción Incluída");
+//        alerta.setHeaderText("Se ha completado la actualización de la descripción");
+//        alerta.setContentText("Actualizado tu pack: Tu descripción es '" + pack.getDescripcion() + "'");
+//        alerta.showAndWait();
     }
 
     @FXML
@@ -199,22 +199,22 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
             pack.setFavorito(1);
 
-            alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Favorito");
-            alerta.setHeaderText("Tu pack Es ahora tu Favorito!!");
-            alerta.setContentText("Actualizado tu pack");
-            alerta.showAndWait();
+//            alerta = new Alert(Alert.AlertType.INFORMATION);
+//            alerta.setTitle("Favorito");
+//            alerta.setHeaderText("Tu pack Es ahora tu Favorito!!");
+//            alerta.setContentText("Actualizado tu pack");
+//            alerta.showAndWait();
 
         }
 
         if (checkFavorito.isSelected() == false) {
 
             pack.setFavorito(0);
-            alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Favorito");
-            alerta.setHeaderText("Tu pack ya no es ahora tu Favorito");
-            alerta.setContentText("No es tu favorito");
-            alerta.showAndWait();
+//            alerta = new Alert(Alert.AlertType.INFORMATION);
+//            alerta.setTitle("Favorito");
+//            alerta.setHeaderText("Tu pack ya no es ahora tu Favorito");
+//            alerta.setContentText("No es tu favorito");
+//            alerta.showAndWait();
 
         }
     }//GETTERS Y SETTERS de lo que se pasa de la otra escena.

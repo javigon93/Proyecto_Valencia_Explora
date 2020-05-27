@@ -44,6 +44,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -108,8 +109,9 @@ public class EscenaActividadesController implements Initializable {
     private Text textPrecioTotal;
     @FXML
     private ComboBox<String> comboDuracion;
+   
     @FXML
-    private TextField fieldDuracion;
+    private Text textDias;
 
     /**
      * Initializes the controller class.
@@ -168,6 +170,7 @@ public class EscenaActividadesController implements Initializable {
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
 
         imagenActividad.setImage(actividad_seleccionada.getImagen());
+        centrarImagen();
 
         //al clicar en una actividad, los elementos visuales centrales se habilitan
         paneDescripcion.setDisable(false);
@@ -186,7 +189,7 @@ public class EscenaActividadesController implements Initializable {
             alerta = new Alert(Alert.AlertType.CONFIRMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText("Confirma tu Actividad");
-            alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + " a tu Pack?");
+            alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(total) + "€ a tu Pack?");
 
             Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
@@ -272,8 +275,27 @@ public class EscenaActividadesController implements Initializable {
 
     @FXML
     private void alSeleccionarFechaInicio(ActionEvent event) { //lo que se selecciona se le hace un set al objeto detallepacks.
-        detalleActividad.setFechaInicio(pickerInicio.getValue());
-        System.out.println(pickerInicio.getValue());
+        
+        LocalDate fechaInicio = pickerInicio.getValue();
+        
+        if (fechaInicio.isAfter(LocalDate.now()) || fechaInicio.isEqual(LocalDate.now())) {
+            
+            detalleActividad.setFechaInicio(pickerInicio.getValue());
+            System.out.println(pickerInicio.getValue());
+        }
+        
+        else{
+        
+         alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("ERROR");
+            alerta.setHeaderText("Introduce una fecha Correcta");
+            alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
+
+            alerta.showAndWait();
+        
+        
+        }
+        
 
     }
 
@@ -284,7 +306,7 @@ public class EscenaActividadesController implements Initializable {
         if (fechafin.isAfter(fechaIni)) {
 
             detalleActividad.setFechaFin(pickerFin.getValue());
-            fieldDuracion.setText("" + detalleActividad.calcularDiasActividad());
+            textDias.setText("" + detalleActividad.calcularDiasActividad());
         } else {
 
             alerta = new Alert(Alert.AlertType.ERROR);
@@ -301,13 +323,13 @@ public class EscenaActividadesController implements Initializable {
         textPrecio.clear();
         paneDescripcion.setDisable(true);
         spinnerPersonas.setValueFactory(personas);
-       fieldDuracion.setEditable(false);
+    
         pickerInicio.setValue(LocalDate.now());
         pickerFin.setValue(LocalDate.now().plusDays(1));
         pickerInicio.setEditable(false);
 
         pickerFin.setEditable(false);
-        fieldDuracion.clear();
+        textDias.setText("0");
     }
 
     @FXML
@@ -372,6 +394,39 @@ public class EscenaActividadesController implements Initializable {
         detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()));
 
     }
+    
+    
+    private void centrarImagen(){
+    
+    Image img = imagenActividad.getImage();
+        if (img != null) {
+            double w = 0;
+            double h = 0;
+
+            double ratioX = imagenActividad.getFitWidth() / img.getWidth();
+            double ratioY = imagenActividad.getFitHeight() / img.getHeight();
+
+            double reducCoeff = 0;
+            if(ratioX >= ratioY) {
+                reducCoeff = ratioY;
+            } else {
+                reducCoeff = ratioX;
+            }
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            imagenActividad.setX((imagenActividad.getFitWidth() - w) / 2);
+            imagenActividad.setY((imagenActividad.getFitHeight() - h) / 2);
+
+        }
+    
+    
+    
+    
+    
+    }
+
 
     //GETTERS Y SETTERS DE PASO DE PARAMETROS ENTRE ESCENAS
     public ArrayList<DetallePacks> getListaDetalleActividadesSeleccionadas() {

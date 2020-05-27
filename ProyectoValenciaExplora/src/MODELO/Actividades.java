@@ -23,6 +23,16 @@ public class Actividades {
     private String tipo;
     private String subtipo;
     private Image imagen;
+    
+    private String URL_IMAGEN;
+
+    public String getURL_IMAGEN() {
+        return URL_IMAGEN;
+    }
+
+    public void setURL_IMAGEN(String URL_IMAGEN) {
+        this.URL_IMAGEN = URL_IMAGEN;
+    }
 
     public Image getImagen() {
         return imagen;

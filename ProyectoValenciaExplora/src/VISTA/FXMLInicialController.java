@@ -28,6 +28,8 @@ public class FXMLInicialController implements Initializable {
     private Label label;
     @FXML
     private Button botonEmpezar;
+    @FXML
+    private Button botonAdmin;
     
    
     
@@ -38,13 +40,12 @@ public class FXMLInicialController implements Initializable {
 
     @FXML
     private void alPulsarIniciar(ActionEvent event) { //al pulsar el botoón cambiamos a la primera escena importante
-        abreotraescena(event);
+        abreEscenaActividades(event);
         
     }
     
     
-     @FXML
-    private void abreotraescena(ActionEvent event) {
+    private void abreEscenaActividades(ActionEvent event) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -64,5 +65,35 @@ public class FXMLInicialController implements Initializable {
             alerta.showAndWait();
         }
     
+} 
+    
+    
+    private void abreEscenaAdmin(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            //CARGAMOS OTRO FXML
+            loader.setLocation(getClass().getResource("EscenaMantenimiento.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+
+            Stage escenarioVentana = (Stage) botonAdmin.getScene().getWindow();
+            escenarioVentana.setTitle("Administrador");
+            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+            escenarioVentana.setScene(new Scene(root)); 
+           
+            
+        } catch (IOException ex) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+    
 }
+
+
+    @FXML
+    private void alPulsarAdmin(ActionEvent event) {
+        
+        abreEscenaAdmin(event);
+    }
 }

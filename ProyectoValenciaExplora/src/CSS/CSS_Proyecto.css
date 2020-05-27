@@ -174,3 +174,49 @@ and open the template in the editor.
     -fx-background-color:#e4e4fd;
     
 }
+
+#paneHorizontal {
+    
+    -fx-background-color:#e4e4fd;
+    -fx-border-width: 0px 0px 5px 0px;  
+  -fx-border-color: #003366;    
+    
+    
+    
+}
+
+#botonMantenimiento{
+    
+    -fx-background-radius: 5px;
+    -fx-background-color:#6699ff;
+    -fx-text-fill:white;
+    -fx-text-size:10px;
+    
+    
+    
+    
+    
+}
+
+#botonMantenimiento:hover{
+    
+    -fx-background-radius: 5px;
+    -fx-background-color:#ccccff;
+    -fx-text-fill:black;
+    -fx-text-size:10px;
+    
+    
+    
+}
+
+#pane4lados{
+    
+    
+    -fx-background-color:#e4e4fd;
+     -fx-border-width: 5px 5px 5px 5px;  
+     -fx-border-color: #003366;
+    
+    
+    
+    
+}

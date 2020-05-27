@@ -31,23 +31,27 @@
       <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="692.0" prefWidth="505.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <children>
             <Text layoutX="79.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
-            <Text layoutX="310.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
+            <Text layoutX="271.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio Unitario" />
             <Spinner fx:id="spinnerPersonas" layoutX="149.0" layoutY="561.0" onMouseClicked="#alPulsarPersonas" prefHeight="10.0" prefWidth="60.0" stylesheets="@../CSS/CSS_Proyecto.css" />
             <TextArea fx:id="areaDescripcion" editable="false" layoutX="79.0" layoutY="283.0" prefHeight="260.0" prefWidth="382.0" stylesheets="@../CSS/CSS_Proyecto.css" />
             <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="356.0" layoutX="92.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
             <TextField fx:id="textPrecio" layoutX="358.0" layoutY="561.0" onAction="#alIntroducirPrecio" prefHeight="25.0" prefWidth="103.0" />
-            <DatePicker fx:id="pickerInicio" layoutX="79.0" layoutY="609.0" onAction="#alSeleccionarFechaInicio" />
-            <DatePicker fx:id="pickerFin" layoutX="79.0" layoutY="653.0" onAction="#alSeleccionarFechaFin" />
+            <DatePicker fx:id="pickerInicio" layoutX="68.0" layoutY="609.0" onAction="#alSeleccionarFechaInicio" />
+            <DatePicker fx:id="pickerFin" layoutX="68.0" layoutY="653.0" onAction="#alSeleccionarFechaFin" />
             <ComboBox fx:id="comboDuracion" layoutX="404.0" layoutY="653.0" onAction="#alSeleccionarDuracion" prefHeight="25.0" prefWidth="89.0" />
-            <TextField fx:id="fieldDuracion" layoutX="438.0" layoutY="609.0" prefHeight="25.0" prefWidth="47.0" />
-            <Text layoutX="310.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
-            <Text layoutX="34.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
-            <Text layoutX="37.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
+            <Text layoutX="297.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
+            <Text layoutX="22.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
+            <Text layoutX="22.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
             <Text layoutX="332.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duración" />
+            <Text fx:id="textDias" layoutX="455.0" layoutY="630.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
-      <Button fx:id="botonANADIR" layoutX="657.0" layoutY="810.0" mnemonicParsing="false" onAction="#alPulsarAnadir" text="Añadir a tu Experiencia" />
-      <Button fx:id="botonRevisarConfirmar" layoutX="957.0" layoutY="810.0" mnemonicParsing="false" onAction="#alPulsarRevisar" text="Revisa y Confirma tu Pack" />
+      <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsarAnadir" text="Añadir a tu Experiencia" />
+      <Button fx:id="botonRevisarConfirmar" layoutX="1391.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsarRevisar" text="Revisa y Confirma tu Pack" />
       <Button fx:id="botonBorrar" layoutX="1117.0" layoutY="252.0" mnemonicParsing="false" onAction="#alPulsarBorrar" text="Borra Tu Pack" />
       <Text layoutX="1434.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
       <TextArea fx:id="areaInfoActividad" layoutX="1117.0" layoutY="305.0" prefHeight="338.0" prefWidth="264.0" />

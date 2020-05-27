@@ -4,12 +4,18 @@
  * and open the template in the editor.
  */
 package DatosBDA;
+
 import MODELO.Actividades;
+import MODELO.Packs;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,16 +31,11 @@ import javax.imageio.ImageIO;
  * @author 34679
  */
 public class Actividades_DAO {
-    
-   
-    
-
-    
-
-    public Set<Actividades> buscarActividades(Connection conexion) throws SQLException, IOException{
+PreparedStatement ps;
+    public Set<Actividades> buscarActividades(Connection conexion) throws SQLException, IOException {
 //BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
         Set<Actividades> listaActividades = new HashSet<>();
-        PreparedStatement ps;
+        
         ResultSet rs;
         String consulta;
 
@@ -50,11 +51,11 @@ public class Actividades_DAO {
             while (rs.next()) {
 
                 Blob blob = rs.getBlob("a.Imagen");
-                byte[] data = blob.getBytes(1, (int)blob.length());
+                byte[] data = blob.getBytes(1, (int) blob.length());
                 BufferedImage B_img = ImageIO.read(new ByteArrayInputStream(data));
-              
-                Image image= SwingFXUtils.toFXImage(B_img, null);
-                
+
+                Image image = SwingFXUtils.toFXImage(B_img, null);
+
                 //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
                 Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
@@ -67,12 +68,62 @@ public class Actividades_DAO {
                 listaActividades.add(actividad); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
 
             }
-            
-        
 
         }
-        
-        
+
         return listaActividades;
-}
+    }
+    
+      public void insertarActividad(Connection conexion, Actividades actividad) throws SQLException, IOException {
+
+        int x = 0;
+        String consulta;
+        File archivo= new File(actividad.getURL_IMAGEN());
+        FileInputStream input= new FileInputStream(archivo);
+
+        consulta = "INSERT INTO actividades VALUES (?,?,?,?,?,?)";
+
+        ps = conexion.prepareStatement(consulta);
+
+        //PARAMETROS
+        ps.setInt(1, actividad.getIdActividad());              // primer parametro
+        ps.setInt(2, actividad.getCodigoSubtipo());  // segundo parÃ¡metro
+        ps.setString(3, actividad.getNombre());  	 // tercer parÃ¡metro 
+        ps.setString(4, actividad.getDescripcion());
+        ps.setString(5, actividad.getURL());
+        ps.setBlob(6, input );
+
+        // cuarto parÃ¡metro
+        x += ps.executeUpdate();
+
+        System.out.println(x + " filas insertadas");
+
+    } 
+      
+      
+    public int buscarMAX_IDatividad(Connection conexion) throws SQLException { 
+        
+        //METODO IMPORTANTE!, OFRECE ACTUALIZADA LA ID DE PACK MÁS ACTUAL, PARA EVITAR FALLOS DE PK EN BD
+        int idPack = 0;
+        
+        ResultSet rs;
+        String consulta;
+
+        if (conexion != null) {
+
+            consulta = "SELECT MAX(idActividad) FROM actividades";
+            ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = ps.executeQuery();
+            while (rs.next()){ //avanza a la fila siguiente
+ 
+
+            idPack = rs.getInt("MAX(idActividad)");
+            System.out.println(idPack);
+            }
+        }
+
+        return idPack;
+
+    }
+
 }

@@ -21,6 +21,11 @@
                </font>
             </Button>
             <Text layoutX="291.0" layoutY="636.0" strokeType="OUTSIDE" strokeWidth="0.0" text="©Valencia Explora" />
+            <Button fx:id="botonAdmin" layoutX="140.0" layoutY="444.0" mnemonicParsing="false" onAction="#alPulsarAdmin" prefHeight="43.0" prefWidth="143.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Administrador">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Text id="textoInicial" layoutX="95.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a Valencia Explora" wrappingWidth="213.57030487060547">
