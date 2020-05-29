@@ -56,14 +56,13 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     private Tipo tipo;
     private Subtipo subtipo;
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
-    private ObservableList<String> listaAcciones = FXCollections.observableArrayList("Añadir Actividad", "Modificar Actividad", "Eliminar Actividad");
     private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
     private Alert alerta;
     @FXML
     private Button botonATRAS;
     @FXML
     private Button botonGuardar;
-    private ComboBox<String> comboAccion;
+   
     @FXML
     private ComboBox<Subtipo> comboSubtipo;
     @FXML

@@ -136,6 +136,7 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
 
             //PASAMOS UN DATO AL CONTROLADOR
             controlador.setConexion(conexion);
+            controlador.metodoEjecutaAlInicio();
             //controlador.metodoEjecutaAlInicio();
             
             Stage escenarioVentana = (Stage) botonAnadirAct.getScene().getWindow();
