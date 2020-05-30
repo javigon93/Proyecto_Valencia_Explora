@@ -306,6 +306,11 @@ public class EscenaActividadesController implements Initializable {
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
+        catch (NullPointerException ex) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaRevisarConfirmar.fxml");
+            alerta.showAndWait();
+        }
 
     }
 
@@ -326,6 +331,11 @@ public class EscenaActividadesController implements Initializable {
         } catch (IOException ex) {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+        catch (NullPointerException ex) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
             alerta.showAndWait();
         }
 
@@ -498,6 +508,7 @@ public class EscenaActividadesController implements Initializable {
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
+        
 
     }
 }

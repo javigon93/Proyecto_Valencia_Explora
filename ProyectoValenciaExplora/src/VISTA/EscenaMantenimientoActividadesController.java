@@ -274,7 +274,14 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         cargarTipos();
         Image imagen_inicial= new  Image("Icono/iconoAplicacion.png");
-        imageViewSeleccion.setImage(imagen_inicial);
+        try {
+            imageViewSeleccion.setImage(imagen_inicial);
+        } catch (NullPointerException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR al CARGAR LOGOTIPO ");
+            alerta.showAndWait();
+        }
+        
         centrarImagen();
     }
 

@@ -101,8 +101,12 @@ public class EscenaRevisarConfirmarController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-             alerta = new Alert(Alert.AlertType.ERROR);
+            alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        } catch (NullPointerException e){
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
             alerta.showAndWait();
         }
 
@@ -127,6 +131,11 @@ public class EscenaRevisarConfirmarController implements Initializable {
         } catch (IOException ex) {
              alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+     catch (NullPointerException e){
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
             alerta.showAndWait();
         }
 
@@ -208,9 +217,9 @@ public class EscenaRevisarConfirmarController implements Initializable {
     
     @FXML
     private void alPulsarDescripcion(ActionEvent event) { //se añade la descripción y se avisa de que se ha agregado.
-
+        if(!fieldDescripción.getText().equals(null)){
         pack.setDescripcion(fieldDescripción.getText());
-
+        }
 //        alerta = new Alert(Alert.AlertType.INFORMATION);
 //        alerta.setTitle("Descripción Incluída");
 //        alerta.setHeaderText("Se ha completado la actualización de la descripción");

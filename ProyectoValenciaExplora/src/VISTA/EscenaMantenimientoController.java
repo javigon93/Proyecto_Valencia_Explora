@@ -29,6 +29,7 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class EscenaMantenimientoController implements Initializable {
+    Alert alerta;
     Connection conexion;
     @FXML
     private Button botonGestionAct;
@@ -137,6 +138,10 @@ public class EscenaMantenimientoController implements Initializable {
         } catch (IOException ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        } catch (NullPointerException e){
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
             alerta.showAndWait();
         }
     

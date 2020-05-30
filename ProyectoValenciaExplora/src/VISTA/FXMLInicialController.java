@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class FXMLInicialController implements Initializable {
-    
+    Alert alerta;
     private Label label;
     @FXML
     private Button botonEmpezar;
@@ -64,6 +64,11 @@ public class FXMLInicialController implements Initializable {
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
+            catch (NullPointerException e){
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO escenaActividades.fxml");
+            alerta.showAndWait();
+        }
     
 } 
     
@@ -85,6 +90,10 @@ public class FXMLInicialController implements Initializable {
         } catch (IOException ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        } catch (NullPointerException e){
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO EscenaMantenimiento.fxml");
             alerta.showAndWait();
         }
     

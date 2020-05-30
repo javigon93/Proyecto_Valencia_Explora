@@ -122,6 +122,11 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
+        catch (NullPointerException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaMantenimientoActividades.fxml");
+            alerta.showAndWait();
+        }
     
 }
       
@@ -148,6 +153,11 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
         } catch (IOException ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+        catch (NullPointerException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
             alerta.showAndWait();
         }
     

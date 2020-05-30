@@ -200,6 +200,12 @@ public class EscenaModificarBorrarController implements Initializable {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
+        } catch (NullPointerException e){
+            
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+            alerta.showAndWait();
+        
         }
 
     }
@@ -209,16 +215,24 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     public void metodoEjecutaAlInicio() {
-
+        Image imagen_inicial;
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         cargarTipos();
         bd_actividades = new Actividades_DAO();
 
         bd_detalle = new DetallePacks_DAO();
         cargarActividades();
-        Image imagen_inicial = new Image("IMG/nofoto.png");
+        try {
+            imagen_inicial = new Image("IMG/nofoto.png");
+            imageViewSeleccion.setImage(imagen_inicial);
+        } catch (NullPointerException e) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR EN EL ARCHIVO IMG/nofoto.png");
+            alerta.showAndWait();
+        }
+        
 
-        imageViewSeleccion.setImage(imagen_inicial);
+        
         centrarImagen();
         habilitarFiltrado();
 
@@ -253,8 +267,8 @@ public class EscenaModificarBorrarController implements Initializable {
 
     @FXML
     private void alSeleccionarActividad(MouseEvent event) {
-
-        actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
+        try {
+            actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
         System.out.println(actividad_seleccionada.getIdActividad());
         System.out.println(actividad_seleccionada.getCodigoSubtipo());
         fieldNombre.setText(actividad_seleccionada.getNombre());
@@ -263,6 +277,12 @@ public class EscenaModificarBorrarController implements Initializable {
         imageViewSeleccion.setImage(actividad_seleccionada.getImagen());
         centrarImagen();
         blanquearFields();
+        } catch (NullPointerException e) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
+            alerta.showAndWait();
+        }
+        
 
     }
 
