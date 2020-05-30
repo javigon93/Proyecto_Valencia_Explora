@@ -5,11 +5,14 @@
  */
 package DatosBDA;
 
+import MODELO.Actividades;
 import java.sql.Connection;
 
 import MODELO.DetallePacks;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 /**
@@ -77,5 +80,25 @@ public class DetallePacks_DAO {
     }
     
     
+    public void eliminarRegistroDetalle(Connection conexion, int id) throws SQLException, IOException {
+
+        int x = 0;
+        String consulta;
+        
+
+        consulta = "DELETE FROM detallepacks WHERE idActividad=?";
+
+        ps = conexion.prepareStatement(consulta);
+
+        //PARAMETROS
+        ps.setInt(1, id);              // primer parametro
+        
+
+        // cuarto parÃ¡metro
+        x += ps.executeUpdate();
+
+        System.out.println(x + " filas eliminadas");
+
+    }
     
 }

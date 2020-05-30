@@ -43,7 +43,7 @@ public class Actividades_DAO {
 
         if (conexion != null) {
 
-            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion,a.codigoSubtipo s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen "
+            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion,a.codigoSubtipo, s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen "
                     + "FROM tipo t "
                     + "INNER JOIN subtipo s INNER JOIN actividades a "
                     + "ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo";
@@ -113,9 +113,9 @@ public class Actividades_DAO {
 
             consulta = "UPDATE actividades SET codigoSubtipo=?, nombre=?, descripcion=?, url=? WHERE idActividad=?";
             ps = conexion.prepareStatement(consulta);
-            ps.setInt(1, actividad.getCodigoSubtipo());              // primer parametro
-            ps.setString(2, actividad.getNombre());  // segundo parÃ¡metro
-            ps.setString(3, actividad.getDescripcion());  	 // tercer parÃ¡metro 
+            ps.setInt(1, actividad.getCodigoSubtipo());
+            ps.setString(2, actividad.getNombre());
+            ps.setString(3, actividad.getDescripcion());
             ps.setString(4, actividad.getURL());
             ps.setInt(5, actividad.getIdActividad());
 
@@ -131,7 +131,7 @@ public class Actividades_DAO {
             ps.setBlob(5, input);
             ps.setInt(6, actividad.getIdActividad());
         }
-        
+
         //PARAMETROS
         // cuarto parÃ¡metro
         x += ps.executeUpdate();
@@ -173,7 +173,7 @@ public class Actividades_DAO {
 
         if (conexion != null) {
 
-            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo WHERE t.codigoTipo =?";
+            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo',a.codigoSubtipo, a.idActividad, a.url, a.Imagen FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo WHERE t.codigoTipo =?";
             ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, codigoTipo);
             rs = ps.executeQuery();
@@ -187,7 +187,7 @@ public class Actividades_DAO {
                 Image image = SwingFXUtils.toFXImage(B_img, null);
 
                 //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
-                Actividades actividad = new Actividades();
+               Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
                 actividad.setDescripcion(rs.getString("a.descripcion"));
@@ -195,6 +195,7 @@ public class Actividades_DAO {
                 actividad.setNombre(rs.getString("a.nombre"));
                 actividad.setURL(rs.getString("a.url"));
                 actividad.setImagen(image);
+                actividad.setCodigoSubtipo(rs.getInt("a.codigoSubtipo"));
                 listaActividades.add(actividad); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
 
             }
@@ -213,7 +214,7 @@ public class Actividades_DAO {
 
         if (conexion != null) {
 
-            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo', a.idActividad, a.url, a.Imagen FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo WHERE s.codigoSubtipo =?";
+            consulta = "SELECT a.nombre,t.nombre AS 'tipo', a.descripcion, s.nombre AS 'subtipo',a.codigoSubtipo, a.idActividad, a.url, a.Imagen FROM tipo t INNER JOIN subtipo s INNER JOIN actividades a ON t.codigotipo=s.codigotipo AND s.codigoSubtipo= a.codigosubtipo WHERE s.codigoSubtipo =?";
             ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, codigoSubtipo);
             rs = ps.executeQuery();
@@ -226,8 +227,7 @@ public class Actividades_DAO {
 
                 Image image = SwingFXUtils.toFXImage(B_img, null);
 
-                //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
-                Actividades actividad = new Actividades();
+               Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
                 actividad.setDescripcion(rs.getString("a.descripcion"));
@@ -235,13 +235,34 @@ public class Actividades_DAO {
                 actividad.setNombre(rs.getString("a.nombre"));
                 actividad.setURL(rs.getString("a.url"));
                 actividad.setImagen(image);
+                actividad.setCodigoSubtipo(rs.getInt("a.codigoSubtipo"));
                 listaActividades.add(actividad); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
-
             }
 
         }
 
         return listaActividades;
+    }
+
+    public void borrarActividad(Connection conexion, Actividades actividad) throws SQLException, IOException {
+
+        int x = 0;
+        String consulta;
+        
+
+        consulta = "DELETE FROM actividades WHERE idActividad=?";
+
+        ps = conexion.prepareStatement(consulta);
+
+        //PARAMETROS
+        ps.setInt(1, actividad.getIdActividad());              // primer parametro
+        
+
+        // cuarto parÃ¡metro
+        x += ps.executeUpdate();
+
+        System.out.println(x + " filas eliminadas");
+
     }
 
 }

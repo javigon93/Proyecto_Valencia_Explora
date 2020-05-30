@@ -37,6 +37,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -187,23 +191,18 @@ public class EscenaMantenimientoActividadesController implements Initializable {
                 imageViewSeleccion.setImage(imagen_anadir);
                 centrarImagen();
             } else {
-
+                
+                textRuta.setText("No has seleccionado ningún fichero");
+                //Setting font to the text 
+     //Setting font to the text 
+      //text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20)); 
+               textRuta.setFill(Color.RED); 
             }
 
         }
 
     }
 
-//    @FXML
-//    private void alSeleccionarAccion(ActionEvent event) {
-//        String accion = comboAccion.getValue();
-//
-//        if (comboAccion.getSelectionModel().getSelectedIndex() == 0) {
-//            mostrarElementosAñadir();
-//
-//        }
-//
-//    }
 
     @FXML
     private void alSeleccionarSubtipo(ActionEvent event) {
@@ -302,55 +301,8 @@ public class EscenaMantenimientoActividadesController implements Initializable {
 
     }
 
-//    private void mostrarElementosAñadir() {
-//
-//        botonGuardar.setVisible(true);
-//        botonImagen.setVisible(true);
-//        comboSubtipo.setVisible(true);
-//        comboTipoActividad.setVisible(true);
-//        fieldDescripción.setVisible(true);
-//        fieldNombre.setVisible(true);
-//        fieldURL.setVisible(true);
-//
-//        textDescripcion.setVisible(true);
-//        textImagen.setVisible(true);
-//        textNombre.setVisible(true);
-//        textRuta.setVisible(true);
-//        textSubtipoAct.setVisible(true);
-//        textTipoAct.setVisible(true);
-//        textURL.setVisible(true);
-//
-//    }
 
-    private void mostrarElementosModificar() {
 
-    }
-
-    private void mostrarElementosEliminar() {
-
-    }
-
-//    private void invisibilizarTodo() {
-//
-//        botonGuardar.setVisible(false);
-//        botonImagen.setVisible(false);
-//        comboSubtipo.setVisible(false);
-//        comboTipoActividad.setVisible(false);
-//        fieldDescripción.setVisible(false);
-//        fieldNombre.setVisible(false);
-//        fieldURL.setVisible(false);
-//
-//        textDescripcion.setVisible(false);
-//        textImagen.setVisible(false);
-//        textNombre.setVisible(false);
-//        textRuta.setVisible(false);
-//        textSubtipoAct.setVisible(false);
-//        textTipoAct.setVisible(false);
-//        textURL.setVisible(false);
-//
-//        
-//
-//    }
 
     private void cargarEscenaMantenimiento() {
 
@@ -359,9 +311,12 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             //CARGAMOS OTRO FXML
             loader.setLocation(getClass().getResource("escenaEleccionMantenimientoAct.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
-
+            EscenaEleccionMantenimientoActController controlador= loader.getController();
+            
+            controlador.setConexion(conexion);
             Stage escenarioVentana = (Stage) botonATRAS.getScene().getWindow();
             escenarioVentana.setTitle("Mantenimiento");
+            
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root));
 

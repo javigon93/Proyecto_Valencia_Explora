@@ -109,9 +109,11 @@ public class EscenaActividadesController implements Initializable {
     private Text textPrecioTotal;
     @FXML
     private ComboBox<String> comboDuracion;
-   
+
     @FXML
     private Text textDias;
+    @FXML
+    private Button botonSalir;
 
     /**
      * Initializes the controller class.
@@ -165,6 +167,77 @@ public class EscenaActividadesController implements Initializable {
     }
 
     @FXML
+    private void alPulsar(ActionEvent event) {
+
+        if (event.getSource() == botonSalir) {
+            
+            abreEscenaInicio(event);
+
+        } else if (event.getSource() == botonANADIR) {
+
+            //si todo está rellenado, avisa de la introducción de una nueva actividad, al confirmar, se añade a una coleccion y se imprime información en las areas de la derecha a través de un método
+            // cuando se añade a la colección, los elementos visuales centrales se vuelven a deshabilitar
+            if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null && detalleActividad.getPrecio() != 0 && detalleActividad.getDuracion() != null) {
+
+                alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText("Confirma tu Actividad");
+                alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual()) + "€ a tu Pack?");
+
+                Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+
+                if (respuestaUsuario.get() == ButtonType.OK) {
+
+                    imprimirDetalleyPrecio();
+                    listaDetalleActividadesSeleccionadas.add(detalleActividad);
+                    panePorDefecto();
+                    detalleActividad = new DetallePacks();
+
+                }
+
+            } else { //si algo falta, salta un alert de error.
+
+                alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("ERROR");
+                alerta.setHeaderText("Error!");
+                alerta.setContentText("Introduce todos los datos antes de continuar");
+
+                alerta.showAndWait();
+
+            }
+        } else if (event.getSource() == botonRevisarConfirmar) {
+            abreEscenaRevisarConfirmar(event);
+
+        } else if (event.getSource() == botonBorrar) { //salta un alert confirmation, si se da OK, se resetean todos los valores del objeto detallepacks y se borra la colección
+
+            if (listaDetalleActividadesSeleccionadas.isEmpty() == false) {
+
+                alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText("Confirma la Eliminación");
+                alerta.setContentText("¿Deseas eliminar tu pack?");
+
+                Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
+
+                if (respuestaUsuario.get() == ButtonType.OK) {
+                    areaDescripcion.clear();
+                    areaPrecio.clear();
+                    areaInfoActividad.clear();
+                    listaDetalleActividadesSeleccionadas.clear();
+                    panePorDefecto(); //también se deshabilita los elementos centrales
+                    texto = "";
+                    total = 0;
+                    textPrecioTotal.setText("Total: ");
+
+                }
+
+            }
+
+        }
+
+    }
+
+    @FXML
     private void alpulsarActividad(MouseEvent event) {
 
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
@@ -179,41 +252,6 @@ public class EscenaActividadesController implements Initializable {
         areaDescripcion.setText(actividad_seleccionada.getDescripcion() + "\n\nMás Información en: " + actividad_seleccionada.getURL());
         detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad()); ///se añade la id de actividad al objeto detalleActividad aquí, 
         //a travvés del valor que ofrece la actividad seleccionda
-    }
-
-    @FXML
-    private void alPulsarAnadir(ActionEvent event) { //si todo está rellenado, avisa de la introducción de una nueva actividad, al confirmar, se añade a una coleccion y se imprime información en las areas de la derecha a través de un método
-        // cuando se añade a la colección, los elementos visuales centrales se vuelven a deshabilitar
-        if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null && detalleActividad.getPrecio() != 0 && detalleActividad.getDuracion() != null) {
-
-            alerta = new Alert(Alert.AlertType.CONFIRMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText("Confirma tu Actividad");
-            alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(total) + "€ a tu Pack?");
-
-            Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
-
-            if (respuestaUsuario.get() == ButtonType.OK) {
-
-                imprimirDetalleyPrecio();
-                listaDetalleActividadesSeleccionadas.add(detalleActividad);
-                 panePorDefecto();
-                detalleActividad = new DetallePacks();
-               
-
-            }
-
-        } else { //si algo falta, salta un alert de error.
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("ERROR");
-            alerta.setHeaderText("Error!");
-            alerta.setContentText("Introduce todos los datos antes de continuar");
-
-            alerta.showAndWait();
-
-        }
-
     }
 
     @FXML
@@ -240,12 +278,7 @@ public class EscenaActividadesController implements Initializable {
         }
     }
 
-    @FXML
-    private void alPulsarRevisar(ActionEvent event) { //si se pulsa se ejecuta el método de paso a la escena de Confirmación
-        abreotraescena(event);
-    }
-
-    private void abreotraescena(ActionEvent event) { //este método pasa a otra escena, y al mismo tiempo traslada los algunos parámetros a esa otra escena (conexión, colección detallePacks, precio total, y el texto de resumen.
+    private void abreEscenaRevisarConfirmar(ActionEvent event) { //este método pasa a otra escena, y al mismo tiempo traslada los algunos parámetros a esa otra escena (conexión, colección detallePacks, precio total, y el texto de resumen.
         //Tambiñen se ejecuta un método de carga previa de algunos valores en algunos elementos de la otra escena (metodoEjecutarAlInicio)
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -273,29 +306,47 @@ public class EscenaActividadesController implements Initializable {
 
     }
 
+    private void abreEscenaInicio(ActionEvent event) { //este método pasa a otra escena, y al mismo tiempo traslada los algunos parámetros a esa otra escena (conexión, colección detallePacks, precio total, y el texto de resumen.
+        //Tambiñen se ejecuta un método de carga previa de algunos valores en algunos elementos de la otra escena (metodoEjecutarAlInicio)
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            //CARGAMOS OTRO FXML
+            loader.setLocation(getClass().getResource("/VISTA/FXMLInicial.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+
+            Stage escenarioVentana = (Stage) botonRevisarConfirmar.getScene().getWindow();
+            escenarioVentana.setTitle("Revisar Y Confirmar");
+
+            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+            escenarioVentana.setScene(new Scene(root));
+
+        } catch (IOException ex) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+
+    }
+
     @FXML
     private void alSeleccionarFechaInicio(ActionEvent event) { //lo que se selecciona se le hace un set al objeto detallepacks.
-        
+
         LocalDate fechaInicio = pickerInicio.getValue();
-        
+
         if (fechaInicio.isAfter(LocalDate.now()) || fechaInicio.isEqual(LocalDate.now())) {
-            
+
             detalleActividad.setFechaInicio(pickerInicio.getValue());
             System.out.println(pickerInicio.getValue());
-        }
-        
-        else{
-        
-         alerta = new Alert(Alert.AlertType.ERROR);
+        } else {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("ERROR");
             alerta.setHeaderText("Introduce una fecha Correcta");
             alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
 
             alerta.showAndWait();
-        
-        
+
         }
-        
 
     }
 
@@ -323,41 +374,13 @@ public class EscenaActividadesController implements Initializable {
         textPrecio.clear();
         paneDescripcion.setDisable(true);
         spinnerPersonas.setValueFactory(personas);
-    
+
         pickerInicio.setValue(LocalDate.now());
         pickerFin.setValue(LocalDate.now().plusDays(1));
         pickerInicio.setEditable(false);
 
         pickerFin.setEditable(false);
         textDias.setText("0");
-    }
-
-    @FXML
-    private void alPulsarBorrar(ActionEvent event) { //salta un alert confirmation, si se da OK, se resetean todos los valores del objeto detallepacks y se borra la colección
-
-        if (listaDetalleActividadesSeleccionadas.isEmpty() == false) {
-
-            alerta = new Alert(Alert.AlertType.CONFIRMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText("Confirma la Eliminación");
-            alerta.setContentText("¿Deseas eliminar tu pack?");
-
-            Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
-
-            if (respuestaUsuario.get() == ButtonType.OK) {
-                areaDescripcion.clear();
-                areaPrecio.clear();
-                areaInfoActividad.clear();
-                listaDetalleActividadesSeleccionadas.clear();
-                panePorDefecto(); //también se deshabilita los elementos centrales
-                texto = "";
-                total = 0;
-                textPrecioTotal.setText("Total: ");
-
-            }
-
-        }
-
     }
 
     private void imprimirDetalleyPrecio() { //para mostrar info de lo que tenemos guardado en la coleccion de detalle. Aprovechamos los objetos  (detallepacks y actividades) que se están utilziando
@@ -394,11 +417,10 @@ public class EscenaActividadesController implements Initializable {
         detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()));
 
     }
-    
-    
-    private void centrarImagen(){
-    
-    Image img = imagenActividad.getImage();
+
+    private void centrarImagen() {
+
+        Image img = imagenActividad.getImage();
         if (img != null) {
             double w = 0;
             double h = 0;
@@ -407,7 +429,7 @@ public class EscenaActividadesController implements Initializable {
             double ratioY = imagenActividad.getFitHeight() / img.getHeight();
 
             double reducCoeff = 0;
-            if(ratioX >= ratioY) {
+            if (ratioX >= ratioY) {
                 reducCoeff = ratioY;
             } else {
                 reducCoeff = ratioX;
@@ -420,13 +442,8 @@ public class EscenaActividadesController implements Initializable {
             imagenActividad.setY((imagenActividad.getFitHeight() - h) / 2);
 
         }
-    
-    
-    
-    
-    
-    }
 
+    }
 
     //GETTERS Y SETTERS DE PASO DE PARAMETROS ENTRE ESCENAS
     public ArrayList<DetallePacks> getListaDetalleActividadesSeleccionadas() {
@@ -452,5 +469,6 @@ public class EscenaActividadesController implements Initializable {
     public void setTotal(double total) {
         this.total = total;
     }
+
 
 }

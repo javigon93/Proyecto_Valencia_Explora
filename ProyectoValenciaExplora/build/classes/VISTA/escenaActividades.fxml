@@ -50,9 +50,9 @@
             </Text>
          </children>
       </Pane>
-      <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsarAnadir" text="Añadir a tu Experiencia" />
-      <Button fx:id="botonRevisarConfirmar" layoutX="1391.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsarRevisar" text="Revisa y Confirma tu Pack" />
-      <Button fx:id="botonBorrar" layoutX="1117.0" layoutY="252.0" mnemonicParsing="false" onAction="#alPulsarBorrar" text="Borra Tu Pack" />
+      <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Añadir a tu Experiencia" />
+      <Button fx:id="botonRevisarConfirmar" layoutX="1391.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Revisa y Confirma tu Pack" />
+      <Button fx:id="botonBorrar" layoutX="1117.0" layoutY="252.0" mnemonicParsing="false" onAction="#alPulsar" text="Borra Tu Pack" />
       <Text layoutX="1434.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
       <TextArea fx:id="areaInfoActividad" layoutX="1117.0" layoutY="305.0" prefHeight="338.0" prefWidth="264.0" />
       <TextArea fx:id="areaPrecio" layoutX="1434.0" layoutY="305.0" prefHeight="338.0" prefWidth="103.0" />
@@ -61,5 +61,6 @@
             <Font name="Berlin Sans FB" size="27.0" />
          </font>
       </Text>
+      <Button fx:id="botonSalir" layoutX="1447.0" layoutY="53.0" mnemonicParsing="false" onAction="#alPulsar" text="Salir" />
    </children>
 </AnchorPane>

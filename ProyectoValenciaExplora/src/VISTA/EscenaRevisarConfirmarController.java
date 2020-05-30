@@ -80,7 +80,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
    
 
-    private void abreotraescena(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
+    private void abreEscenaActividades(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
 
 
      try {
@@ -107,10 +107,34 @@ public class EscenaRevisarConfirmarController implements Initializable {
         }
 
     }
+    
+     private void retornoInicio(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
+
+
+     try {
+            FXMLLoader loader = new FXMLLoader();
+            //CARGAMOS OTRO FXML
+            loader.setLocation(getClass().getResource("/VISTA/FXMLInicial.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+           
+
+            
+            Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
+            escenarioVentana.setTitle("Actividades");
+            //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
+            escenarioVentana.setScene(new Scene(root));
+
+        } catch (IOException ex) {
+             alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+
+    }
 
     @FXML
     private void alPulsarAtras(ActionEvent event) { //AL PULSAR EL BOTON ATRAS SE EJECUTA EL MÉTODO DE PASO A OTRA ESCENA
-        abreotraescena(event);
+        abreEscenaActividades(event);
     }
 
     @FXML
@@ -129,6 +153,8 @@ public class EscenaRevisarConfirmarController implements Initializable {
                 alerta.setHeaderText("Se ha actualizado tu Pack");
                 alerta.setContentText("Gracias por Utilizar el servicio!!");
                 alerta.showAndWait();
+                conexion.close();
+                retornoInicio(event);
             } catch (SQLException ex) {
 
                 alerta = new Alert(Alert.AlertType.ERROR);
