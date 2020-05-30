@@ -49,6 +49,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -84,7 +85,6 @@ public class EscenaActividadesController implements Initializable {
     private Label labelDescripcion;
     @FXML
     private TextArea areaDescripcion;
-    @FXML
     private ImageView imagenActividad;
     @FXML
     private TableColumn<Actividades, Integer> columnaSubtipo;
@@ -114,6 +114,8 @@ public class EscenaActividadesController implements Initializable {
     private Text textDias;
     @FXML
     private Button botonSalir;
+    @FXML
+    private ImageView botonPaginaWeb;
 
     /**
      * Initializes the controller class.
@@ -155,7 +157,7 @@ public class EscenaActividadesController implements Initializable {
 
         String bd = "esquema_proyecto_2.0";
         String usuario = "root";
-        String password = "Gonzalez_Landete";
+        String password = "root";
         String url = "jdbc:mysql://localhost:3306/" + bd + "?serverTimezone=UTC";
 
         conexion = DriverManager.getConnection(url, usuario, password);
@@ -170,7 +172,7 @@ public class EscenaActividadesController implements Initializable {
     private void alPulsar(ActionEvent event) {
 
         if (event.getSource() == botonSalir) {
-            
+
             abreEscenaInicio(event);
 
         } else if (event.getSource() == botonANADIR) {
@@ -470,5 +472,31 @@ public class EscenaActividadesController implements Initializable {
         this.total = total;
     }
 
+    @FXML
+    private void cargaPagina(MouseEvent event) {
 
+        try {
+            Stage stage = new Stage();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/VISTA/escenaPaginaWeb.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+            EscenaPaginaWebController controlador = loader.getController();
+            controlador.setUrl(actividad_seleccionada.getURL());
+            controlador.abrirWeb();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Más Infomación");
+            stage.alwaysOnTopProperty();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        }
+
+    }
 }

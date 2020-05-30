@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +36,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -105,7 +107,8 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         subtipo = new Subtipo();
         actividad_solicitada = new Actividades();
         bd_actividades = new Actividades_DAO();
-      
+              setURLFiltro(fieldURL);
+
 
 //        invisibilizarTodo();
 
@@ -204,6 +207,19 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     }
 
 
+     public static void setURLFiltro(TextField field) {
+        UnaryOperator<TextFormatter.Change> URLFilter = change -> {
+            String newText = change.getControlNewText();
+            String URLRegex = "(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?";
+            if ( newText.matches(URLRegex) ) {
+                return change;
+            }
+            return null;
+        };
+
+        field.setTextFormatter( new TextFormatter<String>(URLFilter) );
+     }
+    
     @FXML
     private void alSeleccionarSubtipo(ActionEvent event) {
 

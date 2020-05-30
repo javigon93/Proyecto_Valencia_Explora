@@ -55,7 +55,7 @@ public class EscenaMantenimientoController implements Initializable {
 
         String bd = "esquema_proyecto_2.0";
         String usuario = "root";
-        String password = "Gonzalez_Landete";
+        String password = "root";
         String url = "jdbc:mysql://localhost:3306/" + bd + "?serverTimezone=UTC";
 
         conexion = DriverManager.getConnection(url, usuario, password);
