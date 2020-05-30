@@ -34,7 +34,7 @@
             <Text layoutX="271.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio Unitario" />
             <Spinner fx:id="spinnerPersonas" layoutX="149.0" layoutY="561.0" onMouseClicked="#alPulsarPersonas" prefHeight="10.0" prefWidth="60.0" stylesheets="@../CSS/CSS_Proyecto.css" />
             <TextArea fx:id="areaDescripcion" editable="false" layoutX="80.0" layoutY="238.0" prefHeight="260.0" prefWidth="382.0" stylesheets="@../CSS/CSS_Proyecto.css" />
-            <ImageView fx:id="botonPaginaWeb" fitHeight="212.0" fitWidth="382.0" layoutX="79.0" layoutY="14.0" onDragDetected="#cargaPagina" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="382.0" layoutX="79.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <TextField fx:id="textPrecio" layoutX="358.0" layoutY="561.0" onAction="#alIntroducirPrecio" prefHeight="25.0" prefWidth="103.0" />
             <DatePicker fx:id="pickerInicio" layoutX="68.0" layoutY="609.0" onAction="#alSeleccionarFechaInicio" />
             <DatePicker fx:id="pickerFin" layoutX="68.0" layoutY="653.0" onAction="#alSeleccionarFechaFin" />
@@ -48,7 +48,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Button layoutX="80.0" layoutY="510.0" mnemonicParsing="false" text="Más información" />
+            <Button fx:id="boton" layoutX="80.0" layoutY="513.0" mnemonicParsing="false" onAction="#cargaPagina" text="Más información" />
          </children>
       </Pane>
       <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Añadir a tu Experiencia" />

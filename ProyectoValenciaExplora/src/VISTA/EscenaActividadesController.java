@@ -85,6 +85,7 @@ public class EscenaActividadesController implements Initializable {
     private Label labelDescripcion;
     @FXML
     private TextArea areaDescripcion;
+    @FXML
     private ImageView imagenActividad;
     @FXML
     private TableColumn<Actividades, Integer> columnaSubtipo;
@@ -115,7 +116,7 @@ public class EscenaActividadesController implements Initializable {
     @FXML
     private Button botonSalir;
     @FXML
-    private ImageView botonPaginaWeb;
+    private Button boton;
 
     /**
      * Initializes the controller class.
@@ -473,7 +474,7 @@ public class EscenaActividadesController implements Initializable {
     }
 
     @FXML
-    private void cargaPagina(MouseEvent event) {
+    private void cargaPagina(ActionEvent event) {
 
         try {
             Stage stage = new Stage();
@@ -500,3 +501,4 @@ public class EscenaActividadesController implements Initializable {
 
     }
 }
+
