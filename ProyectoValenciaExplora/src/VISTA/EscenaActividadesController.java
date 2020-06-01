@@ -158,7 +158,7 @@ public class EscenaActividadesController implements Initializable {
 
         String bd = "esquema_proyecto_2.0";
         String usuario = "root";
-        String password = "root";
+        String password = "Gonzalez_Landete";
         String url = "jdbc:mysql://localhost:3306/" + bd + "?serverTimezone=UTC";
 
         conexion = DriverManager.getConnection(url, usuario, password);
@@ -497,6 +497,7 @@ public class EscenaActividadesController implements Initializable {
             controlador.abrirWeb();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
             stage.setTitle("Más Infomación");
             stage.alwaysOnTopProperty();
             stage.initModality(Modality.APPLICATION_MODAL);

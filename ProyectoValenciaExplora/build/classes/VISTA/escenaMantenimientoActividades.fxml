@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -23,6 +24,15 @@
                </font>
             </Text>
             <Button fx:id="botonATRAS" layoutX="756.0" layoutY="44.0" mnemonicParsing="false" onAction="#alClicar" text="Atrás" />
+            <Button fx:id="botonAyuda" layoutX="653.0" layoutY="25.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="64.0" prefWidth="68.0">
+               <graphic>
+                  <ImageView fitHeight="44.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../IMG/ayuda.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </Pane>
       <Text layoutX="36.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestión de Actividades" wrappingWidth="314.76686096191406">
@@ -32,7 +42,7 @@
       </Text>
       <Button fx:id="botonGuardar" layoutX="671.0" layoutY="587.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="43.0" prefWidth="127.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Guardar y Continuar" />
       <ComboBox fx:id="comboSubtipo" layoutX="193.0" layoutY="324.0" onAction="#alSeleccionarSubtipo" prefWidth="150.0" />
-      <Text fx:id="textSubtipoAct" layoutX="63.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subipo de Actividad" />
+      <Text fx:id="textSubtipoAct" layoutX="50.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subipo de Actividad" />
       <TextField fx:id="fieldNombre" layoutX="194.0" layoutY="372.0" onAction="#alInsertar" />
       <Text fx:id="textNombre" layoutX="92.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
       <Text fx:id="textDescripcion" layoutX="83.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />

@@ -48,6 +48,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -116,6 +117,10 @@ public class EscenaModificarBorrarController implements Initializable {
     private Button botonModificar;
     @FXML
     private Button botonEliminar;
+    @FXML
+    private ImageView imageAlerta;
+    @FXML
+    private Button botonAyuda;
 
     /**
      * Initializes the controller class.
@@ -145,6 +150,12 @@ public class EscenaModificarBorrarController implements Initializable {
 
             insertarImagen();
 
+        }
+        
+        if (event.getSource()==botonAyuda) {
+            
+            
+            cargarEscenaAyuda();
         }
 
     }
@@ -216,12 +227,15 @@ public class EscenaModificarBorrarController implements Initializable {
 
     public void metodoEjecutaAlInicio() {
         Image imagen_inicial;
+        botonAyuda.setStyle("-fx-background-color:trasnsparent;");
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         cargarTipos();
         bd_actividades = new Actividades_DAO();
-
+        imageAlerta.setVisible(false);
         bd_detalle = new DetallePacks_DAO();
         cargarActividades();
+        deshabilitarElementos();
+        
         try {
             imagen_inicial = new Image("IMG/nofoto.png");
             imageViewSeleccion.setImage(imagen_inicial);
@@ -277,6 +291,8 @@ public class EscenaModificarBorrarController implements Initializable {
         imageViewSeleccion.setImage(actividad_seleccionada.getImagen());
         centrarImagen();
         blanquearFields();
+        habilitarElementos();
+        imageAlerta.setVisible(false);
         } catch (NullPointerException e) {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
@@ -474,6 +490,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
                     try {
                         bd_actividades.borrarActividad(conexion, actividad_seleccionada);
+                        imageAlerta.setVisible(false);
 
                     } catch (IOException ex) {
 
@@ -498,6 +515,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
                                     bd_detalle.eliminarRegistroDetalle(conexion, actividad_seleccionada.getIdActividad());
                                     bd_actividades.borrarActividad(conexion, actividad_seleccionada);
+                                    imageAlerta.setVisible(false);
 
                                 } catch (IOException ex) {
 
@@ -539,6 +557,8 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     private void insertarImagen() {
+        
+        
 
         //CREAMOS EL OBJETO FILECHOOSER
         FileChooser fileChooser = new FileChooser();
@@ -553,8 +573,63 @@ public class EscenaModificarBorrarController implements Initializable {
             Image imagen_anadir = new Image(file.toURI().toString());
             imageViewSeleccion.setImage(imagen_anadir);
             centrarImagen();
+            imageAlerta.setVisible(true);
         }
 
     }
+    
+    private void deshabilitarElementos(){
+    
+        fieldNombre.setDisable(true);
+        fieldDescripción.setDisable(true);
+        fieldURL.setDisable(true);
+        botonImagen.setDisable(true);
+    
+    
+    
+    }
+    
+    private void habilitarElementos(){
+    
+    fieldNombre.setDisable(false);
+    fieldDescripción.setDisable(false);
+    fieldURL.setDisable(false);
+    botonImagen.setDisable(false);
+    
+    
+    }
 
+    
+    private void cargarEscenaAyuda() {
+
+        try {
+           Stage stage = new Stage();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/VISTA/escenaAyudaMantenimiento.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+            EscenaAyudaMantenimientoController controlador = loader.getController();
+            controlador.setModo(2);
+            controlador.metodoEjecutaAlInicio();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Ayuda");
+            stage.alwaysOnTopProperty();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (IOException ex) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        } catch (NullPointerException e){
+            
+            alerta = new Alert(Alert.AlertType.ERROR);
+            
+            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+            alerta.showAndWait();
+        
+        }
+
+    }
 }
