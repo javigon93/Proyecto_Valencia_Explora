@@ -44,7 +44,7 @@
       </Text>
       <ComboBox fx:id="comboFiltroSubtipo" layoutX="317.0" layoutY="217.0" onAction="#alSeleccionarFiltroSubtipo" prefHeight="26.0" prefWidth="135.0" />
       <Text fx:id="textSubtipoAct" layoutX="258.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subipo" />
-      <Button fx:id="botonImagen" alignment="CENTER_RIGHT" layoutX="620.0" layoutY="390.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="44.0" prefWidth="186.0" text="Elige una Imagen" />
+      <Button fx:id="botonImagen" alignment="CENTER_RIGHT" layoutX="620.0" layoutY="390.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="44.0" prefWidth="186.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Elige una Imagen" />
       <Text fx:id="textImagen" layoutX="561.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imagen" />
       <Text fx:id="textTipoAct" layoutX="48.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" />
       <ComboBox fx:id="comboFiltroTipoActividad" layoutX="90.0" layoutY="216.0" onAction="#alSeleccionarFiltroTipo" prefHeight="26.0" prefWidth="135.0" />

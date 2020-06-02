@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -15,19 +17,27 @@
         <URL value="@/CSS/CSS_Proyecto.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="562.0" fitWidth="908.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../IMG/fondoFinal.png" />
+         </image>
+      </ImageView>
       <Button fx:id="botonAtras" layoutX="553.0" layoutY="39.0" mnemonicParsing="false" onAction="#alPulsarAtras" stylesheets="@../CSS/CSS_Proyecto.css" text="Atrás" />
       <Button fx:id="botonConfirmar" layoutX="38.0" layoutY="494.0" mnemonicParsing="false" onAction="#alPulsarConfirmar" stylesheets="@../CSS/CSS_Proyecto.css" text="Confirma tu Pack" />
-      <TextArea fx:id="areaResumen" layoutX="29.0" layoutY="83.0" prefHeight="384.0" prefWidth="552.0" />
-      <Label fx:id="labelPrecioTotal" layoutX="622.0" layoutY="391.0" prefHeight="91.0" prefWidth="243.0" text="0">
+      <TextArea fx:id="areaResumen" layoutX="29.0" layoutY="83.0" prefHeight="384.0" prefWidth="552.0" stylesheets="@../CSS/CSS_Proyecto.css" />
+      <Label fx:id="labelPrecioTotal" layoutX="622.0" layoutY="391.0" prefHeight="91.0" prefWidth="243.0" text="0" textFill="WHITE">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="fieldNombrePack" layoutX="270.0" layoutY="38.0" onAction="#alIntroducirNombre" prefHeight="26.0" prefWidth="233.0" />
+      <TextField fx:id="fieldNombrePack" layoutX="270.0" layoutY="38.0" onAction="#alIntroducirNombre" prefHeight="26.0" prefWidth="233.0" stylesheets="@../CSS/CSS_Proyecto.css" />
       <Text layoutX="38.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inrtoduce un Nombre a tu Pack" />
       <TextField fx:id="fieldDescripción" layoutX="622.0" layoutY="114.0" prefHeight="164.0" prefWidth="234.0" />
       <Text layoutX="622.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Deseas añadir una Descripción?" />
       <Button fx:id="botonDescripcion" layoutX="622.0" layoutY="298.0" mnemonicParsing="false" onAction="#alPulsarDescripcion" stylesheets="@../CSS/CSS_Proyecto.css" text="Añadir Descripción" />
-      <CheckBox fx:id="checkFavorito" layoutX="622.0" layoutY="350.0" mnemonicParsing="false" onAction="#alpulsarFavorito" text="Favorito" />
+      <CheckBox fx:id="checkFavorito" layoutX="622.0" layoutY="350.0" mnemonicParsing="false" onAction="#alpulsarFavorito" text="Favorito" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></CheckBox>
    </children>
 </AnchorPane>

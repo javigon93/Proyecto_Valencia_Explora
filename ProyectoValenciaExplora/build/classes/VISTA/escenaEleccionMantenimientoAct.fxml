@@ -29,8 +29,8 @@
             <Font name="Berlin Sans FB" size="31.0" />
          </font>
       </Text>
-      <Button id="botonMantenimiento" fx:id="botonAnadirAct" alignment="BOTTOM_CENTER" layoutX="153.0" layoutY="298.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="157.0" prefWidth="176.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Añadir Actividad" />
-      <Button id="botonMantenimiento" fx:id="botonModEliActividad" alignment="BOTTOM_CENTER" layoutX="606.0" layoutY="297.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="158.0" prefWidth="176.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Modificar/Eliminar Actividad" />
+      <Button fx:id="botonAnadirAct" alignment="BOTTOM_CENTER" layoutX="153.0" layoutY="298.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="157.0" prefWidth="176.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Añadir Actividad" />
+      <Button id="botonManteimiento" fx:id="botonModEliActividad" alignment="BOTTOM_CENTER" layoutX="606.0" layoutY="297.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="158.0" prefWidth="176.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Modificar/Eliminar Actividad" />
       <ImageView fitHeight="107.0" fitWidth="107.0" layoutX="190.0" layoutY="313.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../IMG/anadir.png" />

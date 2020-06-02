@@ -121,7 +121,7 @@ public class Actividades_DAO {
             ps.setInt(5, actividad.getIdActividad());
 
         } else {
-            File archivo = new File(actividad.getURL_IMAGEN());
+            File archivo = new File(actividad.getURL_IMAGEN()); //Se asocia una url a un archivo.
             input = new FileInputStream(archivo);
             consulta = "UPDATE actividades SET codigoSubtipo=?, nombre=?, descripcion=?, url=?, Imagen=? WHERE idActividad=?";
             ps = conexion.prepareStatement(consulta);
