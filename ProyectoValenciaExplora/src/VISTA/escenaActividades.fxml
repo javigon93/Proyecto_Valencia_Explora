@@ -8,53 +8,54 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="861.0" prefWidth="1611.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
+<AnchorPane id="AnchorPane" prefHeight="896.0" prefWidth="1611.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
    <children>
       <Text id="textoInicial" layoutX="63.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
          <font>
             <Font name="Berlin Sans FB" size="27.0" />
          </font>
       </Text>
-      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="102.0" onMouseClicked="#alpulsarActividad" prefHeight="692.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
+      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="192.0" onMouseClicked="#alpulsarActividad" prefHeight="602.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <columns>
             <TableColumn fx:id="columnaTipo" prefWidth="122.40006256103516" text="Tipo" />
             <TableColumn fx:id="columnaSubtipo" prefWidth="105.59994506835938" text="Subtipo" />
-            <TableColumn fx:id="columnaNombre" prefWidth="290.39990234375" text="Nombre Actividad" />
+            <TableColumn fx:id="columnaNombre" prefWidth="296.7999633789062" text="Nombre Actividad" />
          </columns>
       </TableView>
-      <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="692.0" prefWidth="505.0" stylesheets="@../CSS/CSS_Proyecto.css">
+      <Pane fx:id="paneDescripcion" layoutX="603.0" layoutY="102.0" prefHeight="750.0" prefWidth="506.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <children>
-            <Text layoutX="79.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
-            <Text layoutX="271.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio Unitario" />
-            <Spinner fx:id="spinnerPersonas" layoutX="149.0" layoutY="561.0" onMouseClicked="#alPulsarPersonas" prefHeight="10.0" prefWidth="60.0" stylesheets="@../CSS/CSS_Proyecto.css" />
-            <TextArea fx:id="areaDescripcion" editable="false" layoutX="80.0" layoutY="238.0" prefHeight="260.0" prefWidth="382.0" stylesheets="@../CSS/CSS_Proyecto.css" />
-            <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="382.0" layoutX="79.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-            <TextField fx:id="textPrecio" layoutX="358.0" layoutY="561.0" onAction="#alIntroducirPrecio" prefHeight="25.0" prefWidth="103.0" />
-            <DatePicker fx:id="pickerInicio" layoutX="68.0" layoutY="609.0" onAction="#alSeleccionarFechaInicio" />
-            <DatePicker fx:id="pickerFin" layoutX="68.0" layoutY="653.0" onAction="#alSeleccionarFechaFin" />
-            <ComboBox fx:id="comboDuracion" layoutX="404.0" layoutY="653.0" onAction="#alSeleccionarDuracion" prefHeight="25.0" prefWidth="89.0" />
-            <Text layoutX="297.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
-            <Text layoutX="22.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
-            <Text layoutX="22.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
-            <Text layoutX="332.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duración" />
-            <Text fx:id="textDias" layoutX="455.0" layoutY="630.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Text>
-            <Button fx:id="boton" layoutX="80.0" layoutY="513.0" mnemonicParsing="false" onAction="#cargaPagina" text="Más información" />
+            <Text layoutX="62.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas" />
+            <Text layoutX="274.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio Unitario" />
+            <Spinner fx:id="spinnerPersonas" layoutX="137.0" layoutY="483.0" onMouseClicked="#alPulsarPersonas" prefHeight="10.0" prefWidth="60.0" stylesheets="@../CSS/CSS_Proyecto.css" />
+            <TextArea fx:id="areaDescripcion" editable="false" layoutX="62.0" layoutY="239.0" prefHeight="168.0" prefWidth="382.0" stylesheets="@../CSS/CSS_Proyecto.css" />
+            <ImageView fx:id="imagenActividad" fitHeight="212.0" fitWidth="382.0" layoutX="62.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <TextField fx:id="textPrecio" layoutX="379.0" layoutY="483.0" onAction="#alIntroducirPrecio" prefHeight="25.0" prefWidth="60.0" />
+            <Button fx:id="boton" layoutX="62.0" layoutY="428.0" mnemonicParsing="false" onAction="#cargaPagina" text="Más información" />
+            <DatePicker fx:id="dateFin" layoutX="274.0" layoutY="614.0" onAction="#alSeleccionarTiempo" />
+            <DatePicker fx:id="dateInicio" layoutX="27.0" layoutY="614.0" onAction="#alSeleccionarTiempo" />
+            <ImageView fx:id="imagenCalendario" fitHeight="64.0" fitWidth="68.0" layoutX="221.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../IMG/calendario.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="timeInicio" layoutX="90.0" layoutY="705.0" onAction="#alSeleccionarTiempo" prefHeight="25.0" prefWidth="90.0" />
+            <ComboBox fx:id="timeFin" layoutX="343.0" layoutY="705.0" onAction="#alSeleccionarTiempo" prefHeight="25.0" prefWidth="90.0" />
          </children>
       </Pane>
       <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Añadir a tu Experiencia" />
       <Button fx:id="botonRevisarConfirmar" layoutX="1391.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Revisa y Confirma tu Pack" />
       <Button fx:id="botonBorrar" layoutX="1117.0" layoutY="252.0" mnemonicParsing="false" onAction="#alPulsar" text="Borra Tu Pack" />
-      <Text layoutX="1434.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
+      <Text layoutX="1434.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio">
+         <font>
+            <Font name="Berlin Sans FB" size="21.0" />
+         </font></Text>
       <TextArea fx:id="areaInfoActividad" layoutX="1117.0" layoutY="305.0" prefHeight="338.0" prefWidth="264.0" />
       <TextArea fx:id="areaPrecio" layoutX="1434.0" layoutY="305.0" prefHeight="338.0" prefWidth="103.0" />
       <Text id="textoInicial" fx:id="textPrecioTotal" layoutX="1361.0" layoutY="708.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total: " wrappingWidth="164.07922610267997">
@@ -63,5 +64,34 @@
          </font>
       </Text>
       <Button fx:id="botonSalir" layoutX="1447.0" layoutY="53.0" mnemonicParsing="false" onAction="#alPulsar" text="Salir" />
+      <Button fx:id="botonAyuda" layoutX="1313.0" layoutY="34.0" mnemonicParsing="false" onAction="#alPulsar" prefHeight="64.0" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="44.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../IMG/ayuda.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ComboBox fx:id="comboFiltroSubtipo" layoutX="402.0" layoutY="156.0" onAction="#alSeleccionarFiltroSubtipo" prefHeight="26.0" prefWidth="135.0" />
+      <Text fx:id="textSubtipoAct" layoutX="317.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Subtipo" />
+      <Text fx:id="textTipoAct" layoutX="64.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Tipo" />
+      <ComboBox fx:id="comboFiltroTipoActividad" layoutX="127.0" layoutY="155.0" onAction="#alSeleccionarFiltroTipo" prefHeight="26.0" prefWidth="135.0" />
+      <Text layoutX="64.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros">
+         <font>
+            <Font name="Berlin Sans FB" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="86.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avanzado" />
+      <TextField fx:id="fieldBuscador" layoutX="158.0" layoutY="102.0" onAction="#alInsertarTexto" prefHeight="26.0" prefWidth="338.0" />
+      <Text layoutX="1147.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
+      <Text fx:id="textDias" layoutX="1268.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Text>
+      <Text layoutX="1308.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
+      <Text layoutX="1300.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
+      
    </children>
 </AnchorPane>

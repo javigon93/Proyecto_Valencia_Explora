@@ -94,20 +94,42 @@ public class EscenaAyudaMantenimientoController implements Initializable {
         imagen=new Image("/IMG/menos.png");
         image3.setImage(imagen);
     
+}  private void cargarAyudaCreaciónPack(){
+       
+        labelTitulo.setText("Ayuda en ventana 'Eleccion de tu Pack'");
+        labelDescrFuncion.setText("Este es el núcleo de tus deseos, ¡donde puedes seleccionar las actividades de tu pack a tu gusto!\n"
+                + "\nSimplemente selecciona la actividad que prefieras, rellena los campos mosstrados y añade la actividad a tu pack. :");
+        labelDescrGen.setText("Existen varios campos a rellenar tras seleccionar la actividad, los cuales se incluyen:"
+                + "\n\nNºde Personas: Selecciona el número de personas que participarán en la actividad."
+                + "\n\nFecha Inicio: Selecciona fecha/hora de tu actividad."
+                + "\n\nFecha Fin: Selecciona la fecha/hora de finalización de tu actividad.\n"
+                + "\n\nPrecio Unitario: Inserta aquí el precio de la actividad."
+                );
+        labelDescElementos.setText("Esta funcionalidad posee elementos interesantes como:\n\n"
+                + "Boton Borrar: Botón creado para resetear tu pack si no estás satisfecho."
+                + "\nBoton Más Información: Botón que te redirige a la web de Oficial de la Actividad."
+                + "\nBoton Añadir: Donde se te pregunta si deseas añadir la actividad. Si seleccionas OK, la verás registrada."
+                + "\nBoton Revisar/Confirmar: Donde te redirigimos a un resumen de tu pack, donde podrás personalizarlo."
+               );
+       
+    
 }
      
     public void metodoEjecutaAlInicio() {
           labelTitulo.setStyle(" -fx-font-weight:bold;");
-        if (modo==1) {
-            
-            cargarAyudaInsertar();
-            
+        switch (modo) {
+            case 1:
+                cargarAyudaInsertar();
+                break;
+            case 2:
+                cargarAyudaModificarBorrar();
+                break;
+            case 3:
+                cargarAyudaCreaciónPack();
+                break;
+            default:
+                break;
         }
-        
-        else if (modo==2) {
-            cargarAyudaModificarBorrar();
-        }
-        
     }
 
     public int getModo() {

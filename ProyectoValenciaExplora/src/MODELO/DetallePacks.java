@@ -6,6 +6,7 @@
 package MODELO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -20,13 +21,13 @@ public class DetallePacks {
     private int idActividad;
     private double precio;
     private int personas;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
     private LocalTime duracion;
 
     public DetallePacks() {
 
-        //nada por defecto
+        duracion=LocalTime.parse("00:00:00");
     }
 
     public int getIdPack() {
@@ -69,19 +70,19 @@ public class DetallePacks {
         this.personas = personas;
     }
 
-    public LocalDate getFechaInicio() {
+    public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
+    public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public LocalDate getFechaFin() {
+    public LocalDateTime getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(LocalDate fechaFin) {
+    public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
     }
 

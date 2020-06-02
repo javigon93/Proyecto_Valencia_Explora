@@ -151,10 +151,9 @@ public class EscenaModificarBorrarController implements Initializable {
             insertarImagen();
 
         }
-        
-        if (event.getSource()==botonAyuda) {
-            
-            
+
+        if (event.getSource() == botonAyuda) {
+
             cargarEscenaAyuda();
         }
 
@@ -211,12 +210,12 @@ public class EscenaModificarBorrarController implements Initializable {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
-        } catch (NullPointerException e){
-            
+        } catch (NullPointerException e) {
+
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
             alerta.showAndWait();
-        
+
         }
 
     }
@@ -235,7 +234,7 @@ public class EscenaModificarBorrarController implements Initializable {
         bd_detalle = new DetallePacks_DAO();
         cargarActividades();
         deshabilitarElementos();
-        
+
         try {
             imagen_inicial = new Image("IMG/nofoto.png");
             imageViewSeleccion.setImage(imagen_inicial);
@@ -244,9 +243,7 @@ public class EscenaModificarBorrarController implements Initializable {
             alerta.setContentText("ERROR EN EL ARCHIVO IMG/nofoto.png");
             alerta.showAndWait();
         }
-        
 
-        
         centrarImagen();
         habilitarFiltrado();
 
@@ -283,22 +280,21 @@ public class EscenaModificarBorrarController implements Initializable {
     private void alSeleccionarActividad(MouseEvent event) {
         try {
             actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
-        System.out.println(actividad_seleccionada.getIdActividad());
-        System.out.println(actividad_seleccionada.getCodigoSubtipo());
-        fieldNombre.setText(actividad_seleccionada.getNombre());
-        fieldDescripción.setText(actividad_seleccionada.getDescripcion());
-        fieldURL.setText(actividad_seleccionada.getURL());
-        imageViewSeleccion.setImage(actividad_seleccionada.getImagen());
-        centrarImagen();
-        blanquearFields();
-        habilitarElementos();
-        imageAlerta.setVisible(false);
+            System.out.println(actividad_seleccionada.getIdActividad());
+            System.out.println(actividad_seleccionada.getCodigoSubtipo());
+            fieldNombre.setText(actividad_seleccionada.getNombre());
+            fieldDescripción.setText(actividad_seleccionada.getDescripcion());
+            fieldURL.setText(actividad_seleccionada.getURL());
+            imageViewSeleccion.setImage(actividad_seleccionada.getImagen());
+            centrarImagen();
+            blanquearFields();
+            habilitarElementos();
+            imageAlerta.setVisible(false);
         } catch (NullPointerException e) {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
             alerta.showAndWait();
         }
-        
 
     }
 
@@ -557,8 +553,6 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     private void insertarImagen() {
-        
-        
 
         //CREAMOS EL OBJETO FILECHOOSER
         FileChooser fileChooser = new FileChooser();
@@ -577,33 +571,29 @@ public class EscenaModificarBorrarController implements Initializable {
         }
 
     }
-    
-    private void deshabilitarElementos(){
-    
+
+    private void deshabilitarElementos() {
+
         fieldNombre.setDisable(true);
         fieldDescripción.setDisable(true);
         fieldURL.setDisable(true);
         botonImagen.setDisable(true);
-    
-    
-    
-    }
-    
-    private void habilitarElementos(){
-    
-    fieldNombre.setDisable(false);
-    fieldDescripción.setDisable(false);
-    fieldURL.setDisable(false);
-    botonImagen.setDisable(false);
-    
-    
+
     }
 
-    
+    private void habilitarElementos() {
+
+        fieldNombre.setDisable(false);
+        fieldDescripción.setDisable(false);
+        fieldURL.setDisable(false);
+        botonImagen.setDisable(false);
+
+    }
+
     private void cargarEscenaAyuda() {
 
         try {
-           Stage stage = new Stage();
+            Stage stage = new Stage();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/VISTA/escenaAyudaMantenimiento.fxml"));
@@ -622,13 +612,13 @@ public class EscenaModificarBorrarController implements Initializable {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
-        } catch (NullPointerException e){
-            
+        } catch (NullPointerException e) {
+
             alerta = new Alert(Alert.AlertType.ERROR);
-            
+
             alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
             alerta.showAndWait();
-        
+
         }
 
     }

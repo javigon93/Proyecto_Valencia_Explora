@@ -7,8 +7,13 @@ package VISTA;
 
 import DatosBDA.Actividades_DAO;
 import DatosBDA.Packs_DAO;
+import DatosBDA.Subtipo_DAO;
+import DatosBDA.Tipo_DAO;
 import MODELO.Actividades;
 import MODELO.DetallePacks;
+import MODELO.Subtipo;
+import MODELO.Tipo;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -16,14 +21,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,14 +74,28 @@ public class EscenaActividadesController implements Initializable {
     private Packs_DAO bd_packs = new Packs_DAO();
     private Actividades actividad_seleccionada = new Actividades();
     private DetallePacks detalleActividad = new DetallePacks();
+    private Tipo tipo;
+    private Subtipo subtipo;
+    private Tipo_DAO bd_tipo;
+    private Subtipo_DAO bd_subtipo;
     private Alert alerta;
     private final IntegerSpinnerValueFactory personas = new IntegerSpinnerValueFactory(0, 20, 0, 1);
     private ArrayList<DetallePacks> listaDetalleActividadesSeleccionadas = new ArrayList<>();
-    private final ObservableList<String> listaHoras = FXCollections.observableArrayList("00:30", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "12:00", "24:00");
+    private final ObservableList<String> listaHoras = FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
     private ObservableList<Actividades> listaActividades;
     private String texto = "";
     private final DecimalFormat formatoDosDecimales = new DecimalFormat("#.00"); //FORMATO DOS DECIMALES
     private double total = 0;
+    private Set<Actividades> actividades;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+
+    private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
+    private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
+    DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_TIME;
+    DateTimeFormatter formatoDias = DateTimeFormatter.ISO_DATE;
     @FXML
     private TableView<Actividades> tableActividades;
     @FXML
@@ -95,10 +119,7 @@ public class EscenaActividadesController implements Initializable {
     private TextField textPrecio;
     @FXML
     private Button botonRevisarConfirmar;
-    @FXML
-    private DatePicker pickerInicio;
-    @FXML
-    private DatePicker pickerFin;
+
     @FXML
     private Button botonBorrar;
 
@@ -108,8 +129,6 @@ public class EscenaActividadesController implements Initializable {
     private TextArea areaPrecio;
     @FXML
     private Text textPrecioTotal;
-    @FXML
-    private ComboBox<String> comboDuracion;
 
     @FXML
     private Text textDias;
@@ -117,6 +136,28 @@ public class EscenaActividadesController implements Initializable {
     private Button botonSalir;
     @FXML
     private Button boton;
+    @FXML
+    private Button botonAyuda;
+    @FXML
+    private ComboBox<Subtipo> comboFiltroSubtipo;
+    @FXML
+    private Text textSubtipoAct;
+    @FXML
+    private Text textTipoAct;
+    @FXML
+    private ComboBox<Tipo> comboFiltroTipoActividad;
+    @FXML
+    private TextField fieldBuscador;
+    @FXML
+    private DatePicker dateFin;
+    @FXML
+    private DatePicker dateInicio;
+    @FXML
+    private ComboBox<String> timeInicio;
+    @FXML
+    private ComboBox<String> timeFin;
+    @FXML
+    private ImageView imagenCalendario;
 
     /**
      * Initializes the controller class.
@@ -127,15 +168,21 @@ public class EscenaActividadesController implements Initializable {
         bd_packs = new Packs_DAO();
         actividad_seleccionada = new Actividades();
         detalleActividad = new DetallePacks();
+        Image imagenInicio = new Image("/Icono/iconoAplicacion.png");
+        imagenActividad.setImage(imagenInicio);
+        botonAyuda.setStyle("-fx-background-color: transparent;");
+        
         //inicializamos las características por defecto de la zona central, conectamos con BD...
         try {
 
             panePorDefecto(); //método de inhabilitación de elementos en la zona central de la escena.
             conectar();
 
-            comboDuracion.setItems(listaHoras);//SE AÑADEN LAS DURACIONES AL COMBO
+            timeInicio.setItems(listaHoras);//SE AÑADEN LAS HORAS AL COMBO
+            timeFin.setItems(listaHoras);//LO MISMO
+
             //ESTABLECEMOS LAS ACTIVIDADES en la table view, en base a lo obtenido del SELECT
-            Set<Actividades> actividades = bd_act.buscarActividades(conexion);
+            actividades = bd_act.buscarActividades(conexion);
             listaActividades = FXCollections.observableArrayList(actividades);
             tableActividades.setItems(listaActividades);
             tableActividades.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -145,7 +192,8 @@ public class EscenaActividadesController implements Initializable {
             columnaSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
 
             spinnerPersonas.setValueFactory(personas);//incluimos los valores del Spinner
-
+            cargarTipos();
+            habilitarFiltrado();
         } catch (SQLException | IOException e) {
 
             System.out.println(e.getMessage());
@@ -236,6 +284,8 @@ public class EscenaActividadesController implements Initializable {
 
             }
 
+        } else if (event.getSource() == botonAyuda) {
+            cargarEscenaAyuda();
         }
 
     }
@@ -244,17 +294,23 @@ public class EscenaActividadesController implements Initializable {
     private void alpulsarActividad(MouseEvent event) {
 
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
+        if (actividad_seleccionada != null) {
 
-        imagenActividad.setImage(actividad_seleccionada.getImagen());
-        centrarImagen();
+            imagenActividad.setImage(actividad_seleccionada.getImagen());
+            centrarImagen();
 
-        //al clicar en una actividad, los elementos visuales centrales se habilitan
-        paneDescripcion.setDisable(false);
-        areaDescripcion.setWrapText(true);
-        //se añade la descripción y URL en el area central.
-        areaDescripcion.setText(actividad_seleccionada.getDescripcion() + "\n\nMás Información en: " + actividad_seleccionada.getURL());
-        detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad()); ///se añade la id de actividad al objeto detalleActividad aquí, 
-        //a travvés del valor que ofrece la actividad seleccionda
+            //al clicar en una actividad, los elementos visuales centrales se habilitan
+            paneDescripcion.setDisable(false);
+            dateFin.setDisable(true);
+            timeInicio.setDisable(true);
+            timeFin.setDisable(true);
+           
+            areaDescripcion.setWrapText(true);
+            //se añade la descripción y URL en el area central.
+            areaDescripcion.setText(actividad_seleccionada.getDescripcion() + "\n\nMás Información en: " + actividad_seleccionada.getURL());
+            detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad()); ///se añade la id de actividad al objeto detalleActividad aquí, 
+            //a travvés del valor que ofrece la actividad seleccionda
+        }
     }
 
     @FXML
@@ -305,8 +361,7 @@ public class EscenaActividadesController implements Initializable {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
-        }
-        catch (NullPointerException ex) {
+        } catch (NullPointerException ex) {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaRevisarConfirmar.fxml");
             alerta.showAndWait();
@@ -332,67 +387,66 @@ public class EscenaActividadesController implements Initializable {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
-        }
-        catch (NullPointerException ex) {
+        } catch (NullPointerException ex) {
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
             alerta.showAndWait();
         }
 
     }
-
-    @FXML
-    private void alSeleccionarFechaInicio(ActionEvent event) { //lo que se selecciona se le hace un set al objeto detallepacks.
-
-        LocalDate fechaInicio = pickerInicio.getValue();
-
-        if (fechaInicio.isAfter(LocalDate.now()) || fechaInicio.isEqual(LocalDate.now())) {
-
-            detalleActividad.setFechaInicio(pickerInicio.getValue());
-            System.out.println(pickerInicio.getValue());
-        } else {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("ERROR");
-            alerta.setHeaderText("Introduce una fecha Correcta");
-            alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
-
-            alerta.showAndWait();
-
-        }
-
-    }
-
-    @FXML
-    private void alSeleccionarFechaFin(ActionEvent event) { //LO mismo que el anterior, pero con condición de no meter un valor inferior a la fecha fin (salta error si pasa)
-        LocalDate fechafin = pickerFin.getValue();
-        LocalDate fechaIni = detalleActividad.getFechaInicio();
-        if (fechafin.isAfter(fechaIni)) {
-
-            detalleActividad.setFechaFin(pickerFin.getValue());
-            textDias.setText("" + detalleActividad.calcularDiasActividad());
-        } else {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("ERROR");
-            alerta.setHeaderText("Introduce una fecha Correcta");
-            alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
-
-            alerta.showAndWait();
-
-        }
-    }
+//
+//    @FXML
+//    private void alSeleccionarFechaInicio(ActionEvent event) { //lo que se selecciona se le hace un set al objeto detallepacks.
+//
+//        LocalDate fechaInicio = pickerInicio.getValue();
+//
+//        if (fechaInicio.isAfter(LocalDate.now()) || fechaInicio.isEqual(LocalDate.now())) {
+//
+//            detalleActividad.setFechaInicio(pickerInicio.getValue());
+//            System.out.println(pickerInicio.getValue());
+//        } else {
+//
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setTitle("ERROR");
+//            alerta.setHeaderText("Introduce una fecha Correcta");
+//            alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
+//
+//            alerta.showAndWait();
+//
+//        }
+//
+//    }
+//
+//    @FXML
+//    private void alSeleccionarFechaFin(ActionEvent event) { //LO mismo que el anterior, pero con condición de no meter un valor inferior a la fecha fin (salta error si pasa)
+//        LocalDate fechafin = pickerFin.getValue();
+//        LocalDate fechaIni = detalleActividad.getFechaInicio();
+//        if (fechafin.isAfter(fechaIni)) {
+//
+//            detalleActividad.setFechaFin(pickerFin.getValue());
+//            textDias.setText("" + detalleActividad.calcularDiasActividad());
+//        } else {
+//
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setTitle("ERROR");
+//            alerta.setHeaderText("Introduce una fecha Correcta");
+//            alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
+//
+//            alerta.showAndWait();
+//
+//        }
+//    }
 
     private void panePorDefecto() { //este es el método que desabilita elementos visuales y resetea algunos.
         textPrecio.clear();
         paneDescripcion.setDisable(true);
         spinnerPersonas.setValueFactory(personas);
 
-        pickerInicio.setValue(LocalDate.now());
-        pickerFin.setValue(LocalDate.now().plusDays(1));
-        pickerInicio.setEditable(false);
+        dateInicio.setValue(LocalDate.now());
+        dateFin.setValue(LocalDate.now().plusDays(1));
+        dateInicio.setEditable(false);
 
-        pickerFin.setEditable(false);
+        dateFin.setEditable(false);
         textDias.setText("0");
     }
 
@@ -420,16 +474,16 @@ public class EscenaActividadesController implements Initializable {
         areaInfoActividad.setText(texto);
         textPrecioTotal.setText("Total: " + formatoDosDecimales.format(total) + "€");
     }
-
-    @FXML
-    private void alSeleccionarDuracion(ActionEvent event) {
-
-        //el valor que se obtiene del combo se formatea la duración a horas, se pasa a LocalTime y se hace un set al detallepacks
-        DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_TIME;
-
-        detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()));
-
-    }
+//
+//    @FXML
+//    private void alSeleccionarDuracion(ActionEvent event) {
+//
+//        //el valor que se obtiene del combo se formatea la duración a horas, se pasa a LocalTime y se hace un set al detallepacks
+//        DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_TIME;
+//
+//        detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()));
+//
+//    }
 
     private void centrarImagen() {
 
@@ -497,7 +551,7 @@ public class EscenaActividadesController implements Initializable {
             controlador.abrirWeb();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            
+
             stage.setTitle("Más Infomación");
             stage.alwaysOnTopProperty();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -509,8 +563,219 @@ public class EscenaActividadesController implements Initializable {
             alerta.setContentText("ERROR " + ex.getMessage());
             alerta.showAndWait();
         }
-        
 
     }
-}
 
+    private void cargarEscenaAyuda() {
+
+        try {
+            Stage stage = new Stage();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/VISTA/escenaAyudaMantenimiento.fxml"));
+            Parent root = loader.load(); // el metodo initialize() se ejecuta
+            EscenaAyudaMantenimientoController controlador = loader.getController();
+            controlador.setModo(3);
+            controlador.metodoEjecutaAlInicio();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Ayuda");
+            stage.alwaysOnTopProperty();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (IOException ex) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + ex.getMessage());
+            alerta.showAndWait();
+        } catch (NullPointerException e) {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
+
+            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+            alerta.showAndWait();
+
+        }
+
+    }
+
+    @FXML
+    private void alSeleccionarFiltroSubtipo(ActionEvent event) {
+
+        subtipo = comboFiltroSubtipo.getValue();
+
+        try {
+
+            actividades = bd_act.buscarActividadesPorSubtipo(conexion, subtipo.getCodigoSubtipo());
+            listaActividades = FXCollections.observableArrayList(actividades);
+            tableActividades.setItems(listaActividades);
+            habilitarFiltrado();
+
+        } catch (SQLException | IOException e) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + e.getMessage());
+            alerta.showAndWait();
+
+        }
+    }
+
+    @FXML
+    private void alSeleccionarFiltroTipo(ActionEvent event) {
+
+        tipo = comboFiltroTipoActividad.getValue();
+
+        try {
+
+            actividades = bd_act.buscarActividadesPorTipo(conexion, tipo.getCodigoTipo());
+            listaActividades = FXCollections.observableArrayList(actividades);
+            tableActividades.setItems(listaActividades);
+
+            cargarSubtipos();
+            habilitarFiltrado();
+
+        } catch (SQLException | IOException e) {
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("ERROR " + e.getMessage());
+            alerta.showAndWait();
+
+        }
+
+    }
+
+    private void cargarTipos() {
+
+        bd_tipo = new Tipo_DAO();
+        bd_subtipo = new Subtipo_DAO();
+        try {
+
+            List<Tipo> tipos = bd_tipo.buscarTipos(conexion);
+            listaTipos.setAll(tipos);
+
+            comboFiltroTipoActividad.setItems(listaTipos);
+
+        } catch (IOException | SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
+    private void cargarSubtipos() {
+
+        bd_subtipo = new Subtipo_DAO();
+        try {
+
+            Set<Subtipo> subtipos = bd_subtipo.buscarSubTiposPorTipo(conexion, tipo.getCodigoTipo());
+
+            listaSubtipos.setAll(subtipos);
+
+            comboFiltroSubtipo.setItems(listaSubtipos);
+
+        } catch (IOException | SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
+    private void habilitarFiltrado() {
+
+        FilteredList<Actividades> filtrado = new FilteredList<>(listaActividades, p -> true);
+        fieldBuscador.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrado.setPredicate(person -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (person.getTipo().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (person.getSubtipo().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                } else if (person.getNombre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Actividades> sortedData = new SortedList<>(filtrado);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(tableActividades.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableActividades.setItems(sortedData);
+
+    }
+
+    @FXML
+    private void alInsertarTexto(ActionEvent event) {
+    }
+
+    @FXML
+    private void alSeleccionarTiempo(ActionEvent event) {
+
+        if (event.getSource() == dateInicio) {
+
+            LocalDate fecha_seleccionada = dateInicio.getValue();
+
+            if (fecha_seleccionada.isAfter(LocalDate.now()) || fecha_seleccionada.isEqual(LocalDate.now())) {
+                fechaInicio = fecha_seleccionada;
+
+                System.out.println(fecha_seleccionada);
+                timeInicio.setDisable(false);
+            } else {
+
+                alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("ERROR");
+                alerta.setHeaderText("Introduce una fecha Correcta");
+                alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
+
+                alerta.showAndWait();
+                dateInicio.setValue(LocalDate.now());
+
+            }
+
+        } else if (event.getSource() == dateFin) {
+            LocalDate fecha_seleccionada = dateFin.getValue();
+
+            if (fecha_seleccionada.isAfter(fechaInicio)) {
+                fechaFin = fecha_seleccionada;
+                timeFin.setDisable(false);
+
+            } else {
+
+                alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("ERROR");
+                alerta.setHeaderText("Introduce una fecha Correcta");
+                alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
+
+                alerta.showAndWait();
+                dateFin.setValue(LocalDate.now().plusDays(1));
+
+            }
+        } else if (event.getSource() == timeInicio) {
+
+            horaInicio = LocalTime.parse(timeInicio.getValue(), formatoHoras);
+            LocalDateTime fecha_completa_inicio = LocalDateTime.of(fechaInicio, horaInicio);
+            detalleActividad.setFechaInicio(fecha_completa_inicio);
+            dateFin.setDisable(false);
+        } else if (event.getSource() == timeFin) {
+
+            horaFin = LocalTime.parse(timeFin.getValue(), formatoHoras);
+            LocalDateTime fecha_completa_fin = LocalDateTime.of(fechaFin, horaFin);
+            detalleActividad.setFechaFin(fecha_completa_fin);
+            textDias.setText("" + detalleActividad.calcularDiasActividad());
+        }
+
+    }
+
+}
