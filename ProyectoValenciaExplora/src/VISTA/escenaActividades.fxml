@@ -17,12 +17,26 @@
 
 <AnchorPane id="AnchorPane" prefHeight="896.0" prefWidth="1611.0" stylesheets="@../CSS/CSS_Proyecto.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.EscenaActividadesController">
    <children>
-      <Text id="textoInicial" layoutX="63.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
-         <font>
-            <Font name="Berlin Sans FB" size="27.0" />
-         </font>
-      </Text>
-      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="192.0" onMouseClicked="#alpulsarActividad" prefHeight="602.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
+      <Pane id="paneHorizontal" layoutY="-2.0" prefHeight="100.0" prefWidth="1611.0">
+         <children>
+            <Text id="textoInicial" layoutX="14.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tus Actividades a Elegir">
+               <font>
+                  <Font name="Berlin Sans FB" size="27.0" />
+               </font>
+            </Text>
+            <Button fx:id="botonAyuda" layoutX="1359.0" layoutY="18.0" mnemonicParsing="false" onAction="#alPulsar" prefHeight="64.0" prefWidth="68.0">
+               <graphic>
+                  <ImageView fitHeight="44.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../IMG/ayuda.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="botonSalir" layoutX="1471.0" layoutY="41.0" mnemonicParsing="false" onAction="#alPulsar" text="Salir" />
+         </children>
+      </Pane>
+      <TableView id="tabla" fx:id="tableActividades" layoutX="47.0" layoutY="250.0" onMouseClicked="#alpulsarActividad" prefHeight="602.0" prefWidth="526.0" stylesheets="@../CSS/CSS_Proyecto.css">
          <columns>
             <TableColumn fx:id="columnaTipo" prefWidth="122.40006256103516" text="Tipo" />
             <TableColumn fx:id="columnaSubtipo" prefWidth="105.59994506835938" text="Subtipo" />
@@ -47,6 +61,26 @@
             </ImageView>
             <ComboBox fx:id="timeInicio" layoutX="90.0" layoutY="705.0" onAction="#alSeleccionarTiempo" prefHeight="25.0" prefWidth="90.0" />
             <ComboBox fx:id="timeFin" layoutX="343.0" layoutY="705.0" onAction="#alSeleccionarTiempo" prefHeight="25.0" prefWidth="90.0" />
+            <ImageView fitHeight="30.0" fitWidth="54.0" layoutX="83.0" layoutY="566.0" pickOnBounds="true" preserveRatio="true" rotate="30.0">
+               <image>
+                  <Image url="@../IMG/flechaVERDE.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="54.0" layoutX="352.0" layoutY="566.0" pickOnBounds="true" preserveRatio="true" rotate="-30.0">
+               <image>
+                  <Image url="@../IMG/flechaROJA.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="233.0" layoutY="684.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <Text fx:id="textDias" layoutX="242.0" layoutY="732.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+               <font>
+                  <Font name="System Bold" size="37.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
       <Button fx:id="botonANADIR" layoutX="1161.0" layoutY="762.0" mnemonicParsing="false" onAction="#alPulsar" text="Añadir a tu Experiencia" />
@@ -63,35 +97,17 @@
             <Font name="Berlin Sans FB" size="27.0" />
          </font>
       </Text>
-      <Button fx:id="botonSalir" layoutX="1447.0" layoutY="53.0" mnemonicParsing="false" onAction="#alPulsar" text="Salir" />
-      <Button fx:id="botonAyuda" layoutX="1313.0" layoutY="34.0" mnemonicParsing="false" onAction="#alPulsar" prefHeight="64.0" prefWidth="68.0">
-         <graphic>
-            <ImageView fitHeight="44.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../IMG/ayuda.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <ComboBox fx:id="comboFiltroSubtipo" layoutX="402.0" layoutY="156.0" onAction="#alSeleccionarFiltroSubtipo" prefHeight="26.0" prefWidth="135.0" />
-      <Text fx:id="textSubtipoAct" layoutX="317.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Subtipo" />
-      <Text fx:id="textTipoAct" layoutX="64.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Tipo" />
-      <ComboBox fx:id="comboFiltroTipoActividad" layoutX="127.0" layoutY="155.0" onAction="#alSeleccionarFiltroTipo" prefHeight="26.0" prefWidth="135.0" />
-      <Text layoutX="64.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros">
+      <ComboBox fx:id="comboFiltroSubtipo" layoutX="401.0" layoutY="199.0" onAction="#alSeleccionarFiltroSubtipo" prefHeight="26.0" prefWidth="135.0" />
+      <Text fx:id="textSubtipoAct" layoutX="316.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Subtipo" />
+      <Text fx:id="textTipoAct" layoutX="63.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Por Tipo" />
+      <ComboBox fx:id="comboFiltroTipoActividad" layoutX="126.0" layoutY="198.0" onAction="#alSeleccionarFiltroTipo" prefHeight="26.0" prefWidth="135.0" />
+      <Text layoutX="63.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="86.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avanzado" />
-      <TextField fx:id="fieldBuscador" layoutX="158.0" layoutY="102.0" onAction="#alInsertarTexto" prefHeight="26.0" prefWidth="338.0" />
-      <Text layoutX="1147.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Días de la Actividad" />
-      <Text fx:id="textDias" layoutX="1268.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Text>
-      <Text layoutX="1308.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio" />
-      <Text layoutX="1300.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fin" />
+      <Text layoutX="85.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avanzado" />
+      <TextField fx:id="fieldBuscador" layoutX="157.0" layoutY="145.0" onAction="#alInsertarTexto" prefHeight="26.0" prefWidth="338.0" />
       
    </children>
 </AnchorPane>

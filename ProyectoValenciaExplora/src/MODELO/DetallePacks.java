@@ -112,13 +112,23 @@ public class DetallePacks {
         return diasActividad;
     }
 
-    public double calcularPrecioIndividual() {
+    public double calcularPrecioIndividual(int codigoTipo) {
 
+         double precioFinal;
+        if (codigoTipo==3) {
+            
+        
         //precio final de cada ACTIVIDAD DE MANERA INDIVIDUAL, ya que se introduce el valor por individuo y dia, estos dos ultimos datos tambien hay que tenerlos en cuenta
-        double precioFinal;
+       
 
         precioFinal = (double) (precio * personas) * calcularDiasActividad();
-
+        }
+        
+        else{
+        
+        precioFinal=(double) (precio*personas);
+        
+        }
         return precioFinal;
 
     }

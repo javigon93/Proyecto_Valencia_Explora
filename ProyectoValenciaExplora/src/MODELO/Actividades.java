@@ -16,6 +16,7 @@ public class Actividades {
     
     private int idActividad;    
     private int codigoSubtipo;
+    
     private String nombre; //utilizamos algunos strings ADICIONALES proveniente del inner join de la BD 
                             //para simplificar código y mostrar más facielmente en formato string los id que se muestran en esta clase desde la propia BD
     private String descripcion;
@@ -24,7 +25,9 @@ public class Actividades {
     private String subtipo;
     private Image imagen;
     
-    private String URL_IMAGEN;
+    private String URL_IMAGEN; //útil en la inserción de imágenes a través de un File.
+
+    
 
     public String getURL_IMAGEN() {
         return URL_IMAGEN;

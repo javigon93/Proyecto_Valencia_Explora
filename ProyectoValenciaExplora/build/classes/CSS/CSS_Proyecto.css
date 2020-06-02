@@ -34,7 +34,7 @@ and open the template in the editor.
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-text-fill: white;
-    
+    -fx-opacity: 1;
     
 } 
 
@@ -188,9 +188,9 @@ and open the template in the editor.
 
 #paneHorizontal {
     
-    -fx-background-color: linear-gradient(to right, #005aa7, #fffde4) ;
-    -fx-border-width: 0px 0px 5px 0px;  
-  -fx-border-color: #003366;    
+    -fx-background-color: linear-gradient(to right, #003366, #fffde4) ;
+/*    -fx-border-width: 0px 0px 5px 0px;  */
+/*  -fx-border-color: #003366;    */
    
     
     
@@ -274,3 +274,13 @@ and open the template in the editor.
     -fx-border-width: 0 1 3 0;
     -fx-border-insets: 0;
 }*/
+
+
+#centro{
+    
+    
+    -fx-background-color: white;
+        -fx-opacity: 0.90;
+    
+    
+}

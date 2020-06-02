@@ -68,6 +68,7 @@ public class Actividades_DAO {
                 actividad.setURL(rs.getString("a.url"));
                 actividad.setImagen(image);
                 actividad.setCodigoSubtipo(rs.getInt("a.codigoSubtipo"));
+                
                 listaActividades.add(actividad); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
 
             }
@@ -187,7 +188,7 @@ public class Actividades_DAO {
                 Image image = SwingFXUtils.toFXImage(B_img, null);
 
                 //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
-               Actividades actividad = new Actividades();
+                Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
                 actividad.setDescripcion(rs.getString("a.descripcion"));
@@ -206,7 +207,7 @@ public class Actividades_DAO {
     }
 
     public Set<Actividades> buscarActividadesPorSubtipo(Connection conexion, int codigoSubtipo) throws SQLException, IOException {
-//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
+
         Set<Actividades> listaActividades = new HashSet<>();
 
         ResultSet rs;
@@ -227,7 +228,7 @@ public class Actividades_DAO {
 
                 Image image = SwingFXUtils.toFXImage(B_img, null);
 
-               Actividades actividad = new Actividades();
+                Actividades actividad = new Actividades();
                 actividad.setIdActividad(rs.getInt("idActividad"));
                 actividad.setTipo(rs.getString("tipo"));
                 actividad.setDescripcion(rs.getString("a.descripcion"));
@@ -248,7 +249,6 @@ public class Actividades_DAO {
 
         int x = 0;
         String consulta;
-        
 
         consulta = "DELETE FROM actividades WHERE idActividad=?";
 
@@ -256,13 +256,39 @@ public class Actividades_DAO {
 
         //PARAMETROS
         ps.setInt(1, actividad.getIdActividad());              // primer parametro
-        
 
-        // cuarto parÃ¡metro
+      
         x += ps.executeUpdate();
 
         System.out.println(x + " filas eliminadas");
 
+    }
+    
+    public int buscarTipoActividad(Connection conexion, int idActividad) throws SQLException, IOException{
+    
+        int id_tipo=0;
+
+        ResultSet rs;
+        String consulta;
+
+        if (conexion != null) {
+
+            consulta = "SELECT mostrarTipoActividad(?) as 'tipo';";
+            ps = conexion.prepareStatement(consulta, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, idActividad);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+
+               id_tipo=rs.getInt("tipo");
+            }
+
+        }
+
+        return id_tipo;
+    
+    
+    
+    
     }
 
 }

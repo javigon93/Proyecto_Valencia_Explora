@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -91,11 +93,12 @@ public class EscenaActividadesController implements Initializable {
     private LocalTime horaFin;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
+    private int codTipo_actividad_seleccionada;
 
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
     private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
-    DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_TIME;
-    DateTimeFormatter formatoDias = DateTimeFormatter.ISO_DATE;
+    DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_LOCAL_TIME;
+    DateTimeFormatter formatoDias = DateTimeFormatter.ISO_LOCAL_DATE;
     @FXML
     private TableView<Actividades> tableActividades;
     @FXML
@@ -171,7 +174,7 @@ public class EscenaActividadesController implements Initializable {
         Image imagenInicio = new Image("/Icono/iconoAplicacion.png");
         imagenActividad.setImage(imagenInicio);
         botonAyuda.setStyle("-fx-background-color: transparent;");
-        
+
         //inicializamos las características por defecto de la zona central, conectamos con BD...
         try {
 
@@ -233,7 +236,7 @@ public class EscenaActividadesController implements Initializable {
                 alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma tu Actividad");
-                alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual()) + "€ a tu Pack?");
+                alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€ a tu Pack?");
 
                 Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
@@ -296,20 +299,32 @@ public class EscenaActividadesController implements Initializable {
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
         if (actividad_seleccionada != null) {
 
-            imagenActividad.setImage(actividad_seleccionada.getImagen());
-            centrarImagen();
+            try {
+                imagenActividad.setImage(actividad_seleccionada.getImagen());
+                centrarImagen();
+                codTipo_actividad_seleccionada = bd_act.buscarTipoActividad(conexion, actividad_seleccionada.getIdActividad());
+                //al clicar en una actividad, los elementos visuales centrales se habilitan
+                paneDescripcion.setDisable(false);
+                dateFin.setDisable(true);
+                timeInicio.setDisable(true);
+                timeFin.setDisable(true);
 
-            //al clicar en una actividad, los elementos visuales centrales se habilitan
-            paneDescripcion.setDisable(false);
-            dateFin.setDisable(true);
-            timeInicio.setDisable(true);
-            timeFin.setDisable(true);
-           
-            areaDescripcion.setWrapText(true);
-            //se añade la descripción y URL en el area central.
-            areaDescripcion.setText(actividad_seleccionada.getDescripcion() + "\n\nMás Información en: " + actividad_seleccionada.getURL());
-            detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad()); ///se añade la id de actividad al objeto detalleActividad aquí, 
-            //a travvés del valor que ofrece la actividad seleccionda
+                areaDescripcion.setWrapText(true);
+                //se añade la descripción y URL en el area central.
+                areaDescripcion.setText(actividad_seleccionada.getDescripcion() + "\n\nMás Información en: " + actividad_seleccionada.getURL());
+                detalleActividad.setIdActividad(actividad_seleccionada.getIdActividad()); ///se añade la id de actividad al objeto detalleActividad aquí,
+                //a travvés del valor que ofrece la actividad seleccionda
+
+            } catch (SQLException ex) {
+                alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText("ERROR " + ex.getMessage());
+                alerta.showAndWait();
+            } catch (IOException ex) {
+                alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText("ERROR " + ex.getMessage());
+                alerta.showAndWait();
+            }
+
         }
     }
 
@@ -456,8 +471,8 @@ public class EscenaActividadesController implements Initializable {
                 + detalleActividad.getFechaInicio() + "Fecha Final: " + detalleActividad.getFechaFin() + "\n\n";
 
         areaInfoActividad.setText(texto);
-        areaPrecio.appendText(formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual()) + "€\n\n\n"); //se formatea el precio individual, obtenido de un método de la clase detallepacks
-        total += detalleActividad.calcularPrecioIndividual(); //este se suma al dato del precio total
+        areaPrecio.appendText(formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€\n\n\n"); //se formatea el precio individual, obtenido de un método de la clase detallepacks
+        total += detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada); //este se suma al dato del precio total
         textPrecioTotal.setText("Total: " + formatoDosDecimales.format(total) + "€"); //también se formatea
 
     }
@@ -467,7 +482,7 @@ public class EscenaActividadesController implements Initializable {
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         for (int i = 0; i < listaDetalleActividadesSeleccionadas.size(); i++) {
             //datos de lo que habíamos guardado en la colección como el precio individual de cada uno...
-            areaPrecio.appendText(formatoDosDecimales.format(listaDetalleActividadesSeleccionadas.get(i).calcularPrecioIndividual()) + "€\n\n\n");
+            areaPrecio.appendText(formatoDosDecimales.format(listaDetalleActividadesSeleccionadas.get(i).calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€\n\n\n");
 
         }
         //ademas se añade el texto de la info de cada actividad
@@ -729,9 +744,12 @@ public class EscenaActividadesController implements Initializable {
 
             if (fecha_seleccionada.isAfter(LocalDate.now()) || fecha_seleccionada.isEqual(LocalDate.now())) {
                 fechaInicio = fecha_seleccionada;
-
-                System.out.println(fecha_seleccionada);
                 timeInicio.setDisable(false);
+                if (codTipo_actividad_seleccionada != 3) {
+
+                    System.out.println(fecha_seleccionada);
+                    fechaFin = fecha_seleccionada;
+                }
             } else {
 
                 alerta = new Alert(Alert.AlertType.ERROR);
@@ -759,7 +777,7 @@ public class EscenaActividadesController implements Initializable {
                 alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
 
                 alerta.showAndWait();
-                dateFin.setValue(LocalDate.now().plusDays(1));
+                dateFin.setValue(dateInicio.getValue().plusDays(1));
 
             }
         } else if (event.getSource() == timeInicio) {
@@ -767,7 +785,18 @@ public class EscenaActividadesController implements Initializable {
             horaInicio = LocalTime.parse(timeInicio.getValue(), formatoHoras);
             LocalDateTime fecha_completa_inicio = LocalDateTime.of(fechaInicio, horaInicio);
             detalleActividad.setFechaInicio(fecha_completa_inicio);
-            dateFin.setDisable(false);
+
+            if (codTipo_actividad_seleccionada == 3) {
+
+                dateFin.setDisable(false);
+
+            } else {
+
+                horaFin = horaInicio;
+                LocalDateTime fecha_completa_fin = LocalDateTime.of(fechaFin, horaFin);
+                detalleActividad.setFechaFin(fecha_completa_fin);
+            }
+
         } else if (event.getSource() == timeFin) {
 
             horaFin = LocalTime.parse(timeFin.getValue(), formatoHoras);
