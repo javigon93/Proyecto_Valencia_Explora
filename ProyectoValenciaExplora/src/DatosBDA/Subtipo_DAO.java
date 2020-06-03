@@ -24,7 +24,7 @@ public class Subtipo_DAO {
      private PreparedStatement ps;
     
      public Set<Subtipo> buscarSubTiposPorTipo(Connection conexion, int tipo) throws SQLException, IOException{
-//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
+//busqueda subtipo asociado a un tipo, se añade a un Set y luego servirá los combobox de filtrado.
         Set<Subtipo> listaSubtipos = new HashSet<>();
         PreparedStatement ps;
         ResultSet rs;
@@ -46,7 +46,7 @@ public class Subtipo_DAO {
               
                subtipo.setCodigoSubtipo(rs.getInt("codigoSubtipo"));
                
-               subtipo.setNombre(rs.getString("nombre")); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
+               subtipo.setNombre(rs.getString("nombre")); //Y SE AÑADEN A LA COLECCIÓN DE SUBTIPOS QUE SE INSERTARÁN EN LA TABLEVIEW
                listaSubtipos.add(subtipo);
                
             }

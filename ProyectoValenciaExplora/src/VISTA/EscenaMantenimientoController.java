@@ -11,8 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,7 +73,7 @@ public class EscenaMantenimientoController implements Initializable {
     }
 
     @FXML
-    private void alClicar(ActionEvent event) {
+    private void alClicar(ActionEvent event) { //método de carga de diferentes métodos dependeiendo del boton
 
         if (event.getSource() == botonATRAS) {
 
@@ -87,18 +86,18 @@ public class EscenaMantenimientoController implements Initializable {
         }
 
         if (event.getSource() == botonGestionPacks) {
-
+            //no disponible por coronavirus
         }
         if (event.getSource() == botonGestionUsu) {
-
+            //no disponible por coronavirus
         }
         if (event.getSource() == botonGestionTipSub) {
-
+            //no disponible por coronavirus
         }
 
     }
 
-    private void abreEscenaInicial(ActionEvent event) {
+    private void abreEscenaInicial(ActionEvent event) { //carga de escena inicial
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -113,14 +112,12 @@ public class EscenaMantenimientoController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         }
 
     }
 
-    private void abreEscenaMantenimientoActividades(ActionEvent event) {
+    private void abreEscenaMantenimientoActividades(ActionEvent event) { //carga escena de añadir actividades
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -139,20 +136,16 @@ public class EscenaMantenimientoController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//             alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e) {
-            
+
             crearError("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
-//            alerta.showAndWait();
+
         }
 
     }
 
-    private void crearError(String texto) {
+    private void crearError(String texto) { //método creacion notification error
 
         notificacion = Notifications.create()
                 .text(texto)

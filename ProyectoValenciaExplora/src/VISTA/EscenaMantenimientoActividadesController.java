@@ -34,16 +34,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.SortEvent;
-import javafx.scene.control.TableView;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
+
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -117,17 +114,17 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         comboSubtipo.setDisable(true);
         setURLFiltro(fieldURL);
 
-//        invisibilizarTodo();
+
     }
     
     @FXML
-    private void alClicar(ActionEvent event) {
+    private void alClicar(ActionEvent event) { //Método que ejecuta diferentes acciones dependiendo del botón que se pulsa.
         
-        if (event.getSource() == botonATRAS) {
+        if (event.getSource() == botonATRAS) { //vuelve a la escena anterior
             cargarEscenaMantenimiento();
         }
         
-        if (event.getSource() == botonGuardar) {
+        if (event.getSource() == botonGuardar) { //si se rellena todo (excepto la imagen) aparece un confirmation para insertar la nueva actividad.
             
             if (actividad_solicitada.getCodigoSubtipo() != 0 && actividad_solicitada.getNombre() != null && actividad_solicitada.getURL() != null) {
                 
@@ -142,7 +139,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
                     
                     if (respuestaUsuario.get() == ButtonType.OK) {
                         
-                        actividad_solicitada.setIdActividad(bd_actividades.buscarMAX_IDatividad(conexion) + 1);
+                        actividad_solicitada.setIdActividad(bd_actividades.buscarMAX_IDatividad(conexion) + 1); //permite la asignación de la id de manera actualizada.
                         bd_actividades.insertarActividad(conexion, actividad_solicitada);
 
 
@@ -168,11 +165,11 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             
         } 
         
-        else if (event.getSource()== botonAyuda) {
+        else if (event.getSource()== botonAyuda) { //carga la escena de ayuda correspondiente
             cargarEscenaAyuda();
         }
         
-       else if (event.getSource() == botonImagen) {
+       else if (event.getSource() == botonImagen) { //filechooser
 
             //CREAMOS EL OBJETO FILECHOOSER
             FileChooser fileChooser = new FileChooser();
@@ -183,7 +180,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             File file = fileChooser.showOpenDialog(null);
 
             //REVISAMOS SI EL USUARIO HA SELECCIONADO UN FICHERO O NO
-            if (file != null) {
+            if (file != null) { //si ha seleccionado algo, se asocia la url a la actividad creada, mientras se asocia la imagen a aun ImageView. La imagen se centra.
                 textRuta.setText(file.getAbsolutePath());
                 actividad_solicitada.setURL_IMAGEN(file.getAbsolutePath());
                 Image imagen_anadir = new Image(file.toURI().toString());
@@ -203,10 +200,12 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     public static void setURLFiltro(TextField field) {
         UnaryOperator<TextFormatter.Change> URLFilter = change -> {
             String newText = change.getControlNewText();
-            String URLRegex = "(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?";
+            String URLRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
             if (newText.matches(URLRegex)) {
                 return change;
             }
+            
+            
             return null;
         };
         
@@ -214,7 +213,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     }
     
     @FXML
-    private void alSeleccionarSubtipo(ActionEvent event) {
+    private void alSeleccionarSubtipo(ActionEvent event) { //se obtiene el valor del combo y se setea a la actividad
         
         subtipo = comboSubtipo.getValue();
         actividad_solicitada.setCodigoSubtipo(subtipo.getCodigoSubtipo());
@@ -222,16 +221,17 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     }
     
     @FXML
-    private void alSeleccionarTipo(ActionEvent event) {
+    private void alSeleccionarTipo(ActionEvent event) {//se obtiene el valor del combo y se setea a la actividad. 
+                                                        //Se carga en el combo de subtipos los subtipos relacionados con el tipo seleccionado
         
         tipo = comboTipoActividad.getValue();
         cargarSubtipos();
-        comboSubtipo.setDisable(false);
+        comboSubtipo.setDisable(false); //se habilita el combo subtipo una vez elegido el tipo
         
     }
     
     @FXML
-    private void alInsertar(ActionEvent event) {
+    private void alInsertar(ActionEvent event) { //método que realiza diferentes acciones dependiendo lo que se inserte en cada field.
         
         if (event.getSource() == fieldNombre) {
             
@@ -263,7 +263,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         this.conexion = conexion;
     }
     
-    public void metodoEjecutaAlInicio() {
+    public void metodoEjecutaAlInicio() { //precarga estilos y la imagen por defecto. Asimismo se cargan ya los tipos al combo
    botonAyuda.setStyle("-fx-background-color:trasnsparent;");
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         cargarTipos();
@@ -272,15 +272,13 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             imageViewSeleccion.setImage(imagen_inicial);
         } catch (NullPointerException e) {
             crearError("ERROR al CARGAR LOGOTIPO ");
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR al CARGAR LOGOTIPO ");
-//            alerta.showAndWait();
+
         }
         
         centrarImagen();
     }
     
-    private void cargarTipos() {
+    private void cargarTipos() { //método de carga de tipos desde la bd
         
         bd_tipo = new Tipo_DAO();
         bd_subtipo = new Subtipo_DAO();
@@ -300,7 +298,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         
     }
     
-    private void cargarSubtipos() {
+    private void cargarSubtipos() { //metodo de carga de subtipos desde la bd
         
         bd_subtipo = new Subtipo_DAO();
         try {
@@ -319,7 +317,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         
     }
     
-    private void cargarEscenaMantenimiento() {
+    private void cargarEscenaMantenimiento() { //carga la escena anterior
         
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -337,14 +335,12 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         }
         
     }
     
-    private void centrarImagen() {
+    private void centrarImagen() { //centra la imagen
         
         Image img = imageViewSeleccion.getImage();
         if (img != null) {
@@ -371,7 +367,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         
     }
      
-    private void cargarEscenaAyuda() {
+    private void cargarEscenaAyuda() { //método de carga de escena de ayuda en otra ventana
 
         try {
            Stage stage = new Stage();
@@ -391,20 +387,16 @@ public class EscenaMantenimientoActividadesController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e){
             crearError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta.showAndWait();
+
         
         }
 
     }
     
-     private void crearError(String texto){
+     private void crearError(String texto){ //método de carga de notification error
     
     
                     notificacion=Notifications.create()
@@ -419,7 +411,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     
     }
      
-      private void crearAvisoInformacion(String texto) {
+      private void crearAvisoInformacion(String texto) { //método de carga de notification information
 
         notificacion = Notifications.create()
                 .text(texto)

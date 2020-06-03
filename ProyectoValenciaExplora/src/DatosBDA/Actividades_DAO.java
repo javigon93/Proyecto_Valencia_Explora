@@ -79,7 +79,7 @@ public class Actividades_DAO {
     }
 
     public void insertarActividad(Connection conexion, Actividades actividad) throws SQLException, IOException {
-
+//SCRIPT de insert para actividades
         int x = 0;
         String consulta;
         File archivo = new File(actividad.getURL_IMAGEN());
@@ -105,7 +105,7 @@ public class Actividades_DAO {
     }
 
     public void actualizarActividad(Connection conexion, Actividades actividad) throws SQLException, IOException {
-
+//script de  update, pero adaptado a si se inserta imagen o no
         int x = 0;
         String consulta;
         FileInputStream input = null;
@@ -125,16 +125,15 @@ public class Actividades_DAO {
             input = new FileInputStream(archivo);
             consulta = "UPDATE actividades SET codigoSubtipo=?, nombre=?, descripcion=?, url=?, Imagen=? WHERE idActividad=?";
             ps = conexion.prepareStatement(consulta);
-            ps.setInt(1, actividad.getCodigoSubtipo());              // primer parametro
-            ps.setString(2, actividad.getNombre());  // segundo parÃ¡metro
-            ps.setString(3, actividad.getDescripcion());  	 // tercer parÃ¡metro 
+            ps.setInt(1, actividad.getCodigoSubtipo());              
+            ps.setString(2, actividad.getNombre());  
+            ps.setString(3, actividad.getDescripcion());  	
             ps.setString(4, actividad.getURL());
             ps.setBlob(5, input);
             ps.setInt(6, actividad.getIdActividad());
         }
 
-        //PARAMETROS
-        // cuarto parÃ¡metro
+       
         x += ps.executeUpdate();
 
         System.out.println(x + " filas modificadas");
@@ -166,7 +165,7 @@ public class Actividades_DAO {
     }
 
     public Set<Actividades> buscarActividadesPorTipo(Connection conexion, int codigoTipo) throws SQLException, IOException {
-//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
+//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING PERO FILTRADO POR TIPO
         Set<Actividades> listaActividades = new HashSet<>();
 
         ResultSet rs;
@@ -207,7 +206,7 @@ public class Actividades_DAO {
     }
 
     public Set<Actividades> buscarActividadesPorSubtipo(Connection conexion, int codigoSubtipo) throws SQLException, IOException {
-
+//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING PERO FILTRADO POR SUBTIPO
         Set<Actividades> listaActividades = new HashSet<>();
 
         ResultSet rs;
@@ -246,7 +245,7 @@ public class Actividades_DAO {
     }
 
     public void borrarActividad(Connection conexion, Actividades actividad) throws SQLException, IOException {
-
+//SCRIPT DELETE
         int x = 0;
         String consulta;
 
@@ -265,7 +264,7 @@ public class Actividades_DAO {
     }
     
     public int buscarTipoActividad(Connection conexion, int idActividad) throws SQLException, IOException{
-    
+    //A TRAVÉS DE UN PROCEDURE DE LA BD SE BUSCA EL TIPO DE UNA ID DE ACTIVIDAD OFRECIDA COMO PARAMETRO.
         int id_tipo=0;
 
         ResultSet rs;

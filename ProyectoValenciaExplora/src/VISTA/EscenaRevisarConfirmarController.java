@@ -81,12 +81,9 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
     }
 
-   
-
     private void abreEscenaActividades(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
 
-
-     try {
+        try {
             FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
             loader.setLocation(getClass().getResource("/VISTA/escenaActividades.fxml"));
@@ -106,24 +103,21 @@ public class EscenaRevisarConfirmarController implements Initializable {
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
 
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             crearAvisoError("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
 
         }
 
     }
-    
-     private void retornoInicio(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
 
+    private void retornoInicio(ActionEvent event) { //METODO DE PASO A OTRA ESCENA, PASO DE PARAMETROS Y CARGA PREVIA
 
-     try {
+        try {
             FXMLLoader loader = new FXMLLoader();
             //CARGAMOS OTRO FXML
             loader.setLocation(getClass().getResource("/VISTA/FXMLInicial.fxml"));
             Parent root = loader.load(); // el metodo initialize() se ejecuta
-           
 
-            
             Stage escenarioVentana = (Stage) botonAtras.getScene().getWindow();
             escenarioVentana.setTitle("Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
@@ -132,9 +126,8 @@ public class EscenaRevisarConfirmarController implements Initializable {
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
 
-        }
-     catch (NullPointerException e){
-             crearAvisoError("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
+        } catch (NullPointerException e) {
+            crearAvisoError("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
 
         }
 
@@ -147,26 +140,23 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
     @FXML
     private void alPulsarConfirmar(ActionEvent event) {
-        
-        //si el pack tiene nombre salta un information si se ha insertado bien el pack, si no, salta un arror avisando de que no hay nombre, o bien si hay un error de SQL ( o cualquier otro)se avisa también.
 
+        //si el pack tiene nombre salta un information si se ha insertado bien el pack, si no, salta un arror avisando de que no hay nombre, o bien si hay un error de SQL ( o cualquier otro)se avisa también.
         if (pack.getNombre_pack() != null) {
 
             try {
                 packBD.insertarPack(conexion, pack);
                 detallepacksBD.insertarDetallePack(conexion, actividadesEscogidas);
-                
+
                 crearAvisoInformacionDuradero("Se ha actualizado tu Pack!\n\n¡Gracias por utilizar Nuestro Servicio!");
-                
+
                 conexion.close();
                 retornoInicio(event);
             } catch (SQLException ex) {
                 crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema en la BD\n\n" + ex.getMessage() + "CODIGO: " + ex.getErrorCode());
 
-
             } catch (Exception e) {
-                crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema\n" +e.getMessage());
-
+                crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema\n" + e.getMessage());
 
             }
 
@@ -182,30 +172,24 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
     }
 
-
     public void metodoEjecutaAlInicio() { //Cuando se cargue previamente esta escena, si no se ha seleccionado ninguna actividad anteriormente, se pone que no se ha escogido nada
-                                            // si existen, se carga la info pasada de la otra escena en un textarea y un label.
+        // si existen, se carga la info pasada de la otra escena en un textarea y un label.
 
         if (actividadesEscogidas.isEmpty()) {
             areaResumen.setText("Aún no has escogido NADA");
         } else {
 
             areaResumen.setText(textoResumen);
-             labelPrecioTotal.setText("Total: " +df.format(precioTotal)+ "€");
+            labelPrecioTotal.setText("Total: " + df.format(precioTotal) + "€");
         }
     }
 
-    
     @FXML
     private void alPulsarDescripcion(ActionEvent event) { //se añade la descripción y se avisa de que se ha agregado.
-        if(!fieldDescripción.getText().equals(null)){
-        pack.setDescripcion(fieldDescripción.getText());
+        if (!fieldDescripción.getText().equals(null)) {
+            pack.setDescripcion(fieldDescripción.getText());
         }
-//        alerta = new Alert(Alert.AlertType.INFORMATION);
-//        alerta.setTitle("Descripción Incluída");
-//        alerta.setHeaderText("Se ha completado la actualización de la descripción");
-//        alerta.setContentText("Actualizado tu pack: Tu descripción es '" + pack.getDescripcion() + "'");
-//        alerta.showAndWait();
+
     }
 
     @FXML
@@ -215,11 +199,6 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
             pack.setFavorito(1);
             crearAvisoInformacionBreve("Tu pack Es ahora tu Favorito!!");
-//            alerta = new Alert(Alert.AlertType.INFORMATION);
-//            alerta.setTitle("Favorito");
-//            alerta.setHeaderText("Tu pack Es ahora tu Favorito!!");
-//            alerta.setContentText("Actualizado tu pack");
-//            alerta.showAndWait();
 
         }
 
@@ -227,15 +206,11 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
             pack.setFavorito(0);
             crearAvisoInformacionBreve("Tu pack ya no es ahora tu Favorito");
-//            alerta = new Alert(Alert.AlertType.INFORMATION);
-//            alerta.setTitle("Favorito");
-//            alerta.setHeaderText("Tu pack ya no es ahora tu Favorito");
-//            alerta.setContentText("No es tu favorito");
-//            alerta.showAndWait();
 
         }
     }
-        private void crearAvisoError(String texto) {
+
+    private void crearAvisoError(String texto) {
 
         notificacion = Notifications.create()
                 .text(texto)
@@ -257,11 +232,8 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
         notificacion.showInformation();
 
-    
-        
-        
     }
-    
+
     private void crearAvisoInformacionBreve(String texto) {
 
         notificacion = Notifications.create()
@@ -272,15 +244,10 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
         notificacion.showInformation();
 
-    
-        
-        
     }
 
-
-
 //GETTERS Y SETTERS de lo que se pasa de la otra escena.
-     public String getTextoResumen() {
+    public String getTextoResumen() {
         return textoResumen;
     }
 
@@ -303,5 +270,5 @@ public class EscenaRevisarConfirmarController implements Initializable {
     public void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
-    
+
 }

@@ -27,6 +27,7 @@ import org.controlsfx.control.Notifications;
  * @author 34679
  */
 public class FXMLInicialController implements Initializable {
+
     private Alert alerta;
     private Label label;
     private Notifications notificacion;
@@ -34,30 +35,19 @@ public class FXMLInicialController implements Initializable {
     private Button botonEmpezar;
     @FXML
     private Button botonAdmin;
-    
-   
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void alPulsarIniciar(ActionEvent event) { //al pulsar el botoón cambiamos a la primera escena importante
-       
 
-        
         abreEscenaActividades(event);
-            
-                   
-            
-                    
-                    
-            
-        
+
     }
-    
-    
+
     private void abreEscenaActividades(ActionEvent event) {
 
         try {
@@ -69,25 +59,18 @@ public class FXMLInicialController implements Initializable {
             Stage escenarioVentana = (Stage) botonEmpezar.getScene().getWindow();
             escenarioVentana.setTitle("Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
+            escenarioVentana.setScene(new Scene(root));
+
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
-//             alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
+        } catch (NullPointerException e) {
+            crearAvisoError("ERROR EN EL ARCHIVO escenaActividades.fxml");
+
         }
-            catch (NullPointerException e){
-                crearAvisoError("ERROR EN EL ARCHIVO escenaActividades.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO escenaActividades.fxml");
-//            alerta.showAndWait();
-        }
-    
-} 
-    
-    
+
+    }
+
     private void abreEscenaAdmin(ActionEvent event) {
 
         try {
@@ -99,32 +82,25 @@ public class FXMLInicialController implements Initializable {
             Stage escenarioVentana = (Stage) botonAdmin.getScene().getWindow();
             escenarioVentana.setTitle("Administrador");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
+            escenarioVentana.setScene(new Scene(root));
+
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
-        } catch (NullPointerException e){
-            crearAvisoError("ERROR EN EL ARCHIVO EscenaMantenimiento.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO EscenaMantenimiento.fxml");
-//            alerta.showAndWait();
-        }
-    
-}
 
+        } catch (NullPointerException e) {
+            crearAvisoError("ERROR EN EL ARCHIVO EscenaMantenimiento.fxml");
+
+        }
+
+    }
 
     @FXML
     private void alPulsarAdmin(ActionEvent event) {
-        
+
         abreEscenaAdmin(event);
     }
-    
-    
-        private void crearAvisoError(String texto) {
+
+    private void crearAvisoError(String texto) {
 
         notificacion = Notifications.create()
                 .text(texto)

@@ -40,7 +40,7 @@
             <Font name="Berlin Sans FB" size="31.0" />
          </font>
       </Text>
-      <Button fx:id="botonGuardar" layoutX="671.0" layoutY="587.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="43.0" prefWidth="127.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Guardar y Continuar" />
+      <Button fx:id="botonGuardar" layoutX="671.0" layoutY="541.0" mnemonicParsing="false" onAction="#alClicar" prefHeight="43.0" prefWidth="127.0" stylesheets="@../CSS/CSS_Proyecto.css" text="Guardar y Continuar" />
       <ComboBox fx:id="comboSubtipo" layoutX="193.0" layoutY="324.0" onAction="#alSeleccionarSubtipo" prefWidth="150.0" />
       <Text fx:id="textSubtipoAct" layoutX="50.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subipo de Actividad" />
       <TextField fx:id="fieldNombre" layoutX="194.0" layoutY="372.0" onAction="#alInsertar" />

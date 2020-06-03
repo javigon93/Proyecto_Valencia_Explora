@@ -19,7 +19,8 @@ import javafx.scene.image.ImageView;
  * @author 34679
  */
 public class EscenaAyudaMantenimientoController implements Initializable {
-    private int modo=0;
+
+    private int modo = 0;
     @FXML
     private Label labelTitulo;
     @FXML
@@ -38,17 +39,17 @@ public class EscenaAyudaMantenimientoController implements Initializable {
     private Label labelDescrFuncion;
 
     /**
-     * Initializes the controller class.
+     * Este controlador genera una ventana de ayuda dependiendo de la escena
+     * desde donde se pide ayuda
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println(modo);
-        
-        
-    }    
-    
-    private void cargarAyudaInsertar(){
-    
+
+    }
+
+    private void cargarAyudaInsertar() {
+
         labelTitulo.setText("Ayuda en ventana 'Insertar actividad'");
         labelDescrFuncion.setText("Esta ventana tiene como única funcion proporcionarte las herramientas para añadir una nueva actividad al registro\n"
                 + "\nSimplemente rellena los campos descritos a continuación:");
@@ -58,20 +59,19 @@ public class EscenaAyudaMantenimientoController implements Initializable {
                 + "\n\nNombre: Aquí introduce el nombre de la actividad.\n"
                 + "\nDescripción: Inserta aquí la descripción que desear otorgar a la Actividad"
                 + "\nURL: En este apartado deberás insertar la URL de la actividad. La aplicación posee un sistema reconocimiento de URL correctas, por lo que deberás insertar mediante copia y pega las URL"
-                );
+        );
         labelDescElementos.setText("Esta funcionalidad posee elementos interesantes como:\n\n"
                 + "Boton Imagen: Selecciona este botón para poder seleccionar una imagen, a través de la apertura de una ventana sencilla de usar. Tras la seleccion de la imagen se mostrará su URL para facilitar su reconocimiento"
                 + "\nBoton Guardar: Selecciona este botón para poder guardar los cambios, se te preguntará acerca si estás seguro de hacerlo");
-        Image imagen= new Image("/IMG/camera.png");
+        Image imagen = new Image("/IMG/camera.png");
         image1.setImage(imagen);
-        imagen= new Image("/IMG/anadir.png");
+        imagen = new Image("/IMG/anadir.png");
         image2.setImage(imagen);
-    
-    
+
     }
-    
-     private void cargarAyudaModificarBorrar(){
-       
+
+    private void cargarAyudaModificarBorrar() {
+
         labelTitulo.setText("Ayuda en ventana 'Modificar/Borrar'");
         labelDescrFuncion.setText("Esta ventana tiene como única funcion proporcionarte las herramientas para poder borrar o modificar actividades ya registradas\n"
                 + "\nSimplemente rellena los campos descritos a continuación (RECUERDA: selecciona previamente una actividad):");
@@ -81,42 +81,44 @@ public class EscenaAyudaMantenimientoController implements Initializable {
                 + "\n\nNombre: Aquí introduce el nombre de la actividad.\n"
                 + "\n\nDescripción: Inserta aquí la descripción que desear otorgar a la Actividad."
                 + "\n\nURL: En este apartado deberás insertar la URL de la actividad. La aplicación posee un sistema reconocimiento de URL correctas, por lo que deberás insertar mediante copia y pega las URL."
-                );
+        );
         labelDescElementos.setText("Esta funcionalidad posee elementos interesantes como:\n\n"
                 + "Boton Imagen: Selecciona este botón para poder seleccionar una imagen, a través de la apertura de una ventana sencilla de usar."
                 + "\nBoton Borrar: Selecciona este botón para poder borrar la actividad, se te preguntará acerca si estás seguro de hacerlo."
                 + "\nBoton Modificar: Selecciona este botón para poder Modificar la actividad seleccionada, se te preguntará acerca de ello."
-               );
-        Image imagen= new Image("/IMG/camera.png");
+        );
+        Image imagen = new Image("/IMG/camera.png");
         image1.setImage(imagen);
-        imagen= new Image("/IMG/eliminar.png");
+        imagen = new Image("/IMG/eliminar.png");
         image2.setImage(imagen);
-        imagen=new Image("/IMG/menos.png");
+        imagen = new Image("/IMG/menos.png");
         image3.setImage(imagen);
-    
-}  private void cargarAyudaCreaciónPack(){
-       
+
+    }
+
+    private void cargarAyudaCreaciónPack() {
+
         labelTitulo.setText("Ayuda en ventana 'Eleccion de tu Pack'");
         labelDescrFuncion.setText("Este es el núcleo de tus deseos, ¡donde puedes seleccionar las actividades de tu pack a tu gusto!\n"
-                + "\nSimplemente selecciona la actividad que prefieras, rellena los campos mosstrados y añade la actividad a tu pack. :");
+                + "\nSimplemente selecciona la actividad que prefieras, rellena los campos mosstrados y añade la actividad a tu pack. :"
+                + "\n\nIMPORTANTE: Únicamente los alojamientos tienen fecha/Hora de salida, el resto solo necesitan fecha/hora de Incio");
         labelDescrGen.setText("Existen varios campos a rellenar tras seleccionar la actividad, los cuales se incluyen:"
                 + "\n\nNºde Personas: Selecciona el número de personas que participarán en la actividad."
                 + "\n\nFecha Inicio: Selecciona fecha/hora de tu actividad."
                 + "\n\nFecha Fin: Selecciona la fecha/hora de finalización de tu actividad.\n"
                 + "\n\nPrecio Unitario: Inserta aquí el precio de la actividad."
-                );
+        );
         labelDescElementos.setText("Esta funcionalidad posee elementos interesantes como:\n\n"
                 + "Boton Borrar: Botón creado para resetear tu pack si no estás satisfecho."
                 + "\nBoton Más Información: Botón que te redirige a la web de Oficial de la Actividad."
                 + "\nBoton Añadir: Donde se te pregunta si deseas añadir la actividad. Si seleccionas OK, la verás registrada."
                 + "\nBoton Revisar/Confirmar: Donde te redirigimos a un resumen de tu pack, donde podrás personalizarlo."
-               );
-       
-    
-}
-     
+        );
+
+    }
+
     public void metodoEjecutaAlInicio() {
-          labelTitulo.setStyle(" -fx-font-weight:bold;");
+        labelTitulo.setStyle(" -fx-font-weight:bold;");
         switch (modo) {
             case 1:
                 cargarAyudaInsertar();
@@ -139,5 +141,5 @@ public class EscenaAyudaMantenimientoController implements Initializable {
     public void setModo(int modo) {
         this.modo = modo;
     }
-     
+
 }

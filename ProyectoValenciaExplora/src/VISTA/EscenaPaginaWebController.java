@@ -18,12 +18,12 @@ import javafx.scene.web.WebView;
  * @author juanf
  */
 public class EscenaPaginaWebController implements Initializable {
+
     private String url;
 
     @FXML
     private WebView webview;
 
-   
     /**
      * Initializes the controller class.
      */

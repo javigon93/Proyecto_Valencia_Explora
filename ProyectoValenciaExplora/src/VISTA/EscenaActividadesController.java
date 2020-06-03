@@ -14,7 +14,6 @@ import MODELO.DetallePacks;
 import MODELO.Subtipo;
 import MODELO.Tipo;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -49,7 +48,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
-
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
@@ -68,9 +66,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
-
-
-
 
 /**
  * FXML Controller class
@@ -102,7 +97,7 @@ public class EscenaActividadesController implements Initializable {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int codTipo_actividad_seleccionada;
-    
+
     private Notifications notificacion;
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
     private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
@@ -230,25 +225,22 @@ public class EscenaActividadesController implements Initializable {
     }
 
     @FXML
-    private void alPulsar(ActionEvent event) {
+    private void alPulsar(ActionEvent event) { //Conjunto de métodos realizados al pulsar botones
 
         if (event.getSource() == botonSalir) {
 
-            abreEscenaInicio(event);
+            abreEscenaInicio(event); //si le das sale al Inicio
 
         } else if (event.getSource() == botonANADIR) {
 
-            //si todo está rellenado, avisa de la introducción de una nueva actividad, al confirmar, se añade a una coleccion y se imprime información en las areas de la derecha a través de un método
+            //si todo está rellenado, avisa del intento de introducción de una nueva actividad, al confirmar, se añade a una coleccion y se imprime información en las areas de la derecha a través de un método
             // cuando se añade a la colección, los elementos visuales centrales se vuelven a deshabilitar
             if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null && detalleActividad.getPrecio() != 0 && detalleActividad.getDuracion() != null) {
-                
-            
-                
-                
+
                 alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma tu Actividad");
-                alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + "Con precio " + formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€ a tu Pack?");
+                alerta.setContentText("¿Deseas añadir la actividad " + actividad_seleccionada.getNombre() + " con precio " + formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€ a tu Pack?");
 
                 Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
@@ -261,24 +253,21 @@ public class EscenaActividadesController implements Initializable {
 
                 }
 
-            } else { //si algo falta, salta un alert de error.
-                
-                crearError("Introduce todos los datos antes de continuar!");
-            
-            
+            } else { //si algo falta, salta un notification de error.
 
+                crearError("Introduce todos los datos antes de continuar!");
 
             }
-        } else if (event.getSource() == botonRevisarConfirmar) {
+        } else if (event.getSource() == botonRevisarConfirmar) {//si se le da se traslada a la escena de confirmar.
             abreEscenaRevisarConfirmar(event);
 
         } else if (event.getSource() == botonBorrar) { //salta un alert confirmation, si se da OK, se resetean todos los valores del objeto detallepacks y se borra la colección
-            
+
             if (listaDetalleActividadesSeleccionadas.isEmpty() == false) {
-               notificacion=Notifications.create();
-               
-            notificacion.showConfirm();
-            
+                notificacion = Notifications.create();
+
+                notificacion.showConfirm();
+
                 alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma la Eliminación");
@@ -300,23 +289,23 @@ public class EscenaActividadesController implements Initializable {
 
             }
 
-        } else if (event.getSource() == botonAyuda) {
+        } else if (event.getSource() == botonAyuda) {//si se le da aparece de manera complementaria la ayuda asociada a la escena principal
             cargarEscenaAyuda();
         }
 
     }
 
     @FXML
-    private void alpulsarActividad(MouseEvent event) {
+    private void alpulsarActividad(MouseEvent event) { //Cuando se pulsa la actividad, se obtiene del tableview la actividad almacenada en ese registro
 
         actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
-        if (actividad_seleccionada != null) {
+        if (actividad_seleccionada != null) { //si lo que se selecciona de la tableview es una actividad...
 
             try {
-                imagenActividad.setImage(actividad_seleccionada.getImagen());
-                centrarImagen();
-                codTipo_actividad_seleccionada = bd_act.buscarTipoActividad(conexion, actividad_seleccionada.getIdActividad());
-                //al clicar en una actividad, los elementos visuales centrales se habilitan
+                imagenActividad.setImage(actividad_seleccionada.getImagen()); //se setea la imagen de ésta
+                centrarImagen(); //se centra
+                codTipo_actividad_seleccionada = bd_act.buscarTipoActividad(conexion, actividad_seleccionada.getIdActividad()); //se busca su tipo, para habilitar o no elementos
+                //al clicar en una actividad, los elementos visuales centrales de fecha Inicio se habilitan
                 paneDescripcion.setDisable(false);
                 dateFin.setDisable(true);
                 timeInicio.setDisable(true);
@@ -329,11 +318,11 @@ public class EscenaActividadesController implements Initializable {
                 //a travvés del valor que ofrece la actividad seleccionda
 
             } catch (SQLException ex) {
-                
+
                 crearError("ERROR " + ex.getMessage() + " Codigo de error: " + ex.getErrorCode());
 
             } catch (IOException ex) {
-                
+
                 crearError("ERROR " + ex.getMessage());
 
             }
@@ -355,9 +344,8 @@ public class EscenaActividadesController implements Initializable {
             double precioActividad = Double.parseDouble(textPrecio.getText());
             detalleActividad.setPrecio(precioActividad);
         } catch (NumberFormatException e) { //si se introducen valores NO NUMÉRICOS, salta error.
-            
-            crearError("Introduce un Número");
 
+            crearError("Introduce un Número");
 
         }
     }
@@ -410,13 +398,12 @@ public class EscenaActividadesController implements Initializable {
             crearError("ERROR " + ex.getMessage());
 
         } catch (NullPointerException ex) {
-            
+
             crearError("ERROR " + ex.getMessage());
 
         }
 
     }
-
 
     private void panePorDefecto() { //este es el método que desabilita elementos visuales y resetea algunos.
         textPrecio.clear();
@@ -434,7 +421,7 @@ public class EscenaActividadesController implements Initializable {
     private void imprimirDetalleyPrecio() { //para mostrar info de lo que tenemos guardado en la coleccion de detalle. Aprovechamos los objetos  (detallepacks y actividades) que se están utilziando
 
         texto += "Actividad: " + actividad_seleccionada.getNombre() + " Número de Personas: " + detalleActividad.getPersonas() + "\nFecha Inicio: "
-                + detalleActividad.getFechaInicio() + "Fecha Final: " + detalleActividad.getFechaFin() + "\n\n";
+                + detalleActividad.getFechaInicio() + " Fecha Final: " + detalleActividad.getFechaFin() + "\n\n";
 
         areaInfoActividad.setText(texto);
         areaPrecio.appendText(formatoDosDecimales.format(detalleActividad.calcularPrecioIndividual(codTipo_actividad_seleccionada)) + "€\n\n\n"); //se formatea el precio individual, obtenido de un método de la clase detallepacks
@@ -456,8 +443,7 @@ public class EscenaActividadesController implements Initializable {
         textPrecioTotal.setText("Total: " + formatoDosDecimales.format(total) + "€");
     }
 
-
-    private void centrarImagen() {
+    private void centrarImagen() { //el método importado de internet para centrar las imágenes.
 
         Image img = imagenActividad.getImage();
         if (img != null) {
@@ -510,7 +496,7 @@ public class EscenaActividadesController implements Initializable {
     }
 
     @FXML
-    private void cargaPagina(ActionEvent event) {
+    private void cargaPagina(ActionEvent event) { 
 
         try {
             Stage stage = new Stage();
@@ -532,14 +518,12 @@ public class EscenaActividadesController implements Initializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         }
 
     }
 
-    private void cargarEscenaAyuda() {
+    private void cargarEscenaAyuda() { //método de carga de la escena de ayuda.
 
         try {
             Stage stage = new Stage();
@@ -561,15 +545,14 @@ public class EscenaActividadesController implements Initializable {
             crearError("ERROR " + ex.getMessage());
 
         } catch (NullPointerException e) {
-        crearError("ERROR " + e.getMessage());
-
+            crearError("ERROR " + e.getMessage());
 
         }
 
     }
 
     @FXML
-    private void alSeleccionarFiltroSubtipo(ActionEvent event) {
+    private void alSeleccionarFiltroSubtipo(ActionEvent event) { //al seleccionar un subtipo del combobox, se llama a la bd para mostrar las actividades que tengan ese subtipo
 
         subtipo = comboFiltroSubtipo.getValue();
 
@@ -578,17 +561,16 @@ public class EscenaActividadesController implements Initializable {
             actividades = bd_act.buscarActividadesPorSubtipo(conexion, subtipo.getCodigoSubtipo());
             listaActividades = FXCollections.observableArrayList(actividades);
             tableActividades.setItems(listaActividades);
-            habilitarFiltrado();
+            habilitarFiltrado(); //asimismo se habilita que el filteredList funcione tras seleccionar el subtipo.
 
         } catch (SQLException | IOException e) {
-              crearError("ERROR " + e.getMessage());
-
+            crearError("ERROR " + e.getMessage());
 
         }
     }
 
     @FXML
-    private void alSeleccionarFiltroTipo(ActionEvent event) {
+    private void alSeleccionarFiltroTipo(ActionEvent event) {//al seleccionar un subtipo del combobox, se llama a la bd para mostrar las actividades que tengan ese subtipo
 
         tipo = comboFiltroTipoActividad.getValue();
 
@@ -598,18 +580,17 @@ public class EscenaActividadesController implements Initializable {
             listaActividades = FXCollections.observableArrayList(actividades);
             tableActividades.setItems(listaActividades);
 
-            cargarSubtipos();
-            habilitarFiltrado();
+            cargarSubtipos(); //tras seleccionar los tipos, se cargan sus correspondientes subtipos en el otro combobox.
+            habilitarFiltrado();//se habilita la funcion del FilteredList.
 
         } catch (SQLException | IOException e) {
-              crearError("ERROR " + e.getMessage());
-
+            crearError("ERROR " + e.getMessage());
 
         }
 
     }
 
-    private void cargarTipos() {
+    private void cargarTipos() { //método de carga de tipos en el combobox de filtrado por Tipos
 
         bd_tipo = new Tipo_DAO();
         bd_subtipo = new Subtipo_DAO();
@@ -621,14 +602,14 @@ public class EscenaActividadesController implements Initializable {
             comboFiltroTipoActividad.setItems(listaTipos);
 
         } catch (IOException | SQLException e) {
-            
+
             crearError("Error!: " + e.getMessage());
 
         }
 
     }
 
-    private void cargarSubtipos() {
+    private void cargarSubtipos() { //LO mismo que el anterior pero con los subtipos
 
         bd_subtipo = new Subtipo_DAO();
         try {
@@ -641,18 +622,17 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (IOException | SQLException e) {
             crearError("Error!: " + e.getMessage());
-            
 
         }
 
     }
 
-    private void habilitarFiltrado() {
+    private void habilitarFiltrado() { //método importado para Habilitar un FilteredList efectivo.
 
         FilteredList<Actividades> filtrado = new FilteredList<>(listaActividades, p -> true);
         fieldBuscador.textProperty().addListener((observable, oldValue, newValue) -> {
             filtrado.setPredicate(person -> {
-                // If filter text is empty, display all persons.
+
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
@@ -672,23 +652,19 @@ public class EscenaActividadesController implements Initializable {
             });
         });
 
-        // 3. Wrap the FilteredList in a SortedList. 
         SortedList<Actividades> sortedData = new SortedList<>(filtrado);
 
-        // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(tableActividades.comparatorProperty());
 
-        // 5. Add sorted (and filtered) data to the table.
         tableActividades.setItems(sortedData);
 
     }
 
-
     @FXML
-    private void alSeleccionarTiempo(ActionEvent event) { //metodo de gestion de fechas. Aglutina todos los botones involucrados.
+    private void alSeleccionarTiempo(ActionEvent event) { //metodo de gestion de fechas. Aglutina todos los botones involucrados para ello.
 
         if (event.getSource() == dateInicio) {
-            //si la fecha es igual o o superior a la actula, la recoge. EN EL CASO DE SER LA AC
+            //si la fecha es igual o o superior a la actula, la recoge. EN EL CASO DE QUE LA ACTIVIDAD SEA ALOJAMIENTO automáticamente se le asigna la misma fechaFin que la INICIO
             LocalDate fecha_seleccionada = dateInicio.getValue();
 
             if (fecha_seleccionada.isAfter(LocalDate.now()) || fecha_seleccionada.isEqual(LocalDate.now())) {
@@ -709,7 +685,7 @@ public class EscenaActividadesController implements Initializable {
         } else if (event.getSource() == dateFin) {
             LocalDate fecha_seleccionada = dateFin.getValue();
 
-            if (fecha_seleccionada.isAfter(fechaInicio)) {
+            if (fecha_seleccionada.isAfter(fechaInicio)) {//la fecha fin debe de ser posterior a la fecha inicio
                 fechaFin = fecha_seleccionada;
                 timeFin.setDisable(false);
 
@@ -719,17 +695,17 @@ public class EscenaActividadesController implements Initializable {
                 dateFin.setValue(dateInicio.getValue().plusDays(1));
 
             }
-        } else if (event.getSource() == timeInicio) {
+        } else if (event.getSource() == timeInicio) {//en el caso de que la hora inicio sea de una actividad alojamiento, se habilita su datepicker
 
             horaInicio = LocalTime.parse(timeInicio.getValue(), formatoHoras);
             LocalDateTime fecha_completa_inicio = LocalDateTime.of(fechaInicio, horaInicio);
-            detalleActividad.setFechaInicio(fecha_completa_inicio);
+            detalleActividad.setFechaInicio(fecha_completa_inicio); //en cualquier caso se fusionan laFecha/Hora inicio y se setea.
 
             if (codTipo_actividad_seleccionada == 3) {
 
                 dateFin.setDisable(false);
 
-            } else {
+            } else { //Si la actividad no es alojamiento
 
                 horaFin = horaInicio;
                 LocalDateTime fecha_completa_fin = LocalDateTime.of(fechaFin, horaFin);
@@ -745,20 +721,17 @@ public class EscenaActividadesController implements Initializable {
         }
 
     }
-    
-    private void crearError(String texto){  //metodo que genera Notifications de Error personalizados.
-    
-        
-                    notificacion=Notifications.create()
-                    .text(texto)
-                    .title("Error")
-                    
-                    .hideAfter(Duration.seconds(10))
-                    .position(Pos.CENTER);
-                    
-                    notificacion.showError();
-    
-    
+
+    private void crearError(String texto) {  //metodo que genera Notifications de Error personalizados.
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Error")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showError();
+
     }
 
 }

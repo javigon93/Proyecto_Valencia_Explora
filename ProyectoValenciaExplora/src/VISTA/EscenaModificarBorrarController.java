@@ -10,7 +10,7 @@ import DatosBDA.DetallePacks_DAO;
 import DatosBDA.Subtipo_DAO;
 import DatosBDA.Tipo_DAO;
 import MODELO.Actividades;
-import MODELO.DetallePacks;
+
 import MODELO.Subtipo;
 import MODELO.Tipo;
 import java.io.File;
@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -132,7 +131,7 @@ public class EscenaModificarBorrarController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        //Hace falta un ejecutar al inicio
+    
     }
 
     public Connection getConexion() {
@@ -144,7 +143,7 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     @FXML
-    private void alClicar(ActionEvent event) {
+    private void alClicar(ActionEvent event) { //permite la ejecucion de diferentes acciones dependiendo del botón que se clica
 
         if (event.getSource() == botonATRAS) {
             cargarEscenaMantenimiento();
@@ -164,7 +163,7 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     @FXML
-    private void alInsertar(ActionEvent event) {
+    private void alInsertar(ActionEvent event) { //permite la ejecucion de diferentes acciones dependiendo del field que se rellena
 
         if (event.getSource() == fieldNombre) {
             String nuevoNombre = fieldNombre.getText();
@@ -212,26 +211,19 @@ public class EscenaModificarBorrarController implements Initializable {
 
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e) {
             crearAvisoError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta.showAndWait();
+
 
         }
 
     }
 
-    @FXML
-    private void alInsertarTexto(ActionEvent event) {
-    }
 
-    public void metodoEjecutaAlInicio() {
+    public void metodoEjecutaAlInicio() { //precarga estilos, carga actividades y tipos de bd
         Image imagen_inicial;
-        botonAyuda.setStyle("-fx-background-color:trasnsparent;");
+        botonAyuda.setStyle("-fx-background-color:transparent;");
         //LO QUE SE CARGA ANTES DE CAMBIAR de escena a aquí de nuevo, se podrá hacer en la siguiente escena.
         cargarTipos();
         bd_actividades = new Actividades_DAO();
@@ -245,9 +237,7 @@ public class EscenaModificarBorrarController implements Initializable {
             imageViewSeleccion.setImage(imagen_inicial);
         } catch (NullPointerException e) {
             crearAvisoError("ERROR EN EL ARCHIVO IMG/nofoto.png");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO IMG/nofoto.png");
-//            alerta.showAndWait();
+
         }
 
         centrarImagen();
@@ -255,7 +245,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void centrarImagen() {
+    private void centrarImagen() { //centra las imagenes
 
         Image img = imageViewSeleccion.getImage();
         if (img != null) {
@@ -283,7 +273,7 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     @FXML
-    private void alSeleccionarActividad(MouseEvent event) {
+    private void alSeleccionarActividad(MouseEvent event) { //la actividad seleccionada en la tabla es la cargada en la clase, se printean los atributos en los campos correspondientes
         try {
             actividad_seleccionada = tableActividades.getSelectionModel().getSelectedItem();
             System.out.println(actividad_seleccionada.getIdActividad());
@@ -292,20 +282,18 @@ public class EscenaModificarBorrarController implements Initializable {
             fieldDescripción.setText(actividad_seleccionada.getDescripcion());
             fieldURL.setText(actividad_seleccionada.getURL());
             imageViewSeleccion.setImage(actividad_seleccionada.getImagen());
-            centrarImagen();
-            blanquearFields();
-            habilitarElementos();
+            centrarImagen(); //centra la imagen
+            blanquearFields(); //reseta los campos si previamente se han modificado por la modificcion
+            habilitarElementos(); //habilita todos los elementos
             imageAlerta.setVisible(false);
         } catch (NullPointerException e) {
             crearAvisoError("Error al seleccionar la actividad revisar base de datos");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
-//            alerta.showAndWait();
+
         }
 
     }
 
-    private void cargarActividades() {
+    private void cargarActividades() { //carga las actividades desde la bd
 
         try {
 
@@ -327,7 +315,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void cargarTipos() {
+    private void cargarTipos() { //carga tipos de la bd
 
         bd_tipo = new Tipo_DAO();
         bd_subtipo = new Subtipo_DAO();
@@ -345,7 +333,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void cargarSubtipos() {
+    private void cargarSubtipos() { //carga subtipos de la bd
 
         bd_subtipo = new Subtipo_DAO();
         try {
@@ -364,7 +352,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void habilitarFiltrado() {
+    private void habilitarFiltrado() { //prepara y activa el filteredlist
 
         FilteredList<Actividades> filtrado = new FilteredList<>(listaActividades, p -> true);
         fieldBuscador.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -401,7 +389,7 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     @FXML
-    private void alSeleccionarFiltroSubtipo(ActionEvent event) {
+    private void alSeleccionarFiltroSubtipo(ActionEvent event) { //se carga en la tableview las actividades segun el criterio subtipo
 
         subtipo = comboFiltroSubtipo.getValue();
 
@@ -422,7 +410,7 @@ public class EscenaModificarBorrarController implements Initializable {
     }
 
     @FXML
-    private void alSeleccionarFiltroTipo(ActionEvent event) {
+    private void alSeleccionarFiltroTipo(ActionEvent event) { //se carga en la tableview las actividades segun el criterio tipo, tambien carga subtipos
 
         tipo = comboFiltroTipoActividad.getValue();
 
@@ -433,76 +421,70 @@ public class EscenaModificarBorrarController implements Initializable {
             tableActividades.setItems(listaActividades);
 
             cargarSubtipos();
-            habilitarFiltrado();
+            habilitarFiltrado(); //permite también el filtrado
 
         } catch (SQLException | IOException e) {
             crearAvisoError("ERROR " + e.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + e.getMessage());
-//            alerta.showAndWait();
+
 
         }
     }
 
     @FXML
-    private void alPulsar(ActionEvent event) {
+    private void alPulsar(ActionEvent event) { 
 
-        if (event.getSource() == botonModificar) {
+        if (event.getSource() == botonModificar) { //si pulsas boton modificar
 
-            if (actividad_seleccionada != null) {
+            if (actividad_seleccionada != null) { //y has seleccionado previemente una actividad
 
-                alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta = new Alert(Alert.AlertType.CONFIRMATION); //te pregunta si la quieres modificar
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma los cambios");
                 alerta.setContentText("Deseas modificar la actividad: " + actividad_seleccionada.getNombre() + "?");
 
                 Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
-                if (respuestaUsuario.get() == ButtonType.OK) {
+                if (respuestaUsuario.get() == ButtonType.OK) { //si dices que si
 
                     try {
-                        bd_actividades.actualizarActividad(conexion, actividad_seleccionada);
+                        bd_actividades.actualizarActividad(conexion, actividad_seleccionada); //modifica 
                         crearAvisoInformacion("Se ha modificado tu actividad");
                     } catch (SQLException | IOException ex) {
                         crearAvisoError("ERROR " + ex.getMessage());
-//                        alerta = new Alert(Alert.AlertType.ERROR);
-//                        alerta.setContentText("ERROR " + ex.getMessage());
-//                        alerta.showAndWait();
+//        
                     }
                 }
 
-            } else {
+            } else { //si no seleccionas actividad salta error
                 crearAvisoInformacion("Selecciona una Actividad\n\nPara modificar una actividad, es necesario seleccionar una previamente");
 //               
             }
 
-        } else if (event.getSource() == botonEliminar) {
+        } else if (event.getSource() == botonEliminar) { 
 
-            if (actividad_seleccionada != null) {
+            if (actividad_seleccionada != null) { //si seleccionas actividad y pulsas
 
-                alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta = new Alert(Alert.AlertType.CONFIRMATION); //te pise si quieres borrar
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma los cambios");
                 alerta.setContentText("Deseas eliminar la actividad: " + actividad_seleccionada.getNombre() + "?");
 
                 Optional<ButtonType> respuestaUsuario = alerta.showAndWait();
 
-                if (respuestaUsuario.get() == ButtonType.OK) {
+                if (respuestaUsuario.get() == ButtonType.OK) { //si pulsas ok
 
                     try {
-                        bd_actividades.borrarActividad(conexion, actividad_seleccionada);
+                        bd_actividades.borrarActividad(conexion, actividad_seleccionada); //borra y resetea modificaciones
                         imageAlerta.setVisible(false);
                         crearAvisoInformacion("Se ha borrado tu actividad.");
                     } catch (IOException ex) {
                         crearAvisoError("ERROR " + ex.getMessage());
-//                        alerta = new Alert(Alert.AlertType.ERROR);
-//                        alerta.setContentText("ERROR " + ex.getMessage());
-//                        alerta.showAndWait();
+//                        
                     } catch (SQLException e) {
 
-                        if (e.getErrorCode() == 1451) {
+                        if (e.getErrorCode() == 1451) { //pero si hay error de FK
 
-                            alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                            alerta = new Alert(Alert.AlertType.CONFIRMATION); //te pregunta que si continuas se borraran los registros de la actividad que quieres borrar 
                             alerta.setTitle("Eliminación adicional");
                             alerta.setHeaderText("Eliminar datos asociados");
                             alerta.setContentText("La actividad a borrar " + actividad_seleccionada.getNombre() + " está presente en los packs de algunos usuarios.\n"
@@ -510,11 +492,11 @@ public class EscenaModificarBorrarController implements Initializable {
 
                             Optional<ButtonType> respuestaUsuario2 = alerta.showAndWait();
 
-                            if (respuestaUsuario2.get() == ButtonType.OK) {
+                            if (respuestaUsuario2.get() == ButtonType.OK) { //si contestas OK
 
                                 try {
 
-                                    bd_detalle.eliminarRegistroDetalle(conexion, actividad_seleccionada.getIdActividad());
+                                    bd_detalle.eliminarRegistroDetalle(conexion, actividad_seleccionada.getIdActividad()); //borra primero registro y luego la actividad
                                     bd_actividades.borrarActividad(conexion, actividad_seleccionada);
                                     imageAlerta.setVisible(false);
                                      crearAvisoInformacion("Se ha borrado tu actividad.");
@@ -543,7 +525,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void blanquearFields() {
+    private void blanquearFields() { //lo deja todo como estaba
 
         fieldDescripción.setStyle(null);
         fieldURL.setStyle(null);
@@ -551,7 +533,7 @@ public class EscenaModificarBorrarController implements Initializable {
         fieldNombre.setStyle(null);
     }
 
-    private void insertarImagen() {
+    private void insertarImagen() { //inseta imagen en la actividad seleccionada por URL, para un posterior update
 
         //CREAMOS EL OBJETO FILECHOOSER
         FileChooser fileChooser = new FileChooser();
@@ -571,7 +553,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void deshabilitarElementos() {
+    private void deshabilitarElementos() { //dehabilita los field y el boton
 
         fieldNombre.setDisable(true);
         fieldDescripción.setDisable(true);
@@ -580,7 +562,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
     }
 
-    private void habilitarElementos() {
+    private void habilitarElementos() { //los vuelve a habilitar
 
         fieldNombre.setDisable(false);
         fieldDescripción.setDisable(false);

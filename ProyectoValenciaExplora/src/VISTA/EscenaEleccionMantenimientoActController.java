@@ -31,7 +31,8 @@ import org.controlsfx.control.Notifications;
  * @author 34679
  */
 public class EscenaEleccionMantenimientoActController implements Initializable {
-    private Notifications notificacion; 
+
+    private Notifications notificacion;
     Connection conexion;
     @FXML
     private Button botonATRAS;
@@ -45,8 +46,8 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+
+    }
 
     public Connection getConexion() {
         return conexion;
@@ -56,33 +57,28 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
         this.conexion = conexion;
     }
 
-
-        
-    
     @FXML
-    private void alClicar(ActionEvent event) {
-        
-        if(event.getSource()== botonATRAS){
-    
+    private void alClicar(ActionEvent event) { //métodos para el paso escena ependiendo del botón que se pulse
+
+        if (event.getSource() == botonATRAS) {
+
             abreEscenaMantenimiento(event);
-    
-    
-    } 
-        
-        if (event.getSource()== botonAnadirAct) {
+
+        }
+
+        if (event.getSource() == botonAnadirAct) {
             abreEscenaAnadirAct(event);
         }
-        
-        if (event.getSource()==botonModEliActividad) {
-            
+
+        if (event.getSource() == botonModEliActividad) {
+
             abreEscenaModificarEliminarActividades(event);
-            
+
         }
-        
+
     }
-    
-    
-     private void abreEscenaMantenimiento(ActionEvent event) {
+
+    private void abreEscenaMantenimiento(ActionEvent event) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -93,18 +89,16 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
             Stage escenarioVentana = (Stage) botonATRAS.getScene().getWindow();
             escenarioVentana.setTitle("Mantenimiento");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
+            escenarioVentana.setScene(new Scene(root));
+
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         }
-    
-} 
-      private void abreEscenaAnadirAct(ActionEvent event) {
+
+    }
+
+    private void abreEscenaAnadirAct(ActionEvent event) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -116,29 +110,23 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
             //PASAMOS UN DATO AL CONTROLADOR
             controlador.setConexion(conexion);
             controlador.metodoEjecutaAlInicio();
-            
+
             Stage escenarioVentana = (Stage) botonAnadirAct.getScene().getWindow();
             escenarioVentana.setTitle("Añadir Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root));
-           
-            
+
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
-        }
-        catch (NullPointerException e) {
+
+        } catch (NullPointerException e) {
             crearError("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaMantenimientoActividades.fxml");
-//            alerta.showAndWait();
+
         }
-    
-}
-      
-       private void abreEscenaModificarEliminarActividades(ActionEvent event) {
+
+    }
+
+    private void abreEscenaModificarEliminarActividades(ActionEvent event) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -151,42 +139,32 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
             controlador.setConexion(conexion);
             controlador.metodoEjecutaAlInicio();
             //controlador.metodoEjecutaAlInicio();
-            
+
             Stage escenarioVentana = (Stage) botonAnadirAct.getScene().getWindow();
             escenarioVentana.setTitle("Añadir Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root));
-           
-            
+
         } catch (IOException ex) {
-            
+
             crearError("ERROR " + ex.getMessage());
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
-        }
-        catch (NullPointerException e) {
+
+        } catch (NullPointerException e) {
             crearError("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
-//            Alert alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
-//            alerta.showAndWait();
+
         }
-    
-}
-       
-        private void crearError(String texto){
-    
-    
-                    notificacion=Notifications.create()
-                    .text(texto)
-                    .title("Error")
-                    
-                    .hideAfter(Duration.seconds(10))
-                    .position(Pos.CENTER);
-                    
-                    
-                    notificacion.showError();
-    
-    
+
+    }
+
+    private void crearError(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Error")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showError();
+
     }
 }

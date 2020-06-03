@@ -17,11 +17,11 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class ProyectoValenciaExplora extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLInicial.fxml"));
-        
+
         Scene scene = new Scene(root);
         stage.getIcons().add(new Image("Icono/iconoAplicacion.png"));
         stage.setTitle("INICIO");
@@ -35,5 +35,5 @@ public class ProyectoValenciaExplora extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

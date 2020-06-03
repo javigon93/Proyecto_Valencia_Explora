@@ -5,23 +5,18 @@
  */
 package DatosBDA;
 
-import MODELO.Actividades;
+
 import MODELO.Tipo;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
+
 import java.io.IOException;
-import java.sql.Blob;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -30,7 +25,7 @@ import javax.imageio.ImageIO;
 public class Tipo_DAO {
     
     public List<Tipo> buscarTipos(Connection conexion) throws SQLException, IOException{
-//BUSQUEDA ACTIVIDADES DE LA BD CON INNER JOIN PARA OBETENER LOS VALORES DE TIPO Y SUBTIPO EN FORMATO STRING
+//BUSQUEDA TIPOS DE LA BD EN FORMATO STRING
         List<Tipo> listaActividades = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
@@ -51,7 +46,7 @@ public class Tipo_DAO {
                 //SE SETTEAN LOS VALORES OFRECIDOS POR LA BD
               
                tipo.setCodigoTipo(rs.getInt("codigoTipo"));
-               tipo.setNombre(rs.getString("nombre")); //Y SE AÑADEN A LA COLECCIÓN DE ACTIVIDADES QUE SE INSERTARÁN EN LA TABLEVIEW
+               tipo.setNombre(rs.getString("nombre")); //Y SE AÑADEN A LA COLECCIÓN DE TIPOS QUE SE INSERTARÁN EN LA TABLEVIEW
                listaActividades.add(tipo);
                
             }
