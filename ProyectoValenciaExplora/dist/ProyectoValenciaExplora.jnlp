@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ProyectoValenciaExplora.jar" size="3652562" download="eager" />
+    <jar href="ProyectoValenciaExplora.jar" size="3652356" download="eager" />
     <jar href="lib\controlsfx-8.40.16.jar" size="1416162" download="eager" />
     <jar href="lib\mysql-connector-java-8.0.19.jar" size="2356711" download="eager" />
   </resources>

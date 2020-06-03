@@ -105,14 +105,10 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e){
             crearAvisoError("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
-//            alerta.showAndWait();
+
         }
 
     }
@@ -135,15 +131,11 @@ public class EscenaRevisarConfirmarController implements Initializable {
 
         } catch (IOException ex) {
             crearAvisoError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         }
      catch (NullPointerException e){
              crearAvisoError("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
-//            alerta.showAndWait();
+
         }
 
     }
@@ -163,42 +155,24 @@ public class EscenaRevisarConfirmarController implements Initializable {
             try {
                 packBD.insertarPack(conexion, pack);
                 detallepacksBD.insertarDetallePack(conexion, actividadesEscogidas);
-                alerta = new Alert(Alert.AlertType.INFORMATION);
-
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText("Se ha actualizado tu Pack");
-                alerta.setContentText("Gracias por Utilizar el servicio!!");
-                alerta.showAndWait();
+                
+                crearAvisoInformacionDuradero("Se ha actualizado tu Pack!\n\n¡Gracias por utilizar Nuestro Servicio!");
+                
                 conexion.close();
                 retornoInicio(event);
             } catch (SQLException ex) {
                 crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema en la BD\n\n" + ex.getMessage() + "CODIGO: " + ex.getErrorCode());
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//
-//                alerta.setTitle("ERROR EN BD");
-//                alerta.setHeaderText("Ha ocurrido un problema en la BD");
-//                alerta.setContentText(ex.getMessage() + "CODIGO: " + ex.getErrorCode());
-//                alerta.showAndWait();
+
 
             } catch (Exception e) {
                 crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema\n" +e.getMessage());
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//
-//                alerta.setTitle("ERROR EN BD");
-//                alerta.setHeaderText("Ha ocurrido un problema");
-//                alerta.setContentText(e.getMessage());
-//                alerta.showAndWait();
+
 
             }
 
         } else {
             crearAvisoInformacionDuradero("Nombra a tu Pack antes de confirmarlo.");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//
-//            alerta.setTitle("Inserta un Nombre");
-//            alerta.setHeaderText("Inserta un Nombre");
-//            alerta.setContentText("Inserta un Nombre");
-//            alerta.showAndWait();
+
         }
     }
 

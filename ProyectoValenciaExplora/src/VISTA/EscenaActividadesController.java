@@ -266,13 +266,7 @@ public class EscenaActividadesController implements Initializable {
                 crearError("Introduce todos los datos antes de continuar!");
             
             
-//            
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setTitle("ERROR");
-//                alerta.setHeaderText("Error!");
-//                alerta.setContentText("Introduce todos los datos antes de continuar");
-//
-//                alerta.showAndWait();
+
 
             }
         } else if (event.getSource() == botonRevisarConfirmar) {
@@ -337,15 +331,11 @@ public class EscenaActividadesController implements Initializable {
             } catch (SQLException ex) {
                 
                 crearError("ERROR " + ex.getMessage() + " Codigo de error: " + ex.getErrorCode());
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setContentText("ERROR " + ex.getMessage());
-//                alerta.showAndWait();
+
             } catch (IOException ex) {
                 
                 crearError("ERROR " + ex.getMessage());
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setContentText("ERROR " + ex.getMessage());
-//                alerta.showAndWait();
+
             }
 
         }
@@ -367,11 +357,7 @@ public class EscenaActividadesController implements Initializable {
         } catch (NumberFormatException e) { //si se introducen valores NO NUMÉRICOS, salta error.
             
             crearError("Introduce un Número");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setTitle("ERROR");
-//            alerta.setHeaderText("Ha ocurrido un error");
-//            alerta.setContentText("Introduce un Número");
-//            alerta.showAndWait();
+
 
         }
     }
@@ -398,14 +384,10 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaRevisarConfirmar.fxml");
-//            alerta.showAndWait();
+
         }
 
     }
@@ -426,60 +408,15 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException ex) {
             
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
-//            alerta.showAndWait();
+
         }
 
     }
-//
-//    @FXML
-//    private void alSeleccionarFechaInicio(ActionEvent event) { //lo que se selecciona se le hace un set al objeto detallepacks.
-//
-//        LocalDate fechaInicio = pickerInicio.getValue();
-//
-//        if (fechaInicio.isAfter(LocalDate.now()) || fechaInicio.isEqual(LocalDate.now())) {
-//
-//            detalleActividad.setFechaInicio(pickerInicio.getValue());
-//            System.out.println(pickerInicio.getValue());
-//        } else {
-//
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setTitle("ERROR");
-//            alerta.setHeaderText("Introduce una fecha Correcta");
-//            alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
-//
-//            alerta.showAndWait();
-//
-//        }
-//
-//    }
-//
-//    @FXML
-//    private void alSeleccionarFechaFin(ActionEvent event) { //LO mismo que el anterior, pero con condición de no meter un valor inferior a la fecha fin (salta error si pasa)
-//        LocalDate fechafin = pickerFin.getValue();
-//        LocalDate fechaIni = detalleActividad.getFechaInicio();
-//        if (fechafin.isAfter(fechaIni)) {
-//
-//            detalleActividad.setFechaFin(pickerFin.getValue());
-//            textDias.setText("" + detalleActividad.calcularDiasActividad());
-//        } else {
-//
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setTitle("ERROR");
-//            alerta.setHeaderText("Introduce una fecha Correcta");
-//            alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
-//
-//            alerta.showAndWait();
-//
-//        }
-//    }
+
 
     private void panePorDefecto() { //este es el método que desabilita elementos visuales y resetea algunos.
         textPrecio.clear();
@@ -518,16 +455,7 @@ public class EscenaActividadesController implements Initializable {
         areaInfoActividad.setText(texto);
         textPrecioTotal.setText("Total: " + formatoDosDecimales.format(total) + "€");
     }
-//
-//    @FXML
-//    private void alSeleccionarDuracion(ActionEvent event) {
-//
-//        //el valor que se obtiene del combo se formatea la duración a horas, se pasa a LocalTime y se hace un set al detallepacks
-//        DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_TIME;
-//
-//        detalleActividad.setDuracion(LocalTime.parse(comboDuracion.getSelectionModel().getSelectedItem()));
-//
-//    }
+
 
     private void centrarImagen() {
 
@@ -631,15 +559,10 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (IOException ex) {
             crearError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e) {
         crearError("ERROR " + e.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//
-//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta.showAndWait();
+
 
         }
 
@@ -659,9 +582,7 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (SQLException | IOException e) {
               crearError("ERROR " + e.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + e.getMessage());
-//            alerta.showAndWait();
+
 
         }
     }
@@ -682,9 +603,7 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (SQLException | IOException e) {
               crearError("ERROR " + e.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + e.getMessage());
-//            alerta.showAndWait();
+
 
         }
 
@@ -766,10 +685,10 @@ public class EscenaActividadesController implements Initializable {
 
 
     @FXML
-    private void alSeleccionarTiempo(ActionEvent event) {
+    private void alSeleccionarTiempo(ActionEvent event) { //metodo de gestion de fechas. Aglutina todos los botones involucrados.
 
         if (event.getSource() == dateInicio) {
-
+            //si la fecha es igual o o superior a la actula, la recoge. EN EL CASO DE SER LA AC
             LocalDate fecha_seleccionada = dateInicio.getValue();
 
             if (fecha_seleccionada.isAfter(LocalDate.now()) || fecha_seleccionada.isEqual(LocalDate.now())) {
@@ -782,12 +701,7 @@ public class EscenaActividadesController implements Initializable {
                 }
             } else {
                 crearError("Introduce una fecha Correcta\n\nLa Fecha Inicio debe de ser Actual o Posterior");
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setTitle("ERROR");
-//                alerta.setHeaderText("Introduce una fecha Correcta");
-//                alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
-//
-//                alerta.showAndWait();
+
                 dateInicio.setValue(LocalDate.now());
 
             }
@@ -801,12 +715,7 @@ public class EscenaActividadesController implements Initializable {
 
             } else {
                 crearError("Introduce una fecha Correcta\n\nLa Fecha Fin debe de ser Posterior a la Fecha Inicio");
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setTitle("ERROR");
-//                alerta.setHeaderText("Introduce una fecha Correcta");
-//                alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
-//
-//                alerta.showAndWait();
+
                 dateFin.setValue(dateInicio.getValue().plusDays(1));
 
             }
@@ -837,7 +746,7 @@ public class EscenaActividadesController implements Initializable {
 
     }
     
-    private void crearError(String texto){
+    private void crearError(String texto){  //metodo que genera Notifications de Error personalizados.
     
         
                     notificacion=Notifications.create()
