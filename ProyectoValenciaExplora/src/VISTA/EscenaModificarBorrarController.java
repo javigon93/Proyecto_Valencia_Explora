@@ -462,7 +462,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
                     try {
                         bd_actividades.actualizarActividad(conexion, actividad_seleccionada);
-
+                        crearAvisoInformacion("Se ha modificado tu actividad");
                     } catch (SQLException | IOException ex) {
                         crearAvisoError("ERROR " + ex.getMessage());
 //                        alerta = new Alert(Alert.AlertType.ERROR);
@@ -473,11 +473,7 @@ public class EscenaModificarBorrarController implements Initializable {
 
             } else {
                 crearAvisoInformacion("Selecciona una Actividad\n\nPara modificar una actividad, es necesario seleccionar una previamente");
-//                alerta = new Alert(Alert.AlertType.INFORMATION);
-//                alerta.setTitle("Aviso");
-//                alerta.setHeaderText("Selecciona una actividad");
-//                alerta.setContentText("Para modificar una actividad, es necesario seleccionar una previamente");
-//                alerta.showAndWait();
+//               
             }
 
         } else if (event.getSource() == botonEliminar) {
@@ -496,7 +492,7 @@ public class EscenaModificarBorrarController implements Initializable {
                     try {
                         bd_actividades.borrarActividad(conexion, actividad_seleccionada);
                         imageAlerta.setVisible(false);
-
+                        crearAvisoInformacion("Se ha borrado tu actividad.");
                     } catch (IOException ex) {
                         crearAvisoError("ERROR " + ex.getMessage());
 //                        alerta = new Alert(Alert.AlertType.ERROR);
@@ -521,17 +517,13 @@ public class EscenaModificarBorrarController implements Initializable {
                                     bd_detalle.eliminarRegistroDetalle(conexion, actividad_seleccionada.getIdActividad());
                                     bd_actividades.borrarActividad(conexion, actividad_seleccionada);
                                     imageAlerta.setVisible(false);
-
+                                     crearAvisoInformacion("Se ha borrado tu actividad.");
                                 } catch (IOException ex) {
                                     crearAvisoError("ERROR " + ex.getMessage());
-//                                    alerta = new Alert(Alert.AlertType.ERROR);
-//                                    alerta.setContentText("ERROR " + ex.getMessage());
-//                                    alerta.showAndWait();
+//                                    
                                 } catch (SQLException ex) {
                                     crearAvisoError("ERROR " + ex.getMessage() + "Cógigo de Error" + ex.getErrorCode());
-//                                    alerta = new Alert(Alert.AlertType.ERROR);
-//                                    alerta.setContentText("ERROR " + ex.getMessage() + "Cógigo de Error" + ex.getErrorCode());
-//                                    alerta.showAndWait();
+//                                    
 
                                 }
 
@@ -545,11 +537,7 @@ public class EscenaModificarBorrarController implements Initializable {
             } else {
 
                 crearAvisoInformacion("Para eliminar una actividad, es necesario seleccionar una previamente");
-//                alerta = new Alert(Alert.AlertType.INFORMATION);
-//                alerta.setTitle("Aviso");
-//                alerta.setHeaderText("Selecciona una actividad");
-//                alerta.setContentText("Para eliminar una actividad, es necesario seleccionar una previamente");
-//                alerta.showAndWait();
+//               
             }
         }
 
@@ -622,15 +610,10 @@ public class EscenaModificarBorrarController implements Initializable {
         } catch (IOException ex) {
 
             crearAvisoError("ERROR " + ex.getMessage());
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//            alerta.setContentText("ERROR " + ex.getMessage());
-//            alerta.showAndWait();
+
         } catch (NullPointerException e) {
             crearAvisoError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta = new Alert(Alert.AlertType.ERROR);
-//
-//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-//            alerta.showAndWait();
+
 
         }
 

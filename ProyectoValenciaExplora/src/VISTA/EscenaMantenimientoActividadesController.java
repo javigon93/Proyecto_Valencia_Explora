@@ -145,38 +145,24 @@ public class EscenaMantenimientoActividadesController implements Initializable {
                         actividad_solicitada.setIdActividad(bd_actividades.buscarMAX_IDatividad(conexion) + 1);
                         bd_actividades.insertarActividad(conexion, actividad_solicitada);
 
-//                        invisibilizarTodo();
-                        alerta = new Alert(Alert.AlertType.INFORMATION);
-                        alerta.setTitle("Inserción en la base de datos completa");
-                        alerta.setHeaderText("Se ha insertado tu Nueva Actividad");
-                        alerta.showAndWait();
+
+                        crearAvisoInformacion("Inserción en la base de datos completa\n\nSe ha insertado tu nueva actividad");
+                       
                         
                     }
                     
                 } catch (IOException e) {
                     crearError("Ha ocurrido un error inesperado\n\nError " + e.getMessage());
-//                    alerta = new Alert(Alert.AlertType.ERROR);
-//                    alerta.setTitle("Error!");
-//                    alerta.setHeaderText("Ha ocurrido un error inesperado");
-//                    alerta.setContentText("Error " + e.getMessage());
-//                    alerta.showAndWait();
+
                     
                 } catch (SQLException ex) {
                     crearError("Ha ocurrido un error en la Base de Datos\n\nError: " + ex.getMessage() + " Código de error: " + ex.getErrorCode());
-//                    alerta = new Alert(Alert.AlertType.ERROR);
-//                    alerta.setTitle("Error!");
-//                    alerta.setHeaderText("Ha ocurrido un error en\" la Base de Datos");
-//                    alerta.setContentText("Error " + ex.getMessage() + " Código de error: " + ex.getErrorCode());
-//                    alerta.showAndWait();
-//                    
+
+                   
                 }
             } else {
                 crearError("Ha ocurrido un error inesperado\n\nFaltan campos por rellenar");
-//                alerta = new Alert(Alert.AlertType.ERROR);
-//                alerta.setTitle("Error!");
-//                alerta.setHeaderText("Ha ocurrido un error inesperado");
-//                alerta.setContentText("Faltan campos por rellenar");
-//                alerta.showAndWait();
+
                 
             }
             
@@ -206,10 +192,8 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             } else {
                 
                 textRuta.setText("No has seleccionado ningún fichero");
-                //Setting font to the text 
-                //Setting font to the text 
-                //text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20)); 
-                textRuta.setFill(Color.RED);                
+                
+                textRuta.setFill(Color.RED); //color rojo si no ha saleccionado fichero;               
             }
             
         }
@@ -433,5 +417,17 @@ public class EscenaMantenimientoActividadesController implements Initializable {
                     notificacion.showError();
     
     
+    }
+     
+      private void crearAvisoInformacion(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Aviso")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showInformation();
+
     }
 }
