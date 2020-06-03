@@ -70,6 +70,8 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 
+
+
 /**
  * FXML Controller class
  *
@@ -239,7 +241,10 @@ public class EscenaActividadesController implements Initializable {
             //si todo está rellenado, avisa de la introducción de una nueva actividad, al confirmar, se añade a una coleccion y se imprime información en las areas de la derecha a través de un método
             // cuando se añade a la colección, los elementos visuales centrales se vuelven a deshabilitar
             if (detalleActividad.getPersonas() != 0 && detalleActividad.getFechaInicio() != null && detalleActividad.getFechaFin() != null && detalleActividad.getPrecio() != 0 && detalleActividad.getDuracion() != null) {
-
+                
+            
+                
+                
                 alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma tu Actividad");
@@ -834,7 +839,7 @@ public class EscenaActividadesController implements Initializable {
     
     private void crearError(String texto){
     
-    
+        
                     notificacion=Notifications.create()
                     .text(texto)
                     .title("Error")
