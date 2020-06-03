@@ -136,7 +136,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Text>
-      <TextField fx:id="fieldBuscador" layoutX="157.0" layoutY="145.0" onAction="#alInsertarTexto" prefHeight="26.0" prefWidth="338.0" />
+      <TextField fx:id="fieldBuscador" layoutX="157.0" layoutY="145.0" prefHeight="26.0" prefWidth="338.0" />
       
    </children>
 </AnchorPane>

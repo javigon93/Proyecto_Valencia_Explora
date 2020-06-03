@@ -17,11 +17,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -29,8 +32,10 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class EscenaMantenimientoController implements Initializable {
+
     Alert alerta;
     Connection conexion;
+    Notifications notificacion;
     @FXML
     private Button botonGestionAct;
     @FXML
@@ -49,10 +54,11 @@ public class EscenaMantenimientoController implements Initializable {
         try {
             conectar();
         } catch (SQLException ex) {
-           ex.getMessage();
+            ex.getMessage();
         }
-    }    
- public void conectar() throws SQLException { //Típico método de conexión a BD, esta conexión se trasladará a diferentes métodos y escenas
+    }
+
+    public void conectar() throws SQLException { //Típico método de conexión a BD, esta conexión se trasladará a diferentes métodos y escenas
 
         String bd = "esquema_proyecto_2.0";
         String usuario = "root";
@@ -66,33 +72,32 @@ public class EscenaMantenimientoController implements Initializable {
             System.out.println("Conectado");
         }
     }
+
     @FXML
     private void alClicar(ActionEvent event) {
-        
-        if (event.getSource()==botonATRAS) {
-        
-            
+
+        if (event.getSource() == botonATRAS) {
+
             abreEscenaInicial(event);
-            
+
         }
-        
-        if (event.getSource()== botonGestionAct) {
+
+        if (event.getSource() == botonGestionAct) {
             abreEscenaMantenimientoActividades(event);
         }
-        
-        if (event.getSource()== botonGestionPacks) {
-            
+
+        if (event.getSource() == botonGestionPacks) {
+
         }
-        if (event.getSource()== botonGestionUsu) {
-            
+        if (event.getSource() == botonGestionUsu) {
+
         }
-        if (event.getSource()== botonGestionTipSub) {
-            
+        if (event.getSource() == botonGestionTipSub) {
+
         }
-        
+
     }
-    
-     
+
     private void abreEscenaInicial(ActionEvent event) {
 
         try {
@@ -104,18 +109,17 @@ public class EscenaMantenimientoController implements Initializable {
             Stage escenarioVentana = (Stage) botonATRAS.getScene().getWindow();
             escenarioVentana.setTitle("Inicio");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
-            escenarioVentana.setScene(new Scene(root)); 
-           
-            
+            escenarioVentana.setScene(new Scene(root));
+
         } catch (IOException ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
-    
-} 
-    
-     
+
+    }
+
     private void abreEscenaMantenimientoActividades(ActionEvent event) {
 
         try {
@@ -127,26 +131,37 @@ public class EscenaMantenimientoController implements Initializable {
 
             //PASAMOS UN DATO AL CONTROLADOR
             controlador.setConexion(conexion);
-           
-            
+
             Stage escenarioVentana = (Stage) botonGestionAct.getScene().getWindow();
             escenarioVentana.setTitle("Gestión Actividades");
             //CARGAMOS OTRA ESCENA(fxml) EN ESTA MISMA VENTANA
             escenarioVentana.setScene(new Scene(root));
-           
-            
+
         } catch (IOException ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
-        } catch (NullPointerException e){
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//             alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
+        } catch (NullPointerException e) {
+            
+            crearError("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaEleccionMantenimientoAct.fxml");
+//            alerta.showAndWait();
         }
-    
-} 
-    
-    
-    
+
+    }
+
+    private void crearError(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Error")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showError();
+
+    }
+
 }

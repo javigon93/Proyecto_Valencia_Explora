@@ -27,6 +27,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -47,6 +48,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -65,6 +68,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
     private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
     private Alert alerta;
+    private Notifications notificacion;
     @FXML
     private Button botonATRAS;
     @FXML
@@ -150,29 +154,29 @@ public class EscenaMantenimientoActividadesController implements Initializable {
                     }
                     
                 } catch (IOException e) {
-                    
-                    alerta = new Alert(Alert.AlertType.ERROR);
-                    alerta.setTitle("Error!");
-                    alerta.setHeaderText("Ha ocurrido un error inesperado");
-                    alerta.setContentText("Error " + e.getMessage());
-                    alerta.showAndWait();
+                    crearError("Ha ocurrido un error inesperado\n\nError " + e.getMessage());
+//                    alerta = new Alert(Alert.AlertType.ERROR);
+//                    alerta.setTitle("Error!");
+//                    alerta.setHeaderText("Ha ocurrido un error inesperado");
+//                    alerta.setContentText("Error " + e.getMessage());
+//                    alerta.showAndWait();
                     
                 } catch (SQLException ex) {
-                    
-                    alerta = new Alert(Alert.AlertType.ERROR);
-                    alerta.setTitle("Error!");
-                    alerta.setHeaderText("Ha ocurrido un error en la Base de Datos");
-                    alerta.setContentText("Error " + ex.getMessage() + " Código de error: " + ex.getErrorCode());
-                    alerta.showAndWait();
-                    
+                    crearError("Ha ocurrido un error en la Base de Datos\n\nError: " + ex.getMessage() + " Código de error: " + ex.getErrorCode());
+//                    alerta = new Alert(Alert.AlertType.ERROR);
+//                    alerta.setTitle("Error!");
+//                    alerta.setHeaderText("Ha ocurrido un error en\" la Base de Datos");
+//                    alerta.setContentText("Error " + ex.getMessage() + " Código de error: " + ex.getErrorCode());
+//                    alerta.showAndWait();
+//                    
                 }
             } else {
-                
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Error!");
-                alerta.setHeaderText("Ha ocurrido un error inesperado");
-                alerta.setContentText("Faltan campos por rellenar");
-                alerta.showAndWait();
+                crearError("Ha ocurrido un error inesperado\n\nFaltan campos por rellenar");
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setTitle("Error!");
+//                alerta.setHeaderText("Ha ocurrido un error inesperado");
+//                alerta.setContentText("Faltan campos por rellenar");
+//                alerta.showAndWait();
                 
             }
             
@@ -283,9 +287,10 @@ public class EscenaMantenimientoActividadesController implements Initializable {
         try {
             imageViewSeleccion.setImage(imagen_inicial);
         } catch (NullPointerException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR al CARGAR LOGOTIPO ");
-            alerta.showAndWait();
+            crearError("ERROR al CARGAR LOGOTIPO ");
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR al CARGAR LOGOTIPO ");
+//            alerta.showAndWait();
         }
         
         centrarImagen();
@@ -305,7 +310,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             
         } catch (IOException | SQLException e) {
             
-            System.out.println(e.getMessage());
+           crearError("ERROR " + e.getMessage());
             
         }
         
@@ -324,7 +329,7 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             
         } catch (IOException | SQLException e) {
             
-            System.out.println(e.getMessage());
+           crearError("ERROR " + e.getMessage());
             
         }
         
@@ -347,9 +352,10 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
             
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
         
     }
@@ -400,16 +406,32 @@ public class EscenaMantenimientoActividadesController implements Initializable {
             stage.show();
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException e){
-            
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-            alerta.showAndWait();
+            crearError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta.showAndWait();
         
         }
 
+    }
+    
+     private void crearError(String texto){
+    
+    
+                    notificacion=Notifications.create()
+                    .text(texto)
+                    .title("Error")
+                    
+                    .hideAfter(Duration.seconds(10))
+                    .position(Pos.CENTER);
+                    
+                    notificacion.showError();
+    
+    
     }
 }

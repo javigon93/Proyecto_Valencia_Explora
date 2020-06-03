@@ -3,16 +3,27 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/FXMLInicialController.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/escenaRevisarConfirmar.fxml</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaAyudaMantenimientoController.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/Actividades.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaMantenimientoActividadesController.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaPaginaWebController.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaRevisarConfirmarController.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/Subtipo.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/Tipo.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/escenaActividades.fxml</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaMantenimientoController.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/DatosBDA/DetallePacks_DAO.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaModificarBorrarController.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/CSS/CSS_Proyecto.css</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/DetallePacks.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaActividadesController.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/DatosBDA/Actividades_DAO.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/escenaEleccionMantenimientoAct.fxml</file>
-            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/escenaRevisarConfirmar.fxml</file>
-            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/Actividades.java</file>
             <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/DatosBDA/Packs_DAO.java</file>
-            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/escenaActividades.fxml</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/MODELO/Packs.java</file>
+            <file>file:/C:/Users/34679/Desktop/PROYECTO/ProyectoValenciaExplora/src/VISTA/EscenaEleccionMantenimientoActController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -29,8 +29,11 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -39,15 +42,15 @@ import javafx.scene.control.TextField;
  */
 public class EscenaRevisarConfirmarController implements Initializable {
 
-    Packs pack;
-    Connection conexion;
-    DetallePacks_DAO detallepacksBD;
-    Packs_DAO packBD;
+    private Packs pack;
+    private Connection conexion;
+    private DetallePacks_DAO detallepacksBD;
+    private Packs_DAO packBD;
     private double precioTotal;
     private String textoResumen;
     private final DecimalFormat df = new DecimalFormat("#.00");
-    
-    Alert alerta;
+    private Notifications notificacion;
+    private Alert alerta;
     @FXML
     private Button botonAtras;
     @FXML
@@ -101,13 +104,15 @@ public class EscenaRevisarConfirmarController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearAvisoError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException e){
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
-            alerta.showAndWait();
+            crearAvisoError("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaActividades.fxml");
+//            alerta.showAndWait();
         }
 
     }
@@ -129,14 +134,16 @@ public class EscenaRevisarConfirmarController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-             alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearAvisoError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
      catch (NullPointerException e){
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
-            alerta.showAndWait();
+             crearAvisoError("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
+//            alerta.showAndWait();
         }
 
     }
@@ -165,33 +172,33 @@ public class EscenaRevisarConfirmarController implements Initializable {
                 conexion.close();
                 retornoInicio(event);
             } catch (SQLException ex) {
-
-                alerta = new Alert(Alert.AlertType.ERROR);
-
-                alerta.setTitle("ERROR EN BD");
-                alerta.setHeaderText("Ha ocurrido un problema en la BD");
-                alerta.setContentText(ex.getMessage() + "CODIGO: " + ex.getErrorCode());
-                alerta.showAndWait();
+                crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema en la BD\n\n" + ex.getMessage() + "CODIGO: " + ex.getErrorCode());
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//
+//                alerta.setTitle("ERROR EN BD");
+//                alerta.setHeaderText("Ha ocurrido un problema en la BD");
+//                alerta.setContentText(ex.getMessage() + "CODIGO: " + ex.getErrorCode());
+//                alerta.showAndWait();
 
             } catch (Exception e) {
-
-                alerta = new Alert(Alert.AlertType.ERROR);
-
-                alerta.setTitle("ERROR EN BD");
-                alerta.setHeaderText("Ha ocurrido un problema");
-                alerta.setContentText(e.getMessage());
-                alerta.showAndWait();
+                crearAvisoError("ERROR EN BD\n\nHa ocurrido un problema\n" +e.getMessage());
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//
+//                alerta.setTitle("ERROR EN BD");
+//                alerta.setHeaderText("Ha ocurrido un problema");
+//                alerta.setContentText(e.getMessage());
+//                alerta.showAndWait();
 
             }
 
         } else {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-
-            alerta.setTitle("Inserta un Nombre");
-            alerta.setHeaderText("Inserta un Nombre");
-            alerta.setContentText("Inserta un Nombre");
-            alerta.showAndWait();
+            crearAvisoInformacionDuradero("Nombra a tu Pack antes de confirmarlo.");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//
+//            alerta.setTitle("Inserta un Nombre");
+//            alerta.setHeaderText("Inserta un Nombre");
+//            alerta.setContentText("Inserta un Nombre");
+//            alerta.showAndWait();
         }
     }
 
@@ -233,7 +240,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
         if (checkFavorito.isSelected()) {
 
             pack.setFavorito(1);
-
+            crearAvisoInformacionBreve("Tu pack Es ahora tu Favorito!!");
 //            alerta = new Alert(Alert.AlertType.INFORMATION);
 //            alerta.setTitle("Favorito");
 //            alerta.setHeaderText("Tu pack Es ahora tu Favorito!!");
@@ -245,6 +252,7 @@ public class EscenaRevisarConfirmarController implements Initializable {
         if (checkFavorito.isSelected() == false) {
 
             pack.setFavorito(0);
+            crearAvisoInformacionBreve("Tu pack ya no es ahora tu Favorito");
 //            alerta = new Alert(Alert.AlertType.INFORMATION);
 //            alerta.setTitle("Favorito");
 //            alerta.setHeaderText("Tu pack ya no es ahora tu Favorito");
@@ -252,7 +260,52 @@ public class EscenaRevisarConfirmarController implements Initializable {
 //            alerta.showAndWait();
 
         }
-    }//GETTERS Y SETTERS de lo que se pasa de la otra escena.
+    }
+        private void crearAvisoError(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Error")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showError();
+
+    }
+
+    private void crearAvisoInformacionDuradero(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Aviso")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showInformation();
+
+    
+        
+        
+    }
+    
+    private void crearAvisoInformacionBreve(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Aviso")
+                .hideAfter(Duration.seconds(1))
+                .position(Pos.CENTER_RIGHT);
+
+        notificacion.showInformation();
+
+    
+        
+        
+    }
+
+
+
+//GETTERS Y SETTERS de lo que se pasa de la otra escena.
      public String getTextoResumen() {
         return textoResumen;
     }
@@ -276,4 +329,5 @@ public class EscenaRevisarConfirmarController implements Initializable {
     public void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
+    
 }

@@ -15,11 +15,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javax.management.Notification;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -27,7 +31,8 @@ import javafx.stage.Stage;
  * @author 34679
  */
 public class EscenaEleccionMantenimientoActController implements Initializable {
-     Connection conexion;
+    private Notifications notificacion; 
+    Connection conexion;
     @FXML
     private Button botonATRAS;
     @FXML
@@ -92,9 +97,10 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
            
             
         } catch (IOException ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
     
 } 
@@ -118,14 +124,16 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
            
             
         } catch (IOException ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
         catch (NullPointerException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaMantenimientoActividades.fxml");
-            alerta.showAndWait();
+            crearError("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaMantenimientoActividades.fxml");
+//            alerta.showAndWait();
         }
     
 }
@@ -151,15 +159,34 @@ public class EscenaEleccionMantenimientoActController implements Initializable {
            
             
         } catch (IOException ex) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            
+            crearError("ERROR " + ex.getMessage());
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
         catch (NullPointerException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
-            alerta.showAndWait();
+            crearError("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
+//            Alert alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaModificarBorrar.fxml");
+//            alerta.showAndWait();
         }
     
 }
+       
+        private void crearError(String texto){
+    
+    
+                    notificacion=Notifications.create()
+                    .text(texto)
+                    .title("Error")
+                    
+                    .hideAfter(Duration.seconds(10))
+                    .position(Pos.CENTER);
+                    
+                    
+                    notificacion.showError();
+    
+    
+    }
 }

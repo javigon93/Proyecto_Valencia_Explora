@@ -32,6 +32,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -50,6 +51,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -67,6 +70,7 @@ public class EscenaModificarBorrarController implements Initializable {
     Actividades actividad_seleccionada;
     Tipo tipo;
     Subtipo subtipo;
+    Notifications notificacion;
 
     Set<Actividades> actividades;
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
@@ -207,14 +211,15 @@ public class EscenaModificarBorrarController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearAvisoError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException e) {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-            alerta.showAndWait();
+            crearAvisoError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta.showAndWait();
 
         }
 
@@ -239,9 +244,10 @@ public class EscenaModificarBorrarController implements Initializable {
             imagen_inicial = new Image("IMG/nofoto.png");
             imageViewSeleccion.setImage(imagen_inicial);
         } catch (NullPointerException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO IMG/nofoto.png");
-            alerta.showAndWait();
+            crearAvisoError("ERROR EN EL ARCHIVO IMG/nofoto.png");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO IMG/nofoto.png");
+//            alerta.showAndWait();
         }
 
         centrarImagen();
@@ -291,9 +297,10 @@ public class EscenaModificarBorrarController implements Initializable {
             habilitarElementos();
             imageAlerta.setVisible(false);
         } catch (NullPointerException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
-            alerta.showAndWait();
+            crearAvisoError("Error al seleccionar la actividad revisar base de datos");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("Error al seleccionar la actividad revisar base de datos");
+//            alerta.showAndWait();
         }
 
     }
@@ -313,8 +320,8 @@ public class EscenaModificarBorrarController implements Initializable {
             columnaSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
 
         } catch (SQLException | IOException e) {
-
-            System.out.println(e.getMessage());
+            crearAvisoError("ERROR: " + e.getMessage());
+            
 
         }
 
@@ -332,8 +339,7 @@ public class EscenaModificarBorrarController implements Initializable {
             comboFiltroTipoActividad.setItems(listaTipos);
 
         } catch (IOException | SQLException e) {
-
-            System.out.println(e.getMessage());
+            crearAvisoError("ERROR: " + e.getMessage());
 
         }
 
@@ -351,7 +357,7 @@ public class EscenaModificarBorrarController implements Initializable {
             comboFiltroSubtipo.setItems(listaSubtipos);
 
         } catch (IOException | SQLException e) {
-
+            crearAvisoError("ERROR: " + e.getMessage());
             System.out.println(e.getMessage());
 
         }
@@ -407,9 +413,10 @@ public class EscenaModificarBorrarController implements Initializable {
             habilitarFiltrado();
 
         } catch (SQLException | IOException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + e.getMessage());
-            alerta.showAndWait();
+            crearAvisoError("ERROR " + e.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + e.getMessage());
+//            alerta.showAndWait();
 
         }
     }
@@ -429,9 +436,10 @@ public class EscenaModificarBorrarController implements Initializable {
             habilitarFiltrado();
 
         } catch (SQLException | IOException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + e.getMessage());
-            alerta.showAndWait();
+            crearAvisoError("ERROR " + e.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + e.getMessage());
+//            alerta.showAndWait();
 
         }
     }
@@ -456,19 +464,20 @@ public class EscenaModificarBorrarController implements Initializable {
                         bd_actividades.actualizarActividad(conexion, actividad_seleccionada);
 
                     } catch (SQLException | IOException ex) {
-                        alerta = new Alert(Alert.AlertType.ERROR);
-                        alerta.setContentText("ERROR " + ex.getMessage());
-                        alerta.showAndWait();
+                        crearAvisoError("ERROR " + ex.getMessage());
+//                        alerta = new Alert(Alert.AlertType.ERROR);
+//                        alerta.setContentText("ERROR " + ex.getMessage());
+//                        alerta.showAndWait();
                     }
                 }
 
             } else {
-
-                alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Aviso");
-                alerta.setHeaderText("Selecciona una actividad");
-                alerta.setContentText("Para modificar una actividad, es necesario seleccionar una previamente");
-                alerta.showAndWait();
+                crearAvisoInformacion("Selecciona una Actividad\n\nPara modificar una actividad, es necesario seleccionar una previamente");
+//                alerta = new Alert(Alert.AlertType.INFORMATION);
+//                alerta.setTitle("Aviso");
+//                alerta.setHeaderText("Selecciona una actividad");
+//                alerta.setContentText("Para modificar una actividad, es necesario seleccionar una previamente");
+//                alerta.showAndWait();
             }
 
         } else if (event.getSource() == botonEliminar) {
@@ -489,10 +498,10 @@ public class EscenaModificarBorrarController implements Initializable {
                         imageAlerta.setVisible(false);
 
                     } catch (IOException ex) {
-
-                        alerta = new Alert(Alert.AlertType.ERROR);
-                        alerta.setContentText("ERROR " + ex.getMessage());
-                        alerta.showAndWait();
+                        crearAvisoError("ERROR " + ex.getMessage());
+//                        alerta = new Alert(Alert.AlertType.ERROR);
+//                        alerta.setContentText("ERROR " + ex.getMessage());
+//                        alerta.showAndWait();
                     } catch (SQLException e) {
 
                         if (e.getErrorCode() == 1451) {
@@ -514,15 +523,15 @@ public class EscenaModificarBorrarController implements Initializable {
                                     imageAlerta.setVisible(false);
 
                                 } catch (IOException ex) {
-
-                                    alerta = new Alert(Alert.AlertType.ERROR);
-                                    alerta.setContentText("ERROR " + ex.getMessage());
-                                    alerta.showAndWait();
+                                    crearAvisoError("ERROR " + ex.getMessage());
+//                                    alerta = new Alert(Alert.AlertType.ERROR);
+//                                    alerta.setContentText("ERROR " + ex.getMessage());
+//                                    alerta.showAndWait();
                                 } catch (SQLException ex) {
-
-                                    alerta = new Alert(Alert.AlertType.ERROR);
-                                    alerta.setContentText("ERROR " + ex.getMessage() + "Cógigo de Error" + ex.getErrorCode());
-                                    alerta.showAndWait();
+                                    crearAvisoError("ERROR " + ex.getMessage() + "Cógigo de Error" + ex.getErrorCode());
+//                                    alerta = new Alert(Alert.AlertType.ERROR);
+//                                    alerta.setContentText("ERROR " + ex.getMessage() + "Cógigo de Error" + ex.getErrorCode());
+//                                    alerta.showAndWait();
 
                                 }
 
@@ -534,11 +543,13 @@ public class EscenaModificarBorrarController implements Initializable {
                 }
 
             } else {
-                alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Aviso");
-                alerta.setHeaderText("Selecciona una actividad");
-                alerta.setContentText("Para eliminar una actividad, es necesario seleccionar una previamente");
-                alerta.showAndWait();
+
+                crearAvisoInformacion("Para eliminar una actividad, es necesario seleccionar una previamente");
+//                alerta = new Alert(Alert.AlertType.INFORMATION);
+//                alerta.setTitle("Aviso");
+//                alerta.setHeaderText("Selecciona una actividad");
+//                alerta.setContentText("Para eliminar una actividad, es necesario seleccionar una previamente");
+//                alerta.showAndWait();
             }
         }
 
@@ -609,17 +620,43 @@ public class EscenaModificarBorrarController implements Initializable {
             stage.show();
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+
+            crearAvisoError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException e) {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-
-            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-            alerta.showAndWait();
+            crearAvisoError("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//
+//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta.showAndWait();
 
         }
+
+    }
+
+    private void crearAvisoError(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Error")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showError();
+
+    }
+
+    private void crearAvisoInformacion(String texto) {
+
+        notificacion = Notifications.create()
+                .text(texto)
+                .title("Aviso")
+                .hideAfter(Duration.seconds(10))
+                .position(Pos.CENTER);
+
+        notificacion.showInformation();
 
     }
 }

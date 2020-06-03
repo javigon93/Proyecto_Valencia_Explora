@@ -14,6 +14,7 @@ import MODELO.DetallePacks;
 import MODELO.Subtipo;
 import MODELO.Tipo;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -24,14 +25,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -40,6 +40,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -47,6 +48,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+
+
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
@@ -63,6 +66,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
+
 
 /**
  * FXML Controller class
@@ -94,7 +100,8 @@ public class EscenaActividadesController implements Initializable {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int codTipo_actividad_seleccionada;
-
+    
+    private Notifications notificacion;
     private ObservableList<Tipo> listaTipos = FXCollections.observableArrayList();
     private ObservableList<Subtipo> listaSubtipos = FXCollections.observableArrayList();
     DateTimeFormatter formatoHoras = DateTimeFormatter.ISO_LOCAL_TIME;
@@ -250,22 +257,29 @@ public class EscenaActividadesController implements Initializable {
                 }
 
             } else { //si algo falta, salta un alert de error.
-
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("ERROR");
-                alerta.setHeaderText("Error!");
-                alerta.setContentText("Introduce todos los datos antes de continuar");
-
-                alerta.showAndWait();
+                
+                crearError("Introduce todos los datos antes de continuar!");
+            
+            
+//            
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setTitle("ERROR");
+//                alerta.setHeaderText("Error!");
+//                alerta.setContentText("Introduce todos los datos antes de continuar");
+//
+//                alerta.showAndWait();
 
             }
         } else if (event.getSource() == botonRevisarConfirmar) {
             abreEscenaRevisarConfirmar(event);
 
         } else if (event.getSource() == botonBorrar) { //salta un alert confirmation, si se da OK, se resetean todos los valores del objeto detallepacks y se borra la colección
-
+            
             if (listaDetalleActividadesSeleccionadas.isEmpty() == false) {
-
+               notificacion=Notifications.create();
+               
+            notificacion.showConfirm();
+            
                 alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText("Confirma la Eliminación");
@@ -316,13 +330,17 @@ public class EscenaActividadesController implements Initializable {
                 //a travvés del valor que ofrece la actividad seleccionda
 
             } catch (SQLException ex) {
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setContentText("ERROR " + ex.getMessage());
-                alerta.showAndWait();
+                
+                crearError("ERROR " + ex.getMessage() + " Codigo de error: " + ex.getErrorCode());
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setContentText("ERROR " + ex.getMessage());
+//                alerta.showAndWait();
             } catch (IOException ex) {
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setContentText("ERROR " + ex.getMessage());
-                alerta.showAndWait();
+                
+                crearError("ERROR " + ex.getMessage());
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setContentText("ERROR " + ex.getMessage());
+//                alerta.showAndWait();
             }
 
         }
@@ -342,12 +360,13 @@ public class EscenaActividadesController implements Initializable {
             double precioActividad = Double.parseDouble(textPrecio.getText());
             detalleActividad.setPrecio(precioActividad);
         } catch (NumberFormatException e) { //si se introducen valores NO NUMÉRICOS, salta error.
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("ERROR");
-            alerta.setHeaderText("Ha ocurrido un error");
-            alerta.setContentText("Introduce un Número");
-            alerta.showAndWait();
+            
+            crearError("Introduce un Número");
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setTitle("ERROR");
+//            alerta.setHeaderText("Ha ocurrido un error");
+//            alerta.setContentText("Introduce un Número");
+//            alerta.showAndWait();
 
         }
     }
@@ -373,13 +392,15 @@ public class EscenaActividadesController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaRevisarConfirmar.fxml");
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/escenaRevisarConfirmar.fxml");
+//            alerta.showAndWait();
         }
 
     }
@@ -399,13 +420,16 @@ public class EscenaActividadesController implements Initializable {
             escenarioVentana.setScene(new Scene(root));
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
-            alerta.showAndWait();
+            
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR EN EL ARCHIVO /VISTA/FXMLInicial.fxml");
+//            alerta.showAndWait();
         }
 
     }
@@ -574,9 +598,10 @@ public class EscenaActividadesController implements Initializable {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         }
 
     }
@@ -600,15 +625,16 @@ public class EscenaActividadesController implements Initializable {
             stage.show();
 
         } catch (IOException ex) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + ex.getMessage());
-            alerta.showAndWait();
+            crearError("ERROR " + ex.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + ex.getMessage());
+//            alerta.showAndWait();
         } catch (NullPointerException e) {
-
-            alerta = new Alert(Alert.AlertType.ERROR);
-
-            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
-            alerta.showAndWait();
+        crearError("ERROR " + e.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//
+//            alerta.setContentText("ERROR EN EL ARCHIVO escenaEleccionMantenimientoAct.fxml");
+//            alerta.showAndWait();
 
         }
 
@@ -627,9 +653,10 @@ public class EscenaActividadesController implements Initializable {
             habilitarFiltrado();
 
         } catch (SQLException | IOException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + e.getMessage());
-            alerta.showAndWait();
+              crearError("ERROR " + e.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + e.getMessage());
+//            alerta.showAndWait();
 
         }
     }
@@ -649,9 +676,10 @@ public class EscenaActividadesController implements Initializable {
             habilitarFiltrado();
 
         } catch (SQLException | IOException e) {
-            alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setContentText("ERROR " + e.getMessage());
-            alerta.showAndWait();
+              crearError("ERROR " + e.getMessage());
+//            alerta = new Alert(Alert.AlertType.ERROR);
+//            alerta.setContentText("ERROR " + e.getMessage());
+//            alerta.showAndWait();
 
         }
 
@@ -669,8 +697,8 @@ public class EscenaActividadesController implements Initializable {
             comboFiltroTipoActividad.setItems(listaTipos);
 
         } catch (IOException | SQLException e) {
-
-            System.out.println(e.getMessage());
+            
+            crearError("Error!: " + e.getMessage());
 
         }
 
@@ -688,8 +716,8 @@ public class EscenaActividadesController implements Initializable {
             comboFiltroSubtipo.setItems(listaSubtipos);
 
         } catch (IOException | SQLException e) {
-
-            System.out.println(e.getMessage());
+            crearError("Error!: " + e.getMessage());
+            
 
         }
 
@@ -731,9 +759,6 @@ public class EscenaActividadesController implements Initializable {
 
     }
 
-    @FXML
-    private void alInsertarTexto(ActionEvent event) {
-    }
 
     @FXML
     private void alSeleccionarTiempo(ActionEvent event) {
@@ -751,13 +776,13 @@ public class EscenaActividadesController implements Initializable {
                     fechaFin = fecha_seleccionada;
                 }
             } else {
-
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("ERROR");
-                alerta.setHeaderText("Introduce una fecha Correcta");
-                alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
-
-                alerta.showAndWait();
+                crearError("Introduce una fecha Correcta\n\nLa Fecha Inicio debe de ser Actual o Posterior");
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setTitle("ERROR");
+//                alerta.setHeaderText("Introduce una fecha Correcta");
+//                alerta.setContentText("La Fecha Inicio debe de ser Actual o Posterior");
+//
+//                alerta.showAndWait();
                 dateInicio.setValue(LocalDate.now());
 
             }
@@ -770,13 +795,13 @@ public class EscenaActividadesController implements Initializable {
                 timeFin.setDisable(false);
 
             } else {
-
-                alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("ERROR");
-                alerta.setHeaderText("Introduce una fecha Correcta");
-                alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
-
-                alerta.showAndWait();
+                crearError("Introduce una fecha Correcta\n\nLa Fecha Fin debe de ser Posterior a la Fecha Inicio");
+//                alerta = new Alert(Alert.AlertType.ERROR);
+//                alerta.setTitle("ERROR");
+//                alerta.setHeaderText("Introduce una fecha Correcta");
+//                alerta.setContentText("La Fecha Fin debe de ser Posterior a la Fecha Inicio");
+//
+//                alerta.showAndWait();
                 dateFin.setValue(dateInicio.getValue().plusDays(1));
 
             }
@@ -805,6 +830,21 @@ public class EscenaActividadesController implements Initializable {
             textDias.setText("" + detalleActividad.calcularDiasActividad());
         }
 
+    }
+    
+    private void crearError(String texto){
+    
+    
+                    notificacion=Notifications.create()
+                    .text(texto)
+                    .title("Error")
+                    
+                    .hideAfter(Duration.seconds(10))
+                    .position(Pos.CENTER);
+                    
+                    notificacion.showError();
+    
+    
     }
 
 }
